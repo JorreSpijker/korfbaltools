@@ -7,6 +7,8 @@ const badgeVariants = cva("inline-flex items-center rounded-full px-2.5 py-0.5 t
     variant: {
       default: "bg-brand-100 text-brand-700",
       neutral: "bg-neutral-100 text-neutral-700",
+      success: "bg-success/10 text-success",
+      danger: "bg-danger/10 text-danger",
     },
   },
   defaultVariants: { variant: "default" },

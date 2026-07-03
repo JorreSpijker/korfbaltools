@@ -13,4 +13,5 @@ export interface User {
   // Only populated by the admin user listing (derived from the most recent
   // Session row) — omitted elsewhere since it takes an extra query to compute.
   lastLoginAt?: string | null;
+  deactivatedAt: string | null;
 }

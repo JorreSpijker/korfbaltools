@@ -20,6 +20,12 @@ export const updateUserCapabilitiesSchema = z.object({
 
 export type UpdateUserCapabilitiesInput = z.infer<typeof updateUserCapabilitiesSchema>;
 
+export const updateUserStatusSchema = z.object({
+  deactivated: z.boolean(),
+});
+
+export type UpdateUserStatusInput = z.infer<typeof updateUserStatusSchema>;
+
 export const resetPasswordSchema = z.object({
   mode: z.enum(["temporary_password", "reset_link"]).default("reset_link"),
 });

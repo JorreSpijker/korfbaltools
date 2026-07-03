@@ -10,6 +10,26 @@ interface RouteParams {
   params: Promise<{ id: string }>;
 }
 
+export async function GET(_request: NextRequest, { params }: RouteParams) {
+  const result = await requireAdmin();
+  if ("response" in result) return result.response;
+
+  const { id } = await params;
+  const user = await prisma.user.findUnique({ where: { id } });
+  if (!user) {
+    return errorResponse("not_found", "Gebruiker niet gevonden");
+  }
+
+  const lastLogin = await prisma.session.findFirst({
+    where: { userId: id },
+    orderBy: { createdAt: "desc" },
+  });
+
+  return NextResponse.json({
+    user: { ...toPublicUser(user), lastLoginAt: lastLogin?.createdAt.toISOString() ?? null },
+  });
+}
+
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   const result = await requireAdmin();
   if ("response" in result) return result.response;
@@ -48,6 +68,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   return NextResponse.json({ user: toPublicUser(user) });
 }
 
+// Hard delete — irreversible, unlike the reversible /status deactivate.
+// The audit entry's targetUserId is nulled out by the delete itself (see
+// AuditLog.targetUser onDelete: SetNull), so the deleted user's email is
+// snapshotted into metadata to keep the log entry meaningful afterward.
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   const result = await requireAdmin();
   if ("response" in result) return result.response;
@@ -60,13 +84,16 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   }
 
   await prisma.$transaction(async (tx) => {
-    await tx.user.update({ where: { id }, data: { deactivatedAt: new Date() } });
     await tx.auditLog.create({
-      data: { actorId: result.user.id, action: "user_deleted", targetUserId: id, metadata: {} },
+      data: {
+        actorId: result.user.id,
+        action: "user_deleted",
+        targetUserId: id,
+        metadata: { email: target.email, naam: target.naam, role: target.role },
+      },
     });
+    await tx.user.delete({ where: { id } });
   });
-
-  await revokeAllSessionsForUser(id);
 
   return NextResponse.json({ ok: true });
 }

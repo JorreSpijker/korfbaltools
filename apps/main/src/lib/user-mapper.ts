@@ -10,5 +10,6 @@ export function toPublicUser(user: DbUser): User {
     clubId: user.clubId,
     capabilities: user.capabilities,
     createdAt: user.createdAt.toISOString(),
+    deactivatedAt: user.deactivatedAt?.toISOString() ?? null,
   };
 }

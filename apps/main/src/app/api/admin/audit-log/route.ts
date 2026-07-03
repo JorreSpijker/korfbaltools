@@ -19,10 +19,10 @@ export async function GET() {
     entries: entries.map((entry) => ({
       id: entry.id,
       actorId: entry.actorId,
-      actorEmail: entry.actor.email,
+      actorEmail: entry.actor?.email ?? "(verwijderde gebruiker)",
       action: entry.action,
       targetUserId: entry.targetUserId,
-      targetUserEmail: entry.targetUser.email,
+      targetUserEmail: entry.targetUser?.email ?? "(verwijderde gebruiker)",
       metadata: entry.metadata,
       createdAt: entry.createdAt.toISOString(),
     })),
