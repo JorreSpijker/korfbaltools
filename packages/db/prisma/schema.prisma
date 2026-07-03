@@ -1,0 +1,128 @@
+// Database-backed sessions instead of next-auth's Credentials+JWT default:
+// plan.md section 5 requires that an admin can revoke a session server-side
+// (role change, deactivation), which next-auth's Credentials provider can't
+// do with database sessions — so auth is implemented directly against this
+// schema (see apps/main/src/lib/auth) rather than through next-auth.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  admin
+  coach
+  player
+  referee
+}
+
+enum Capability {
+  teamplanner
+  statistieken
+}
+
+enum AuditAction {
+  role_changed
+  club_changed
+  capabilities_changed
+  password_reset
+  user_deleted
+}
+
+model Club {
+  id        String   @id @default(cuid())
+  naam      String
+  refId     String?  @unique
+
+  latitude  Float?
+  longitude Float?
+
+  addressName            String?
+  addressType            String?
+  addressDescription     String?
+  streetName             String?
+  addressNumber          Int?
+  addressNumberAppendix  String?
+  postalCode             String?
+  city                   String?
+  country                String?
+  countryCode            String?
+
+  veldPoolName String?
+  veldPoolId   Int?
+  zaalPoolName String?
+  zaalPoolId   Int?
+
+  clusterId   String?
+  clusterName String?
+  regioId     Int?
+  regioName   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users User[]
+}
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  naam         String?
+  passwordHash String
+  role         Role         @default(player)
+  capabilities Capability[] @default([])
+  clubId       String?
+  club         Club?        @relation(fields: [clubId], references: [id])
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  deactivatedAt DateTime?
+
+  sessions           Session[]
+  passwordResetTokens PasswordResetToken[]
+  auditLogsAsActor    AuditLog[]           @relation("AuditLogActor")
+  auditLogsAsTarget   AuditLog[]           @relation("AuditLogTarget")
+
+  @@index([clubId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model AuditLog {
+  id            String      @id @default(cuid())
+  actorId       String
+  actor         User        @relation("AuditLogActor", fields: [actorId], references: [id])
+  action        AuditAction
+  targetUserId  String
+  targetUser    User        @relation("AuditLogTarget", fields: [targetUserId], references: [id])
+  metadata      Json        @default("{}")
+  createdAt     DateTime    @default(now())
+
+  @@index([actorId])
+  @@index([targetUserId])
+}

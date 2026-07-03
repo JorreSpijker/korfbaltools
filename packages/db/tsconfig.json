@@ -1,0 +1,4 @@
+{
+  "extends": "@korfbaltools/config/tsconfig/base.json",
+  "include": ["src"]
+}

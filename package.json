@@ -1,0 +1,22 @@
+{
+  "name": "korfbaltools",
+  "private": true,
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "db:generate": "pnpm --filter @korfbaltools/db generate",
+    "db:migrate": "pnpm --filter @korfbaltools/db migrate",
+    "db:import-clubs": "pnpm --filter @korfbaltools/db import:clubs"
+  },
+  "devDependencies": {
+    "turbo": "^2.3.0",
+    "typescript": "^5.7.0"
+  }
+}
