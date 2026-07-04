@@ -40,3 +40,17 @@ export const confirmPasswordResetSchema = z.object({
 });
 
 export type ConfirmPasswordResetInput = z.infer<typeof confirmPasswordResetSchema>;
+
+export const updateAppConfigSchema = z.object({
+  title: z.string().min(1, "Titel is verplicht"),
+  imageUrl: z.string().url("Ongeldige URL").nullable(),
+  visible: z.boolean(),
+});
+
+export const updatePlatformSettingsSchema = z.object({
+  maintenanceMode: z.boolean(),
+});
+
+export type UpdatePlatformSettingsInput = z.infer<typeof updatePlatformSettingsSchema>;
+
+export type UpdateAppConfigInput = z.infer<typeof updateAppConfigSchema>;

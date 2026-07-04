@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-04T16:30:00.000Z",
+  "title": "Design System: Korfbaltools.nl",
+  "extensions": {
+    "colorMeta": {
+      "brand-500": {
+        "role": "primary",
+        "displayName": "Deep Moss Authority",
+        "canonical": "oklch(0.32 0.10 140)",
+        "tonalRamp": [
+          "oklch(0.12 0.045 140)",
+          "oklch(0.16 0.06 140)",
+          "oklch(0.21 0.08 140)",
+          "oklch(0.26 0.09 140)",
+          "oklch(0.32 0.10 140)",
+          "oklch(0.55 0.10 140)",
+          "oklch(0.72 0.09 140)",
+          "oklch(0.85 0.06 140)",
+          "oklch(0.90 0.045 140)",
+          "oklch(0.95 0.025 140)"
+        ]
+      },
+      "brand-600": {
+        "role": "primary",
+        "displayName": "Deep Moss Authority — Pressed",
+        "canonical": "oklch(0.26 0.09 140)"
+      },
+      "neutral-900": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#171717",
+        "tonalRamp": ["#171717", "#262626", "#404040", "#525252", "#737373", "#a3a3a3", "#d4d4d4", "#e5e5e5", "#f5f5f5", "#fafafa"]
+      },
+      "success": { "role": "success", "displayName": "Success", "canonical": "#16a34a" },
+      "warning": { "role": "warning", "displayName": "Warning", "canonical": "#ca8a04" },
+      "danger": { "role": "danger", "displayName": "Danger", "canonical": "#dc2626" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Homepage hero heading only — the single largest text on the platform." },
+      "title": { "displayName": "Title", "purpose": "Page titles, section headings, card titles." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, form values, descriptions." },
+      "label": { "displayName": "Label", "purpose": "Form labels, nav links, table headers." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)", "purpose": "Dialogs, dropdown menus, select content, popovers — never on in-flow surfaces like cards or buttons." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)", "purpose": "Default transition for hover/focus color and border changes (Tailwind's `transition` / `transition-colors` default)." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one button style used across every raw form in apps/main (login, register, account) and the default variant of apps/admin's Button component.",
+      "html": "<button class=\"ds-btn-primary\">Inloggen</button>",
+      "css": ".ds-btn-primary { background-color: oklch(0.32 0.10 140); color: #ffffff; border: none; border-radius: 0.5rem; padding: 8px 16px; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-primary:hover { background-color: oklch(0.26 0.09 140); } .ds-btn-primary:focus-visible { outline: 2px solid oklch(0.32 0.10 140); outline-offset: 2px; } .ds-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary, non-destructive actions in apps/admin (e.g. \"Wachtwoord resetten\").",
+      "html": "<button class=\"ds-btn-outline\">Wachtwoord resetten</button>",
+      "css": ".ds-btn-outline { background-color: #ffffff; color: #171717; border: 1px solid #d4d4d4; border-radius: 0.5rem; padding: 8px 16px; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-outline:hover { background-color: #f5f5f5; }"
+    },
+    {
+      "name": "Destructive Button",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Irreversible admin actions only (deactivate, delete).",
+      "html": "<button class=\"ds-btn-destructive\">Verwijderen</button>",
+      "css": ".ds-btn-destructive { background-color: #dc2626; color: #ffffff; border: none; border-radius: 0.5rem; padding: 8px 16px; font-size: 0.875rem; font-weight: 500; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-btn-destructive:hover { background-color: rgb(220 38 38 / 0.9); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "The one input recipe used identically across login, register, account, and reset-password.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\" for=\"ds-email\">E-mailadres</label><input class=\"ds-input\" id=\"ds-email\" type=\"email\" placeholder=\"naam@club.nl\" /></div>",
+      "css": ".ds-label { display: block; font-size: 0.875rem; margin-bottom: 4px; color: #171717; } .ds-input { width: 100%; box-sizing: border-box; border-radius: 0.5rem; border: 1px solid #d4d4d4; padding: 8px 12px; font-size: 1rem; color: #171717; background: #ffffff; } .ds-input::placeholder { color: #737373; } .ds-input:focus { outline: 2px solid oklch(0.32 0.10 140); outline-offset: 1px; border-color: oklch(0.32 0.10 140); }"
+    },
+    {
+      "name": "App Card",
+      "kind": "card",
+      "refersTo": "app-card",
+      "description": "Homepage apps-grid tile. Flat at rest and on hover — hover reads only through a border-color shift, per the Flat-By-Default Rule.",
+      "html": "<a class=\"ds-app-card\" href=\"#\"><div class=\"ds-app-card-row\"><div class=\"ds-app-card-icon\"></div><span class=\"ds-app-card-title\">Teamplanner</span></div><p class=\"ds-app-card-desc\">Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.</p></a>",
+      "css": ".ds-app-card { display: block; border-radius: 0.75rem; border: 1px solid #e5e5e5; background: #ffffff; padding: 20px; text-decoration: none; transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-app-card:hover { border-color: oklch(0.72 0.09 140); } .ds-app-card-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; } .ds-app-card-icon { width: 40px; height: 40px; border-radius: 0.5rem; background: oklch(0.90 0.045 140); } .ds-app-card-title { font-weight: 500; color: #171717; } .ds-app-card-desc { font-size: 0.875rem; color: #525252; margin: 0; }"
+    },
+    {
+      "name": "Capability Badge",
+      "kind": "chip",
+      "refersTo": "badge-default",
+      "description": "The only place the accent appears as a background tint rather than a solid fill — and only at badge scale.",
+      "html": "<span class=\"ds-badge\">teamplanner</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; border-radius: 9999px; padding: 2px 10px; font-size: 0.75rem; font-weight: 500; background: oklch(0.90 0.045 140); color: oklch(0.21 0.08 140); }"
+    },
+    {
+      "name": "Platform Nav",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "KorfbalToolBar (packages/ui), shared verbatim between apps/main and apps/admin — the logged-out state's login/register pair is the platform's entire reason for existing.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-logo\" href=\"#\">Korfbaltools</a><div class=\"ds-nav-actions\"><a class=\"ds-nav-link\" href=\"#\">Inloggen</a><a class=\"ds-nav-cta\" href=\"#\">Account aanmaken</a></div></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e5e5e5; background: #ffffff; padding: 12px 24px; } .ds-nav-logo { font-size: 1.125rem; font-weight: 600; color: oklch(0.26 0.09 140); text-decoration: none; } .ds-nav-actions { display: flex; align-items: center; gap: 16px; font-size: 0.875rem; } .ds-nav-link { color: #525252; text-decoration: none; } .ds-nav-link:hover { color: #171717; } .ds-nav-cta { background: oklch(0.32 0.10 140); color: #ffffff; border-radius: 0.5rem; padding: 6px 12px; text-decoration: none; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-nav-cta:hover { background: oklch(0.26 0.09 140); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "De Ontvangstbalie",
+    "overview": "Korfbaltools.nl is not a destination — it's the desk you check in at before you're pointed to where you actually need to be. A coach or secretary lands here to log in, then leaves for the tool they came for (Teamplanner today, more later). The design's job is to make that handoff feel instant and competent, never to hold attention for its own sake. No sales pitch, no scroll-driven storytelling, no waiting room. The hue is deliberately shared with apps/teamplanner's \"Deep Moss Authority\" — same 140° green, carried through as the one accent across the platform shell (main, admin) and the tools it hosts, so the whole system reads as one family rather than a shell bolted onto unrelated tools.",
+    "keyCharacteristics": [
+      "One accent hue (140° moss green) shared platform-wide, used sparingly on primary actions and headings/links — never as a background wash",
+      "Pure white and light-neutral surfaces; the accent, not the ground, carries identity",
+      "Flat by default — no shadows on cards, buttons, or badges; shadows exist only on things that have left the document flow",
+      "Dutch, direct copy — labels state the action, no marketing padding",
+      "Same visual family as apps/teamplanner: shared accent hue, shared restraint, distinct component library unified by the same tokens"
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Moss green appears only on primary buttons, active/hover states, and heading/link text — never as a section background, a card wash, or a decorative stripe.", "section": "colors" },
+      { "name": "The Shared-Family Rule", "body": "This hue (140°) is not this app's alone — it's the platform's, shared verbatim with apps/teamplanner. A new tool joining the platform inherits this accent rather than picking its own.", "section": "colors" },
+      { "name": "The Modest Ceiling Rule", "body": "No heading on this platform exceeds 3rem. The plan, the form, the user's task is the content; the platform chrome does not compete with it for size.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "If it's in the document flow, it has no shadow — full stop, including on hover. Shadows are reserved for things that render above the page (modals, menus, popovers).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do use brand-500/brand-600 (oklch(0.32 0.10 140) / oklch(0.26 0.09 140)) as the only accent, shared verbatim with apps/teamplanner.",
+      "Do keep every surface flat at rest — cards, buttons, badges, table rows. Shadows only on dialogs, dropdowns, selects, and popovers.",
+      "Do pair every validation/error state with a text label, never color alone.",
+      "Do write Dutch, direct copy: \"Inloggen\", \"Opslaan\", \"Account aanmaken\".",
+      "Do keep headings under 3rem everywhere.",
+      "Do use neutral-900 (not the brand accent) for utility controls like checkboxes."
+    ],
+    "donts": [
+      "Don't reach for korfbal-scoreboard/sport-app chrome — bright sport colors, dense ad-like grids, blinking or flashing state, exclamation-mark copy.",
+      "Don't add a shadow to anything that stays in the document flow, including on hover.",
+      "Don't use the accent as a section or card background wash.",
+      "Don't build a marketing narrative into the homepage — no scroll-driven sections, no feature-benefit copy, no testimonials.",
+      "Don't give apps/admin's shadcn components a different accent than apps/main's raw Tailwind components.",
+      "Don't use generic Tailwind stock colors — every color on this platform should trace back to a named token in packages/config/tokens."
+    ]
+  }
+}

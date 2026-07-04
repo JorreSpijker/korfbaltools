@@ -34,6 +34,8 @@ enum AuditAction {
   user_deactivated
   user_activated
   user_deleted
+  app_config_changed
+  maintenance_mode_changed
 }
 
 model Club {
@@ -113,6 +115,27 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+// One row per Capability (see enum above) — homepage (apps/main) renders the
+// "Apps" grid from this table, admin settings page manages it. Rows are
+// created lazily (upserted) the first time an admin fetches the list, so
+// adding a new value to the Capability enum doesn't require a data migration.
+model AppConfig {
+  capability Capability @id
+  title      String
+  imageUrl   String?
+  visible    Boolean    @default(true)
+  updatedAt  DateTime   @updatedAt
+}
+
+// Single-row platform-wide settings. Always read/written through id
+// "singleton" — see apps/main's require-settings-style helper — so there's
+// never more than one row to reconcile.
+model PlatformSettings {
+  id              String   @id @default("singleton")
+  maintenanceMode Boolean  @default(false)
+  updatedAt       DateTime @updatedAt
 }
 
 model AuditLog {

@@ -1,20 +1,20 @@
-// Placeholder brand tokens for korfbaltools.nl.
-// Intended to be aligned with the Roku design skill (see docs/plan.md section 2) —
-// swap the values below once that styling pass happens, keep the shape stable so
-// apps/main and apps/admin don't need to change how they consume tokens.
+// Brand tokens for korfbaltools.nl — "Deep Moss Authority" (see DESIGN.md).
+// Hue locked at 140° to match apps/teamplanner's own accent ramp (see its
+// tailwind.config.js) so the platform shell and the tools it hosts read as
+// one visual family. brand-500/600 are pinned to teamplanner's DEFAULT/dark.
 
 export const colors = {
   brand: {
-    50: "#fff7ed",
-    100: "#ffedd5",
-    200: "#fed7aa",
-    300: "#fdba74",
-    400: "#fb923c",
-    500: "#f97316",
-    600: "#ea580c",
-    700: "#c2410c",
-    800: "#9a3412",
-    900: "#7c2d12",
+    50: "oklch(0.95 0.025 140)",
+    100: "oklch(0.90 0.045 140)",
+    200: "oklch(0.85 0.06 140)",
+    300: "oklch(0.72 0.09 140)",
+    400: "oklch(0.55 0.10 140)",
+    500: "oklch(0.32 0.10 140)",
+    600: "oklch(0.26 0.09 140)",
+    700: "oklch(0.21 0.08 140)",
+    800: "oklch(0.16 0.06 140)",
+    900: "oklch(0.12 0.045 140)",
   },
   neutral: {
     50: "#fafafa",

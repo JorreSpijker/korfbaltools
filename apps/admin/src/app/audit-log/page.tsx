@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { requireAdmin } from "@/lib/require-admin";
 import { fetchMainApi } from "@/lib/main-api";
+import { AdminNav } from "@/components/admin-nav";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface AuditLogEntry {
@@ -22,9 +22,7 @@ export default async function AuditLogPage() {
     <main className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Audit log</h1>
-        <Link className="text-sm text-brand-600 underline" href="/">
-          Terug naar gebruikers
-        </Link>
+        <AdminNav current="/audit-log" />
       </div>
       <Table>
         <TableHeader>

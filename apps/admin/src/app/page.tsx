@@ -1,7 +1,7 @@
-import Link from "next/link";
 import type { Club, User } from "@korfbaltools/types";
 import { requireAdmin } from "@/lib/require-admin";
 import { fetchMainApi } from "@/lib/main-api";
+import { AdminNav } from "@/components/admin-nav";
 import { UsersTable } from "@/components/users-table";
 
 export default async function AdminUsersPage() {
@@ -18,9 +18,7 @@ export default async function AdminUsersPage() {
     <main className="mx-auto flex max-w-7xl flex-col gap-6 px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Gebruikersbeheer</h1>
-        <Link className="text-sm text-brand-600 underline" href="/audit-log">
-          Audit log
-        </Link>
+        <AdminNav current="/" />
       </div>
       <UsersTable clubs={clubs} users={users} />
     </main>

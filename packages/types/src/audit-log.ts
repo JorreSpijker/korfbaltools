@@ -6,6 +6,8 @@ export const AUDIT_ACTIONS = [
   "user_deactivated",
   "user_activated",
   "user_deleted",
+  "app_config_changed",
+  "maintenance_mode_changed",
 ] as const;
 
 export type AuditAction = (typeof AUDIT_ACTIONS)[number];

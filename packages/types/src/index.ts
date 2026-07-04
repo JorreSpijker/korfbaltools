@@ -2,6 +2,8 @@ export * from "./role";
 export * from "./user";
 export * from "./club";
 export * from "./audit-log";
+export * from "./app-config";
+export * from "./platform-settings";
 export * from "./api-error";
 export * from "./schemas/register";
 export * from "./schemas/login";
