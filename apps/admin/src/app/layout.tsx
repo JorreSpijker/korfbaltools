@@ -13,10 +13,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html lang="nl">
-      <body>
+      <body className="bg-neutral-50">
         <KorfbalToolBar user={user} />
         <AdminSettings user={user} />
-        {children}
+        <div className="mt-10">
+          {children}
+        </div>
       </body>
     </html>
   );

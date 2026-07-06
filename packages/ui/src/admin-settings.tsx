@@ -11,7 +11,7 @@ export function AdminSettings({ user, adminHref = "/admin" }: AdminSettingsProps
   return (
     <>
       {user?.role === "admin" && (
-        <div className="sticky right-0 top-[100px] flex items-end flex-col">
+        <div className="fixed right-0 top-[100px] flex items-end flex-col z-50">
           <NavShape flipHorizontal flipVertical />
           <a className="group h-10 min-w-10 bg-primary-500 cursor-pointer text-white flex items-center justify-center rounded-tl-lg rounded-bl-lg hover:bg-primary-800 transition-colors overflow-hidden"
           href={adminHref} >

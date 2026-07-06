@@ -16,7 +16,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="bg-white">
         <KorfbalToolBar user={user} />
         <AdminSettings user={user} />
-        {children}
+        <div className="pt-[60px]">{children}</div>
       </body>
     </html>
   );

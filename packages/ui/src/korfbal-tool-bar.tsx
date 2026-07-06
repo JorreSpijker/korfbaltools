@@ -37,10 +37,10 @@ export function KorfbalToolBar({
   }
 
   return (
-    <nav className={cn("ktnavbar", className)}>
-      <div className="ktnavbar-shapes">
+    <nav className={cn("border-t-4 border-primary-500 sticky top-0 z-40", className)}>
+      <div className="absolute top-0 left-0 w-full h-fit flex justify-between">
         <NavShape />
-        <NavShape />
+        <NavShape flipHorizontal />
       </div>
 
       <a className="group text-lg font-semibold text-white absolute left-20 flex items-start" href={homeHref}>

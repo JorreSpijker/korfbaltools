@@ -238,7 +238,7 @@ export default function TeamPlannerApp() {
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <div className="min-h-screen bg-white">
         {/* Sticky shell — header + summary strip measured as one unit */}
-        <div ref={stickyRef} className="sticky top-0 z-20 shadow-sm">
+        <div ref={stickyRef} className="sticky top-[64px] z-20 shadow-sm before:block before:absolute before:inset-0 before:bg-white before:-translate-y-[100%]">
           <header className="bg-white border-b border-gray-200 px-4 sm:px-6 py-4">
             <div className="max-w-screen-2xl mx-auto flex items-center justify-between gap-3 sm:gap-4 sm:px-6">
               <h1 className="text-lg font-bold text-gray-900 shrink-0">Teamindeling</h1>
@@ -335,7 +335,7 @@ export default function TeamPlannerApp() {
         <main className="max-w-screen-2xl mx-auto px-4 sm:px-6 pt-6 pb-14 flex flex-col lg:flex-row gap-6">
           {/* Player pool + category info */}
           <div className="w-full lg:w-72 lg:shrink-0 flex flex-col gap-4">
-            <div className="lg:sticky" style={{ top: "var(--sticky-top, 8rem)" }}>
+            <div className="lg:sticky lg:top-[194px]">
               <PlayerPool
                 players={poolPlayers}
                 selectedIds={selectedIds}
