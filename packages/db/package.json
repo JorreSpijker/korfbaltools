@@ -10,6 +10,7 @@
   },
   "scripts": {
     "generate": "prisma generate",
+    "postinstall": "prisma generate",
     "migrate": "prisma migrate dev",
     "build": "prisma generate",
     "lint": "eslint .",
