@@ -1,29 +1,39 @@
-import { useState } from 'react'
-import Modal from './Modal'
+"use client";
 
-export default function AddTeamModal({ onAdd, onClose, type = 'senioren' }) {
-  const [name, setName] = useState('')
-  const [teamClass, setTeamClass] = useState('')
-  const [category, setCategory] = useState('A')
-  const [uCategory, setUCategory] = useState('U19')
-  const [format, setFormat] = useState('8tal')
+import { useState } from "react";
+import Modal from "./Modal";
+import type { Team, TeamCategory, TeamFormat, TeamType, UCategory } from "@/types";
 
-  const isJeugd = type === 'jeugd'
+interface AddTeamModalProps {
+  onAdd: (team: Team) => void;
+  onClose: () => void;
+  type?: TeamType;
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!name.trim()) return
+export default function AddTeamModal({ onAdd, onClose, type = "senioren" }: AddTeamModalProps) {
+  const [name, setName] = useState("");
+  const [teamClass, setTeamClass] = useState("");
+  const [category, setCategory] = useState<TeamCategory>("A");
+  const [uCategory, setUCategory] = useState<UCategory>("U19");
+  const [format, setFormat] = useState<TeamFormat>("8tal");
+
+  const isJeugd = type === "jeugd";
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
     onAdd({
       id: crypto.randomUUID(),
       name: name.trim(),
       class: teamClass.trim(),
+      type,
       category,
-      ...(isJeugd && category === 'A' && { uCategory }),
-      ...(isJeugd && category === 'B' && { format }),
+      ...(isJeugd && category === "A" && { uCategory }),
+      ...(isJeugd && category === "B" && { format }),
       playerIds: [],
-    })
-    onClose()
-  }
+    });
+    onClose();
+  };
 
   return (
     <Modal titleId="add-team-title" onClose={onClose} className="p-6 w-96">
@@ -56,7 +66,7 @@ export default function AddTeamModal({ onAdd, onClose, type = 'senioren' }) {
           <select
             id="team-category"
             value={category}
-            onChange={e => setCategory(e.target.value)}
+            onChange={e => setCategory(e.target.value as TeamCategory)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
           >
             {isJeugd ? (
@@ -75,13 +85,13 @@ export default function AddTeamModal({ onAdd, onClose, type = 'senioren' }) {
           </select>
         </div>
 
-        {isJeugd && category === 'A' && (
+        {isJeugd && category === "A" && (
           <div>
             <label htmlFor="team-ucategory" className="block text-sm font-medium text-gray-700 mb-1">Leeftijdscategorie</label>
             <select
               id="team-ucategory"
               value={uCategory}
-              onChange={e => setUCategory(e.target.value)}
+              onChange={e => setUCategory(e.target.value as UCategory)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="U19">U19 (geb. 2007–2008)</option>
@@ -91,13 +101,13 @@ export default function AddTeamModal({ onAdd, onClose, type = 'senioren' }) {
           </div>
         )}
 
-        {isJeugd && category === 'B' && (
+        {isJeugd && category === "B" && (
           <div>
             <label htmlFor="team-format" className="block text-sm font-medium text-gray-700 mb-1">Format</label>
             <select
               id="team-format"
               value={format}
-              onChange={e => setFormat(e.target.value)}
+              onChange={e => setFormat(e.target.value as TeamFormat)}
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
             >
               <option value="8tal">8-tal (max 3 jaar bandbreedte)</option>
@@ -120,5 +130,5 @@ export default function AddTeamModal({ onAdd, onClose, type = 'senioren' }) {
         </div>
       </form>
     </Modal>
-  )
+  );
 }

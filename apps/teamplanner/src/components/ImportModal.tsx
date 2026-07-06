@@ -1,87 +1,97 @@
-import { useState } from 'react'
-import Modal from './Modal'
-import { parseExcelFile } from '../utils/importHelpers'
+"use client";
 
-export default function ImportModal({ onNewPlan, onAddPlayers, onImportJSON, onClose }) {
-  const [tab, setTab] = useState('excel')
-  const [error, setError] = useState('')
-  const [preview, setPreview] = useState(null)
-  const [pendingPlayers, setPendingPlayers] = useState(null)
-  const [pendingJSON, setPendingJSON] = useState(null)
+import { useState } from "react";
+import Modal from "./Modal";
+import { parseExcelFile } from "@/utils/importHelpers";
+import type { Player, PlannerState } from "@/types";
 
-  const handleExcelFile = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    setError('')
+interface ImportModalProps {
+  onNewPlan: (players: Player[]) => void;
+  onAddPlayers: (players: Player[]) => void;
+  onImportJSON: (state: PlannerState) => void;
+  onClose: () => void;
+}
+
+export default function ImportModal({ onNewPlan, onAddPlayers, onImportJSON, onClose }: ImportModalProps) {
+  const [tab, setTab] = useState<"excel" | "json">("excel");
+  const [error, setError] = useState("");
+  const [preview, setPreview] = useState<Player[] | null>(null);
+  const [pendingPlayers, setPendingPlayers] = useState<Player[] | null>(null);
+  const [pendingJSON, setPendingJSON] = useState<PlannerState | null>(null);
+
+  const handleExcelFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setError("");
     try {
-      const players = await parseExcelFile(file)
-      setPendingPlayers(players)
-      setPreview(players)
+      const players = await parseExcelFile(file);
+      setPendingPlayers(players);
+      setPreview(players);
     } catch (err) {
-      setError(err.message)
+      setError(err instanceof Error ? err.message : String(err));
     }
-  }
+  };
 
-  const handleJSONFile = (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    const reader = new FileReader()
+  const handleJSONFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
     reader.onload = (ev) => {
       try {
-        const data = JSON.parse(ev.target.result)
-        if (!data.players || !data.teams) throw new Error('Ongeldig JSON formaat. Verwacht: { players, teams }')
-        setPendingJSON(data)
+        const data = JSON.parse(ev.target?.result as string) as PlannerState;
+        if (!data.players || !data.teams) throw new Error("Ongeldig JSON formaat. Verwacht: { players, teams }");
+        setPendingJSON(data);
       } catch (err) {
-        setError(err.message)
+        setError(err instanceof Error ? err.message : String(err));
       }
-    }
-    reader.readAsText(file)
-  }
+    };
+    reader.readAsText(file);
+  };
 
   const confirmNewPlan = () => {
     if (pendingPlayers) {
-      onNewPlan(pendingPlayers)
-      onClose()
+      onNewPlan(pendingPlayers);
+      onClose();
     }
-  }
+  };
 
   const confirmAddPlayers = () => {
     if (pendingPlayers) {
-      onAddPlayers(pendingPlayers)
-      onClose()
+      onAddPlayers(pendingPlayers);
+      onClose();
     }
-  }
+  };
 
   const confirmJSON = () => {
     if (pendingJSON) {
-      onImportJSON(pendingJSON)
-      onClose()
+      onImportJSON(pendingJSON);
+      onClose();
     }
-  }
+  };
 
   return (
     <Modal titleId="import-title" onClose={onClose} className="p-6 w-[520px] max-h-[85vh] overflow-y-auto">
       <h2 id="import-title" className="text-lg font-bold text-gray-900 mb-4">Nieuwe teamindeling</h2>
 
       <div role="tablist" aria-label="Importeer methode" className="flex gap-1 mb-5 bg-gray-100 p-1 rounded-lg">
-        {['excel', 'json'].map(t => (
+        {(["excel", "json"] as const).map(t => (
           <button
             key={t}
             id={`import-tab-${t}`}
             role="tab"
             aria-selected={tab === t}
             aria-controls={`import-panel-${t}`}
-            onClick={() => { setTab(t); setError(''); setPreview(null) }}
+            onClick={() => { setTab(t); setError(""); setPreview(null) }}
             className={`flex-1 py-2 text-sm rounded-md font-medium transition-colors ${
-              tab === t ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+              tab === t ? "bg-white shadow text-gray-900" : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            {t === 'excel' ? 'Excel importeren' : 'JSON importeren'}
+            {t === "excel" ? "Excel importeren" : "JSON importeren"}
           </button>
         ))}
       </div>
 
-      {tab === 'excel' && (
+      {tab === "excel" && (
         <div id="import-panel-excel" role="tabpanel" aria-labelledby="import-tab-excel">
           <p className="text-sm text-gray-500 mb-3">
             Excel bestand met kolommen: <strong>naam</strong>, <strong>geboortedatum</strong>, <strong>geslacht</strong> (m/v of man/vrouw).
@@ -109,10 +119,10 @@ export default function ImportModal({ onNewPlan, onAddPlayers, onImportJSON, onC
                   </thead>
                   <tbody>
                     {preview.map((p, i) => (
-                      <tr key={p.id} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                      <tr key={p.id} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
                         <td className="px-3 py-1.5">{p.name}</td>
                         <td className="px-3 py-1.5">{p.birthdate}</td>
-                        <td className="px-3 py-1.5">{p.gender === 'f' ? '♀ Vrouw' : '♂ Man'}</td>
+                        <td className="px-3 py-1.5">{p.gender === "f" ? "♀ Vrouw" : "♂ Man"}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -141,7 +151,7 @@ export default function ImportModal({ onNewPlan, onAddPlayers, onImportJSON, onC
         </div>
       )}
 
-      {tab === 'json' && (
+      {tab === "json" && (
         <div id="import-panel-json" role="tabpanel" aria-labelledby="import-tab-json">
           <p className="text-sm text-gray-500 mb-3">
             Importeer eerder geëxporteerde JSON teamindeling. Laadt spelers én teams.
@@ -188,5 +198,5 @@ export default function ImportModal({ onNewPlan, onAddPlayers, onImportJSON, onC
         </div>
       )}
     </Modal>
-  )
+  );
 }

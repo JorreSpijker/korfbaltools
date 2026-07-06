@@ -1,23 +1,33 @@
-import { useState } from 'react'
-import Modal from './Modal'
+"use client";
 
-export default function EditPlayerModal({ player, onSave, onDelete, onClose }) {
-  const [name, setName] = useState(player.name)
-  const [birthdate, setBirthdate] = useState(player.birthdate || '')
-  const [gender, setGender] = useState(player.gender || 'm')
-  const [confirmDelete, setConfirmDelete] = useState(false)
+import { useState } from "react";
+import Modal from "./Modal";
+import type { Gender, Player } from "@/types";
+
+interface EditPlayerModalProps {
+  player: Player;
+  onSave: (player: Player) => void;
+  onDelete?: (playerId: string) => void;
+  onClose: () => void;
+}
+
+export default function EditPlayerModal({ player, onSave, onDelete, onClose }: EditPlayerModalProps) {
+  const [name, setName] = useState(player.name);
+  const [birthdate, setBirthdate] = useState(player.birthdate || "");
+  const [gender, setGender] = useState<Gender>(player.gender || "m");
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const handleSave = () => {
-    const trimmed = name.trim()
-    if (!trimmed) return
-    onSave({ ...player, name: trimmed, birthdate, gender })
-    onClose()
-  }
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    onSave({ ...player, name: trimmed, birthdate, gender });
+    onClose();
+  };
 
   const handleDelete = () => {
-    onDelete(player.id)
-    onClose()
-  }
+    onDelete?.(player.id);
+    onClose();
+  };
 
   return (
     <Modal titleId="edit-player-title" onClose={onClose} className="p-6 w-80">
@@ -49,7 +59,7 @@ export default function EditPlayerModal({ player, onSave, onDelete, onClose }) {
           <span className="text-xs font-medium text-gray-600">Geslacht</span>
           <select
             value={gender}
-            onChange={e => setGender(e.target.value)}
+            onChange={e => setGender(e.target.value as Gender)}
             className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-accent"
           >
             <option value="m">♂ Man</option>
@@ -99,5 +109,5 @@ export default function EditPlayerModal({ player, onSave, onDelete, onClose }) {
         </div>
       </div>
     </Modal>
-  )
+  );
 }

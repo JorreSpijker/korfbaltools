@@ -25,5 +25,5 @@ export default function CategoryInfo() {
         </div>
       </div>
     </div>
-  )
+  );
 }

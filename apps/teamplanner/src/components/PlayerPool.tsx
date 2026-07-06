@@ -1,42 +1,54 @@
-import { useMemo, useRef, useState } from 'react'
-import { useDroppable } from '@dnd-kit/core'
-import PlayerCard from './PlayerCard'
-import { parseExcelFile } from '../utils/importHelpers'
+"use client";
 
-export default function PlayerPool({ players, selectedIds, onSelect, onAddPlayers, onEditPlayer, onDeletePlayer }) {
-  const { setNodeRef, isOver } = useDroppable({ id: 'pool' })
-  const [query, setQuery] = useState('')
-  const [importError, setImportError] = useState('')
-  const fileInputRef = useRef(null)
+import { useMemo, useRef, useState } from "react";
+import { useDroppable } from "@dnd-kit/core";
+import PlayerCard from "./PlayerCard";
+import { parseExcelFile } from "@/utils/importHelpers";
+import type { Player } from "@/types";
 
-  const handleImport = async (e) => {
-    const file = e.target.files[0]
-    if (!file) return
-    e.target.value = ''
-    setImportError('')
+interface PlayerPoolProps {
+  players: Player[];
+  selectedIds?: Set<string>;
+  onSelect: (playerId: string, shiftKey: boolean) => void;
+  onAddPlayers: (players: Player[]) => void;
+  onEditPlayer: (player: Player) => void;
+  onDeletePlayer: (playerId: string) => void;
+}
+
+export default function PlayerPool({ players, selectedIds, onSelect, onAddPlayers, onEditPlayer, onDeletePlayer }: PlayerPoolProps) {
+  const { setNodeRef, isOver } = useDroppable({ id: "pool" });
+  const [query, setQuery] = useState("");
+  const [importError, setImportError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    e.target.value = "";
+    setImportError("");
     try {
-      const imported = await parseExcelFile(file)
-      onAddPlayers(imported)
+      const imported = await parseExcelFile(file);
+      onAddPlayers(imported);
     } catch (err) {
-      setImportError(err.message)
+      setImportError(err instanceof Error ? err.message : String(err));
     }
-  }
+  };
 
   const sorted = useMemo(() =>
     [...players].sort((a, b) => {
-      if (!a.birthdate) return 1
-      if (!b.birthdate) return -1
-      return new Date(a.birthdate) - new Date(b.birthdate)
+      if (!a.birthdate) return 1;
+      if (!b.birthdate) return -1;
+      return new Date(a.birthdate).getTime() - new Date(b.birthdate).getTime();
     }),
     [players]
-  )
+  );
 
   const filtered = useMemo(() =>
     query.trim()
       ? sorted.filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
       : sorted,
     [sorted, query]
-  )
+  );
 
   return (
     <div className="flex flex-col lg:max-h-[calc(100vh-10rem)]">
@@ -74,7 +86,7 @@ export default function PlayerPool({ players, selectedIds, onSelect, onAddPlayer
       <div
         ref={setNodeRef}
         className={`flex-1 overflow-y-auto min-h-64 bg-white rounded-xl border p-3 flex flex-col gap-2 transition-colors ${
-          isOver ? 'border-accent bg-accent-surface' : 'border-gray-200'
+          isOver ? "border-accent bg-accent-surface" : "border-gray-200"
         }`}
       >
         {players.length === 0 ? (
@@ -103,5 +115,5 @@ export default function PlayerPool({ players, selectedIds, onSelect, onAddPlayer
         )}
       </div>
     </div>
-  )
+  );
 }

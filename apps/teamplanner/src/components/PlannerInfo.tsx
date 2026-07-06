@@ -22,5 +22,5 @@ export default function PlannerInfo() {
       </ol>
       <p className="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-400 leading-relaxed">Shift+klik om meerdere spelers tegelijk te selecteren. Validatie wordt automatisch gecontroleerd.</p>
     </div>
-  )
+  );
 }

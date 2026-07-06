@@ -7,6 +7,14 @@
     {
       "source": "/admin/:path+",
       "destination": "https://korfbaltools-admin.vercel.app/admin/:path+"
+    },
+    {
+      "source": "/teamplanner",
+      "destination": "https://korfbaltools-teamplanner.vercel.app/teamplanner"
+    },
+    {
+      "source": "/teamplanner/:path+",
+      "destination": "https://korfbaltools-teamplanner.vercel.app/teamplanner/:path+"
     }
   ]
 }

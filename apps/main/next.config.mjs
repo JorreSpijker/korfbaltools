@@ -27,21 +27,16 @@ const nextConfig = {
       });
     }
 
-    // Local dev: proxy /teamplanner/* to the Vite dev server in apps/teamplanner.
+    // Local dev: proxy /teamplanner/* to apps/teamplanner instead of the production
+    // teamplanner.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
     const teamplannerAppUrl = process.env.TEAMPLANNER_APP_URL;
     if (teamplannerAppUrl) {
-      rewrites.push(
-        // apps/teamplanner has base: "/teamplanner/" (see its vite.config.js) and 404s
-        // on the bare, no-trailing-slash root — force the slash on for that exact case.
-        {
-          source: "/teamplanner",
-          destination: `${teamplannerAppUrl}/teamplanner/`,
-        },
-        {
-          source: "/teamplanner/:path+",
-          destination: `${teamplannerAppUrl}/teamplanner/:path+`,
-        },
-      );
+      rewrites.push({
+        // apps/teamplanner has basePath: "/teamplanner" (see its next.config.mjs), so it
+        // already expects requests prefixed with /teamplanner — pass it through as-is.
+        source: "/teamplanner/:path*",
+        destination: `${teamplannerAppUrl}/teamplanner/:path*`,
+      });
     }
 
     return rewrites;
