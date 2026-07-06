@@ -79,7 +79,7 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
       </div>
       {formError && <p className="text-sm text-danger">{formError}</p>}
       {saved && !formError && <p className="text-sm text-success">Opgeslagen</p>}
-      <button className="rounded-md bg-brand-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
+      <button className="rounded-md bg-primary-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
         Opslaan
       </button>
     </form>

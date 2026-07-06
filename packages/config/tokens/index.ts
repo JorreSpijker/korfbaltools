@@ -1,20 +1,36 @@
-// Brand tokens for korfbaltools.nl — "Deep Moss Authority" (see DESIGN.md).
-// Hue locked at 140° to match apps/teamplanner's own accent ramp (see its
-// tailwind.config.js) so the platform shell and the tools it hosts read as
-// one visual family. brand-500/600 are pinned to teamplanner's DEFAULT/dark.
+// Brand tokens for korfbaltools.nl (see DESIGN.md).
+// primary-500 / secondary-500 are the "main" colors — pinned to the exact
+// requested hex; other steps are a generated oklch ramp at the same hue.
+// primary hue (258°) is locked to match apps/teamplanner's own accent ramp
+// (see its tailwind.config.js) so the platform shell and the tools it hosts
+// read as one visual family.
 
 export const colors = {
-  brand: {
-    50: "oklch(0.95 0.025 140)",
-    100: "oklch(0.90 0.045 140)",
-    200: "oklch(0.85 0.06 140)",
-    300: "oklch(0.72 0.09 140)",
-    400: "oklch(0.55 0.10 140)",
-    500: "oklch(0.32 0.10 140)",
-    600: "oklch(0.26 0.09 140)",
-    700: "oklch(0.21 0.08 140)",
-    800: "oklch(0.16 0.06 140)",
-    900: "oklch(0.12 0.045 140)",
+  primary: {
+    50: "oklch(0.97 0.010 258)",
+    100: "oklch(0.93 0.018 258)",
+    200: "oklch(0.87 0.028 258)",
+    300: "oklch(0.75 0.038 258)",
+    400: "oklch(0.55 0.045 258)",
+    500: "#0E1C31",
+    600: "oklch(0.19 0.042 258)",
+    700: "oklch(0.15 0.036 258)",
+    800: "oklch(0.11 0.028 258)",
+    900: "oklch(0.08 0.020 258)",
+    DEFAULT: "#0E1C31",
+  },
+  secondary: {
+    50: "oklch(0.97 0.020 42)",
+    100: "oklch(0.93 0.045 42)",
+    200: "oklch(0.87 0.075 42)",
+    300: "oklch(0.80 0.115 42)",
+    400: "oklch(0.73 0.155 42)",
+    500: "#F16018",
+    600: "oklch(0.58 0.185 42)",
+    700: "oklch(0.48 0.155 42)",
+    800: "oklch(0.38 0.115 42)",
+    900: "oklch(0.28 0.080 42)",
+    DEFAULT: "#F16018",
   },
   neutral: {
     50: "#fafafa",

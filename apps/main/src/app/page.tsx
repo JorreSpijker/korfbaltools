@@ -61,7 +61,7 @@ export default async function HomePage() {
     <main className="flex flex-col">
       <section className="border-b border-neutral-200 bg-neutral-50">
         <div className="mx-auto flex max-w-4xl flex-col items-start gap-4 px-6 py-20">
-          <h1 className="text-4xl font-semibold text-brand-600 sm:text-5xl">Korfbaltools.nl</h1>
+          <h1 className="text-4xl font-semibold text-primary-600 sm:text-5xl">Korfbaltools.nl</h1>
           <p className="max-w-xl text-lg text-neutral-600">
             Eén platform met losse tools voor korfbalteams — teamindeling, statistieken en meer.
           </p>
@@ -74,7 +74,7 @@ export default async function HomePage() {
             <div className="flex items-center gap-4">
               <Link
                 href="/register"
-                className="rounded-md bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600"
+                className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
               >
                 Account aanmaken
               </Link>
@@ -89,7 +89,7 @@ export default async function HomePage() {
 
       <section className="mx-auto w-full max-w-4xl px-6 py-16">
         <h2 className="mb-6 flex items-center gap-2 text-xl font-semibold text-neutral-900">
-          <LayoutGrid className="h-5 w-5 text-brand-600" />
+          <LayoutGrid className="h-5 w-5 text-primary-600" />
           Apps
         </h2>
 
@@ -102,7 +102,7 @@ export default async function HomePage() {
                   {app.imageUrl ? (
                     <img src={app.imageUrl} alt="" className="h-10 w-10 rounded-md object-cover" />
                   ) : (
-                    <div className="h-10 w-10 rounded-md bg-brand-100" />
+                    <div className="h-10 w-10 rounded-md bg-primary-100" />
                   )}
                   <div className="flex flex-1 items-center justify-between">
                     <span className="font-medium text-neutral-900">{app.title}</span>
@@ -122,7 +122,7 @@ export default async function HomePage() {
               <Link
                 key={app.capability}
                 href={app.href!}
-                className="flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-5 transition hover:border-brand-300"
+                className="flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-5 transition hover:border-primary-300"
               >
                 {content}
               </Link>
@@ -157,8 +157,8 @@ export default async function HomePage() {
           <h2 className="text-2xl font-semibold text-neutral-900 sm:text-3xl">Tools uitgelicht</h2>
 
           <div className="mt-8 flex flex-col gap-4 rounded-lg border border-neutral-200 p-6 sm:flex-row sm:gap-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-brand-100">
-              <Users className="h-6 w-6 text-brand-700" />
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-primary-100">
+              <Users className="h-6 w-6 text-primary-700" />
             </div>
             <div>
               <h3 className="font-medium text-neutral-900">Teamplanner</h3>
@@ -195,7 +195,7 @@ export default async function HomePage() {
           <ol className="mt-8 grid gap-6 sm:grid-cols-3">
             {STEPS.map((step, index) => (
               <li key={step.title} className="flex flex-col gap-2">
-                <div className="flex items-center gap-2 text-brand-600">
+                <div className="flex items-center gap-2 text-primary-600">
                   <span className="text-sm font-semibold">{index + 1}</span>
                   <step.icon className="h-5 w-5" />
                 </div>
@@ -219,7 +219,7 @@ export default async function HomePage() {
           {!user && (
             <Link
               href="/register"
-              className="mt-2 rounded-md bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600"
+              className="mt-2 rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
             >
               Account aanmaken
             </Link>

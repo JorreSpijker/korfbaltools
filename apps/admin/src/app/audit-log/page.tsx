@@ -1,6 +1,6 @@
 import { requireAdmin } from "@/lib/require-admin";
 import { fetchMainApi } from "@/lib/main-api";
-import { AdminNav } from "@/components/admin-nav";
+import { AdminNav } from "../../../../../packages/ui/src/admin-nav";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface AuditLogEntry {

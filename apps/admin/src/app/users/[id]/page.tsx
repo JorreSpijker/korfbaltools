@@ -29,7 +29,7 @@ export default async function UserPage({ params }: UserPageProps) {
     <main className="mx-auto flex max-w-2xl flex-col gap-6 px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">{user.naam ?? user.email}</h1>
-        <Link className="text-sm text-brand-600 underline" href="/">
+        <Link className="text-sm text-primary-600 underline" href="/">
           Terug naar gebruikers
         </Link>
       </div>

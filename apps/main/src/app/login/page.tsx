@@ -57,7 +57,7 @@ export default function LoginPage() {
           {errors.password && <p className="text-sm text-danger">{errors.password.message}</p>}
         </div>
         {formError && <p className="text-sm text-danger">{formError}</p>}
-        <button className="rounded-md bg-brand-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
+        <button className="rounded-md bg-primary-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
           Inloggen
         </button>
       </form>

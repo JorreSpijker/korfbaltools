@@ -14,7 +14,7 @@ export default async function UnderConstructionPage() {
 
   return (
     <main className="mx-auto flex min-h-[70vh] max-w-md flex-col items-center justify-center gap-4 px-6 text-center">
-      <Hammer className="h-8 w-8 text-brand-600" />
+      <Hammer className="h-8 w-8 text-primary-600" />
       <h1 className="text-2xl font-semibold text-neutral-900">Korfbaltools.nl wordt verbouwd</h1>
       <p className="text-neutral-600">
         We zijn bezig met onderhoud. Het platform is even niet beschikbaar — je kunt in de tussentijd al wel een
@@ -23,7 +23,7 @@ export default async function UnderConstructionPage() {
       <div className="mt-2 flex items-center gap-4">
         <Link
           href="/register"
-          className="rounded-md bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600"
+          className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600"
         >
           Account aanmaken
         </Link>

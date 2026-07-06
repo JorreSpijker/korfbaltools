@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { KorfbalToolBar } from "@korfbaltools/ui";
+import { AdminSettings, KorfbalToolBar } from "@korfbaltools/ui";
 import { getCurrentUser } from "@/lib/main-api";
 import "./globals.css";
 
@@ -15,6 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="nl">
       <body>
         <KorfbalToolBar user={user} />
+        <AdminSettings user={user} />
         {children}
       </body>
     </html>

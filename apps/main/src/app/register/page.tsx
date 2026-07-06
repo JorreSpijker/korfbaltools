@@ -75,7 +75,7 @@ export default function RegisterPage() {
           {errors.confirmPassword && <p className="text-sm text-danger">{errors.confirmPassword.message}</p>}
         </div>
         {formError && <p className="text-sm text-danger">{formError}</p>}
-        <button className="rounded-md bg-brand-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
+        <button className="rounded-md bg-primary-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
           Account aanmaken
         </button>
       </form>

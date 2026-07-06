@@ -1,7 +1,7 @@
 import type { AppConfig, PlatformSettings } from "@korfbaltools/types";
 import { requireAdmin } from "@/lib/require-admin";
 import { fetchMainApi } from "@/lib/main-api";
-import { AdminNav } from "@/components/admin-nav";
+import { AdminNav } from "../../../../../packages/ui/src/admin-nav";
 import { AppConfigRow } from "@/components/app-config-row";
 import { MaintenanceModeToggle } from "@/components/maintenance-mode-toggle";
 

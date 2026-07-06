@@ -8,10 +8,10 @@ const config: Config = {
     extend: {
       colors: {
         accent: {
-          DEFAULT: "oklch(0.32 0.10 140)", // Deep Moss Authority — primary action
-          dark: "oklch(0.26 0.09 140)", // hover / pressed
-          surface: "oklch(0.95 0.025 140)", // very light tint — drop zones, backgrounds
-          subtle: "oklch(0.85 0.06 140)", // light border, hover bg for file inputs
+          DEFAULT: "#0E1C31", // primary — primary action
+          dark: "oklch(0.19 0.042 258)", // hover / pressed
+          surface: "oklch(0.97 0.010 258)", // very light tint — drop zones, backgrounds
+          subtle: "oklch(0.87 0.028 258)", // light border, hover bg for file inputs
         },
       },
     },

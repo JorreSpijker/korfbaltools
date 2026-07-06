@@ -1,9 +1,11 @@
 "use client";
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ChevronDown, LogOut, Settings, ShieldCheck } from "lucide-react";
+import { ChevronDown, LogOut, Settings } from "lucide-react";
 import type { User } from "@korfbaltools/types";
 import { cn } from "./cn";
+import { Logo } from "./logo";
+import { NavShape } from "./nav-shape";
 
 export interface KorfbalToolBarProps {
   user: Pick<User, "email" | "naam" | "role"> | null;
@@ -24,7 +26,6 @@ export function KorfbalToolBar({
   user,
   homeHref = "/",
   accountHref = "/account",
-  adminHref = "/admin",
   loginHref = "/login",
   registerHref = "/register",
   logoutHref = "/api/logout",
@@ -36,66 +37,77 @@ export function KorfbalToolBar({
   }
 
   return (
-    <nav className={cn("flex items-center justify-between border-b border-neutral-200 bg-white px-6 py-3", className)}>
-      <a className="text-lg font-semibold text-brand-600" href={homeHref}>
-        Korfbaltools
+    <nav className={cn("ktnavbar", className)}>
+      <div className="ktnavbar-shapes">
+        <NavShape />
+        <NavShape />
+      </div>
+
+      <a className="group text-lg font-semibold text-white absolute left-20 flex items-start" href={homeHref}>
+        <NavShape flipHorizontal />
+          <div className="bg-primary-500 min-w-[50px] h-[50px] px-4 flex items-center justify-center rounded-br-lg rounded-bl-lg">
+            <Logo className="h-6 w-auto" />
+            <div className="flex flex-col text-xs leading-3 text-secondary max-w-0 overflow-hidden opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:max-w-[80px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:ml-2">
+              <span>Korfbal</span>
+              <span>Tools.nl</span>
+            </div>
+          </div>
+        <NavShape />
       </a>
 
       {user ? (
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild>
-            <button className="flex items-center gap-1 rounded-md px-2 py-1 text-sm hover:bg-neutral-100">
-              <span>{user.naam ?? user.email}</span>
-              <ChevronDown className="h-4 w-4 text-neutral-500" />
-            </button>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Portal>
-            <DropdownMenu.Content
-              align="end"
-              sideOffset={8}
-              className="z-50 min-w-56 rounded-md border border-neutral-200 bg-white p-1 shadow-lg"
-            >
-              <div className="px-2 py-1.5 text-xs text-neutral-500">{user.email}</div>
-              <DropdownMenu.Separator className="my-1 h-px bg-neutral-100" />
-              <DropdownMenu.Item
-                className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-neutral-100"
-                onSelect={() => {
-                  window.location.href = accountHref;
-                }}
-              >
-                <Settings className="h-4 w-4" />
-                Mijn gegevens
-              </DropdownMenu.Item>
-              {user.role === "admin" && (
-                <DropdownMenu.Item
-                  className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-neutral-100"
-                  onSelect={() => {
-                    window.location.href = adminHref;
-                  }}
-                >
-                  <ShieldCheck className="h-4 w-4" />
-                  Admin paneel
-                </DropdownMenu.Item>
-              )}
-              <DropdownMenu.Separator className="my-1 h-px bg-neutral-100" />
-              <DropdownMenu.Item
-                className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm text-danger outline-none hover:bg-neutral-100"
-                onSelect={handleLogout}
-              >
-                <LogOut className="h-4 w-4" />
-                Uitloggen
-              </DropdownMenu.Item>
-            </DropdownMenu.Content>
-          </DropdownMenu.Portal>
-        </DropdownMenu.Root>
+        <div className="absolute right-20 w-fit flex items-start">
+          <NavShape flipHorizontal />
+            <div className="flex items-center gap-4 text-sm bg-primary-500 px-4 py-4 rounded-bl-lg rounded-br-lg">
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <button className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-white">
+                    <span>{user.naam ?? user.email}</span>
+                    <ChevronDown className="h-4 w-4 text-neutral-500" />
+                  </button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content
+                    align="end"
+                    sideOffset={12}
+                    className="z-50 min-w-60 rounded-md bg-primary-400 text-white p-2"
+                  >
+                    <div className="px-2 py-1.5 text-xs text-white">{user.email}</div>
+                    <DropdownMenu.Separator className="my-1 h-px bg-neutral-100" />
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={() => {
+                        window.location.href = accountHref;
+                      }}
+                    >
+                      <Settings className="h-4 w-4" />
+                      Mijn gegevens
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={handleLogout}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Uitloggen
+                    </DropdownMenu.Item>
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
+            </div>
+          <NavShape />
+        </div>
       ) : (
-        <div className="flex items-center gap-4 text-sm">
-          <a className="text-neutral-600 hover:text-neutral-900" href={loginHref}>
-            Inloggen
-          </a>
-          <a className="rounded-md bg-brand-500 px-3 py-1.5 text-white hover:bg-brand-600" href={registerHref}>
-            Account aanmaken
-          </a>
+        <div className="absolute right-10 w-fit flex items-start absolute right-20">
+          <NavShape flipHorizontal />
+          <div className="flex items-center gap-4 text-sm bg-primary-500 w-fit px-4 py-4 rounded-br-lg rounded-bl-lg">
+            <a className="text-white hover:underline" href={loginHref}>
+              Inloggen
+            </a>
+            <a className="rounded-md bg-secondary-500 px-3 py-1.5 text-primary-500 hover:bg-secondary-600" href={registerHref}>
+              Account aanmaken
+            </a>
+          </div>
+          <NavShape />
         </div>
       )}
     </nav>

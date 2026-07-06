@@ -16,7 +16,7 @@ export function AdminNav({ current }: { current: string }) {
           href={link.href}
           className={cn(
             "text-neutral-500 hover:text-neutral-900",
-            current === link.href && "font-medium text-brand-600 hover:text-brand-600",
+            current === link.href && "font-medium text-primary-600 hover:text-primary-600",
           )}
         >
           {link.label}

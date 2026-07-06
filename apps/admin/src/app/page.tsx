@@ -1,7 +1,7 @@
 import type { Club, User } from "@korfbaltools/types";
 import { requireAdmin } from "@/lib/require-admin";
 import { fetchMainApi } from "@/lib/main-api";
-import { AdminNav } from "@/components/admin-nav";
+import { AdminNav } from "../../../../packages/ui/src/admin-nav";
 import { UsersTable } from "@/components/users-table";
 
 export default async function AdminUsersPage() {
