@@ -6,6 +6,12 @@ const nextConfig = {
   // outside this repo (e.g. in a parent directory).
   outputFileTracingRoot: path.join(import.meta.dirname, "../.."),
   transpilePackages: ["@korfbaltools/types", "@korfbaltools/db", "@korfbaltools/config", "@korfbaltools/ui"],
+  // pnpm nests the generated Prisma client under .pnpm/@prisma+client@.../node_modules/.prisma/client —
+  // Vercel's file tracer doesn't follow that path on its own and drops the query engine
+  // binary from the deployed bundle (https://pris.ly/d/engine-not-found-nextjs).
+  outputFileTracingIncludes: {
+    "/**/*": ["../../node_modules/.pnpm/@prisma+client@*/node_modules/.prisma/client/**/*"],
+  },
   async rewrites() {
     const rewrites = [];
 
