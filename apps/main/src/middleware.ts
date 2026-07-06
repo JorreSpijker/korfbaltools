@@ -19,12 +19,17 @@ export async function middleware(request: NextRequest) {
   if (!isMaintenanceAllowed(pathname)) {
     // Public, unauthenticated endpoint (see its route file) — same edge-runtime
     // constraint as the /api/me call below: no direct Prisma access here.
-    const settingsResponse = await fetch(new URL("/api/settings", request.url));
-    if (settingsResponse.ok) {
-      const { maintenanceMode } = (await settingsResponse.json()) as { maintenanceMode: boolean };
-      if (maintenanceMode) {
-        return NextResponse.rewrite(new URL("/under-construction", request.url));
+    // Fails open: a broken settings check must never 500 the entire site.
+    try {
+      const settingsResponse = await fetch(new URL("/api/settings", request.url));
+      if (settingsResponse.ok) {
+        const { maintenanceMode } = (await settingsResponse.json()) as { maintenanceMode: boolean };
+        if (maintenanceMode) {
+          return NextResponse.rewrite(new URL("/under-construction", request.url));
+        }
       }
+    } catch {
+      // Ignore — treat as maintenance mode off rather than failing the request.
     }
   }
 
@@ -36,15 +41,21 @@ export async function middleware(request: NextRequest) {
   // instead of querying the DB here we call this app's own /api/me (a Node.js
   // route handler) and forward the incoming session cookie to it.
   if (pathname.startsWith("/admin") || pathname.startsWith("/teamplanner")) {
-    const meResponse = await fetch(new URL("/api/me", request.url), {
-      headers: { cookie: request.headers.get("cookie") ?? "" },
-    });
+    let user: User;
+    try {
+      const meResponse = await fetch(new URL("/api/me", request.url), {
+        headers: { cookie: request.headers.get("cookie") ?? "" },
+      });
 
-    if (!meResponse.ok) {
+      if (!meResponse.ok) {
+        return NextResponse.redirect(new URL("/login", request.url));
+      }
+
+      ({ user } = (await meResponse.json()) as { user: User });
+    } catch {
+      // Auth check unreachable — fail closed, not open.
       return NextResponse.redirect(new URL("/login", request.url));
     }
-
-    const { user } = (await meResponse.json()) as { user: User };
 
     if (pathname.startsWith("/admin") && user.role !== "admin") {
       return NextResponse.redirect(new URL("/", request.url));
