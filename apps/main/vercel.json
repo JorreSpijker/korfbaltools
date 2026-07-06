@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/admin/:path*",
-      "destination": "https://admin.vercel.app/admin/:path*"
+      "destination": "https://korfbaltools-admin.vercel.app/admin/:path*"
     }
   ]
 }
