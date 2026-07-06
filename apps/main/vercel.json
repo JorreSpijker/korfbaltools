@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/admin/:path*",
-      "destination": "https://korfbaltools-admin.vercel.app/admin/:path*"
+      "source": "/admin",
+      "destination": "https://korfbaltools-admin.vercel.app/admin"
+    },
+    {
+      "source": "/admin/:path+",
+      "destination": "https://korfbaltools-admin.vercel.app/admin/:path+"
     }
   ]
 }
