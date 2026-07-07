@@ -1,12 +1,15 @@
 export interface LogoProps {
   className?: string;
+  size?: number;
 }
 
-export function Logo({ className }: LogoProps) {
+export function Logo({ className, size }: LogoProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 200 200"
+      width={size}
+      height={size}
       className={className}
       style={{ fillRule: "evenodd", clipRule: "evenodd", strokeLinejoin: "round", strokeMiterlimit: 2 }}
     >

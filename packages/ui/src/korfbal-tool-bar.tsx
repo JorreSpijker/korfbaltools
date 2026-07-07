@@ -1,7 +1,7 @@
 "use client";
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ChevronDown, LogOut, Settings } from "lucide-react";
+import { ChevronDown, LogOut, Menu, Settings } from "lucide-react";
 import type { User } from "@korfbaltools/types";
 import { cn } from "./cn";
 import { Logo } from "./logo";
@@ -51,10 +51,10 @@ export function KorfbalToolBar({
         <NavShape flipHorizontal />
       </div>
 
-      <a className="group text-lg font-semibold text-white absolute left-20 flex items-start" href={homeHref}>
+      <a className="group text-lg font-semibold text-white absolute left-1 md:left-20 flex items-start" href={homeHref}>
         <NavShape flipHorizontal />
           <div className="bg-primary-500 min-w-[50px] h-[50px] px-4 flex items-center justify-center rounded-br-lg rounded-bl-lg">
-            <Logo className="h-10 w-auto" />
+            <Logo size={40} />
             <div className="flex flex-col text-xs leading-3 text-secondary max-w-0 overflow-hidden opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:max-w-[80px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:ml-2">
               <span>Korfbal</span>
               <span>Tools.nl</span>
@@ -63,7 +63,7 @@ export function KorfbalToolBar({
         <NavShape />
       </a>
 
-      <div className="absolute top-0 left-[50vw] w-fit h-fit flex items-start">
+      <div className="hidden md:flex absolute top-0 md:left-[50vw] w-fit h-fit items-start">
         <NavShape flipHorizontal />
         <div className="bg-primary-500 h-[50px] px-2 flex items-center gap-2 justify-center rounded-br-lg rounded-bl-lg">
           {apps.map((app) => (
@@ -80,9 +80,9 @@ export function KorfbalToolBar({
       </div>
 
       {user ? (
-        <div className="absolute right-20 w-fit flex items-start">
+        <div className="hidden md:flex absolute right-20 w-fit items-start">
           <NavShape flipHorizontal />
-            <div className="flex items-center gap-4 text-sm bg-primary-500 px-4 py-4 rounded-bl-lg rounded-br-lg">
+            <div className="flex items-center gap-4 text-sm bg-primary-500 px-2 py-3 rounded-bl-lg rounded-br-lg">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                   <button className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-white">
@@ -121,7 +121,7 @@ export function KorfbalToolBar({
           <NavShape />
         </div>
       ) : (
-        <div className="absolute right-10 w-fit flex items-start absolute right-20">
+        <div className="hidden md:flex absolute right-20 w-fit items-start">
           <NavShape flipHorizontal />
           <div className="flex items-center gap-4 text-sm bg-primary-500 w-fit px-4 py-4 rounded-br-lg rounded-bl-lg">
             <a className="text-white hover:underline" href={loginHref}>
@@ -134,6 +134,80 @@ export function KorfbalToolBar({
           <NavShape />
         </div>
       )}
+
+      <div className="md:hidden absolute top-0 right-0 w-fit h-fit flex items-start">
+        <NavShape flipHorizontal />
+        <div className="bg-primary-500 h-[50px] px-2 flex items-center justify-center rounded-bl-lg rounded-br-lg">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <button className="flex items-center rounded-md p-1 text-white" aria-label="Menu">
+                <Menu className="h-5 w-5" />
+              </button>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content
+                align="end"
+                sideOffset={12}
+                className="z-50 min-w-60 rounded-md bg-primary-400 text-white p-2"
+              >
+                {apps.map((app) => (
+                  <DropdownMenu.Item
+                    key={app.capability}
+                    className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                    onSelect={() => {
+                      window.location.href = app.href;
+                    }}
+                  >
+                    {app.title}
+                  </DropdownMenu.Item>
+                ))}
+                {apps.length > 0 && <DropdownMenu.Separator className="my-1 h-px bg-neutral-100" />}
+                {user ? (
+                  <>
+                    <div className="px-2 py-1.5 text-xs text-white">{user.naam ?? user.email}</div>
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={() => {
+                        window.location.href = accountHref;
+                      }}
+                    >
+                      <Settings className="h-4 w-4" />
+                      Mijn gegevens
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={handleLogout}
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Uitloggen
+                    </DropdownMenu.Item>
+                  </>
+                ) : (
+                  <>
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={() => {
+                        window.location.href = loginHref;
+                      }}
+                    >
+                      Inloggen
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      onSelect={() => {
+                        window.location.href = registerHref;
+                      }}
+                    >
+                      Account aanmaken
+                    </DropdownMenu.Item>
+                  </>
+                )}
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+        </div>
+        <NavShape />
+      </div>
     </nav>
   );
 }
