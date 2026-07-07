@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [user, apps] = await Promise.all([getSessionUser(), getNavApps()]);
+  const user = await getSessionUser();
+  const apps = await getNavApps(user);
 
   return (
     <html lang="nl">

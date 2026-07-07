@@ -33,7 +33,7 @@ export function MaintenanceModeToggle({ settings }: MaintenanceModeToggleProps) 
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-md border border-neutral-200 p-6">
+    <div className="flex flex-col gap-2 rounded-lg border border-neutral-200 p-6">
       <div className="flex items-center gap-2">
         <Checkbox
           id="maintenance-mode"

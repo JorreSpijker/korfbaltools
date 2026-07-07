@@ -27,7 +27,10 @@ export async function getCurrentUser(): Promise<User | null> {
 // Public — same info as the homepage "Apps" grid, just for the shared
 // toolbar nav (see packages/ui KorfbalToolBar).
 export async function getNavApps(): Promise<KorfbalToolBarNavApp[]> {
-  const response = await fetch(`${MAIN_APP_URL}/api/apps`, { cache: "no-store" });
+  const response = await fetch(`${MAIN_APP_URL}/api/apps`, {
+    headers: { cookie: await forwardedCookieHeader() },
+    cache: "no-store",
+  });
   if (!response.ok) return [];
   const { apps } = (await response.json()) as { apps: KorfbalToolBarNavApp[] };
   return apps;

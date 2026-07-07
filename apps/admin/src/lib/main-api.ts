@@ -46,3 +46,14 @@ export async function parseApiError(response: Response): Promise<string> {
   const body = (await response.json().catch(() => null)) as ApiErrorBody | null;
   return body?.error.message ?? "Er ging iets mis";
 }
+
+// Server components don't get to show an inline error per fetch — an
+// uncaught throw here is what the nearest error.tsx boundary catches, so
+// every page-level fetch needs to actually throw instead of silently
+// destructuring a failed response's body as if it succeeded.
+export async function ensureOk(response: Response, context: string): Promise<void> {
+  if (!response.ok) {
+    const message = await parseApiError(response);
+    throw new Error(`${context}: ${message}`);
+  }
+}

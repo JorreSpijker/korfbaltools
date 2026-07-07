@@ -51,7 +51,10 @@ export function KorfbalToolBar({
         <NavShape flipHorizontal />
       </div>
 
-      <a className="group text-lg font-semibold text-white absolute left-1 md:left-20 flex items-start" href={homeHref}>
+      <a
+        className="group text-lg font-semibold text-white absolute left-1 md:left-20 flex items-start rounded-br-lg rounded-bl-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
+        href={homeHref}
+      >
         <NavShape flipHorizontal />
           <div className="bg-primary-500 min-w-[50px] h-[50px] px-4 flex items-center justify-center rounded-br-lg rounded-bl-lg">
             <Logo size={40} />
@@ -63,21 +66,23 @@ export function KorfbalToolBar({
         <NavShape />
       </a>
 
-      <div className="hidden md:flex absolute top-0 md:left-[50vw] w-fit h-fit items-start">
-        <NavShape flipHorizontal />
-        <div className="bg-primary-500 h-[50px] px-2 flex items-center gap-2 justify-center rounded-br-lg rounded-bl-lg">
-          {apps.map((app) => (
-            <a
-              key={app.capability}
-              href={app.href}
-              className="bg-secondary-500 px-2 py-1 rounded text-white hover:bg-secondary-600 transition"
-            >
-              {app.title}
-            </a>
-          ))}
+      {user && (
+        <div className="hidden md:flex absolute top-0 md:left-[50vw] w-fit h-fit items-start">
+          <NavShape flipHorizontal />
+          <div className="bg-primary-500 h-[50px] px-2 flex items-center gap-2 justify-center rounded-br-lg rounded-bl-lg">
+            {apps.map((app) => (
+              <a
+                key={app.capability}
+                href={app.href}
+                className="bg-secondary-500 px-2 py-1 rounded text-white hover:bg-secondary-600 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
+              >
+                {app.title}
+              </a>
+            ))}
+          </div>
+          <NavShape />
         </div>
-        <NavShape />
-      </div>
+      )}
 
       {user ? (
         <div className="hidden md:flex absolute right-20 w-fit items-start">
@@ -85,7 +90,7 @@ export function KorfbalToolBar({
             <div className="flex items-center gap-4 text-sm bg-primary-500 px-2 py-3 rounded-bl-lg rounded-br-lg">
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
-                  <button className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-white">
+                  <button className="flex items-center gap-1 rounded-md px-2 py-1 text-sm text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500">
                     <span>{user.naam ?? user.email}</span>
                     <ChevronDown className="h-4 w-4 text-neutral-500" />
                   </button>
@@ -99,7 +104,7 @@ export function KorfbalToolBar({
                     <div className="px-2 py-1.5 text-xs text-white">{user.email}</div>
                     <DropdownMenu.Separator className="my-1 h-px bg-neutral-100" />
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={() => {
                         window.location.href = accountHref;
                       }}
@@ -108,7 +113,7 @@ export function KorfbalToolBar({
                       Mijn gegevens
                     </DropdownMenu.Item>
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={handleLogout}
                     >
                       <LogOut className="h-4 w-4" />
@@ -124,10 +129,16 @@ export function KorfbalToolBar({
         <div className="hidden md:flex absolute right-20 w-fit items-start">
           <NavShape flipHorizontal />
           <div className="flex items-center gap-4 text-sm bg-primary-500 w-fit px-4 py-4 rounded-br-lg rounded-bl-lg">
-            <a className="text-white hover:underline" href={loginHref}>
+            <a
+              className="rounded-sm text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
+              href={loginHref}
+            >
               Inloggen
             </a>
-            <a className="rounded-md bg-secondary-500 px-3 py-1.5 text-primary-500 hover:bg-secondary-600" href={registerHref}>
+            <a
+              className="rounded-md bg-secondary-500 px-3 py-1.5 text-primary-500 hover:bg-secondary-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
+              href={registerHref}
+            >
               Account aanmaken
             </a>
           </div>
@@ -140,7 +151,10 @@ export function KorfbalToolBar({
         <div className="bg-primary-500 h-[50px] px-2 flex items-center justify-center rounded-bl-lg rounded-br-lg">
           <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
-              <button className="flex items-center rounded-md p-1 text-white" aria-label="Menu">
+              <button
+                className="flex items-center rounded-md p-1 text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
+                aria-label="Menu"
+              >
                 <Menu className="h-5 w-5" />
               </button>
             </DropdownMenu.Trigger>
@@ -166,7 +180,7 @@ export function KorfbalToolBar({
                   <>
                     <div className="px-2 py-1.5 text-xs text-white">{user.naam ?? user.email}</div>
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={() => {
                         window.location.href = accountHref;
                       }}
@@ -175,7 +189,7 @@ export function KorfbalToolBar({
                       Mijn gegevens
                     </DropdownMenu.Item>
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={handleLogout}
                     >
                       <LogOut className="h-4 w-4" />
@@ -185,7 +199,7 @@ export function KorfbalToolBar({
                 ) : (
                   <>
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={() => {
                         window.location.href = loginHref;
                       }}
@@ -193,7 +207,7 @@ export function KorfbalToolBar({
                       Inloggen
                     </DropdownMenu.Item>
                     <DropdownMenu.Item
-                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500"
+                      className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={() => {
                         window.location.href = registerHref;
                       }}

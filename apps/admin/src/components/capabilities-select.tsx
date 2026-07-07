@@ -22,7 +22,7 @@ export function CapabilitiesSelect({ value, onChange, disabled }: CapabilitiesSe
     <Popover>
       <PopoverTrigger
         disabled={disabled}
-        className="flex min-h-9 w-full flex-wrap items-center gap-1 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+        className="flex min-h-9 w-full flex-wrap items-center gap-1 rounded-md border border-neutral-300 bg-white px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {value.length > 0 ? (
           value.map((capability) => (

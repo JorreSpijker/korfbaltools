@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import { ROLES, type ApiErrorBody, type Capability, type Club, type Role, type User } from "@korfbaltools/types";
 import { Button } from "@/components/ui/button";
 import { CapabilitiesSelect } from "@/components/capabilities-select";
@@ -129,68 +130,70 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
   }
 
   return (
-    <div className="flex flex-col gap-6 rounded-md border border-neutral-200 p-6">
-      <div className="grid grid-cols-2 gap-4 text-sm">
+    <div className="flex flex-col gap-6 rounded-lg border border-neutral-200 p-6">
+      <div className="flex flex-wrap gap-x-8 gap-y-3 rounded-md bg-neutral-50 p-4 text-sm">
         <div>
-          <div className="text-neutral-500">ID</div>
+          <div className="text-xs text-neutral-500">ID</div>
           <div className="font-mono text-xs">{user.id}</div>
         </div>
         <div>
-          <div className="text-neutral-500">E-mail</div>
+          <div className="text-xs text-neutral-500">E-mail</div>
           <div>{user.email}</div>
         </div>
         <div>
-          <div className="text-neutral-500">Aangemaakt</div>
+          <div className="text-xs text-neutral-500">Aangemaakt</div>
           <div>{new Date(user.createdAt).toLocaleString("nl-NL")}</div>
         </div>
         <div>
-          <div className="text-neutral-500">Laatste inlog</div>
+          <div className="text-xs text-neutral-500">Laatste inlog</div>
           <div>{user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleString("nl-NL") : "—"}</div>
         </div>
         <div>
-          <div className="text-neutral-500">Status</div>
+          <div className="text-xs text-neutral-500">Status</div>
           <div>
             {user.deactivatedAt ? `Gedeactiveerd sinds ${new Date(user.deactivatedAt).toLocaleString("nl-NL")}` : "Actief"}
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="role">Rol</Label>
-        <Select defaultValue={user.role} disabled={pending} onValueChange={(value) => changeRole(value as Role)}>
-          <SelectTrigger id="role">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {ROLES.map((role) => (
-              <SelectItem key={role} value={role}>
-                {role}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="role">Rol</Label>
+          <Select defaultValue={user.role} disabled={pending} onValueChange={(value) => changeRole(value as Role)}>
+            <SelectTrigger id="role">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {ROLES.map((role) => (
+                <SelectItem key={role} value={role}>
+                  {role}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label>Capabilities</Label>
-        <CapabilitiesSelect value={user.capabilities} disabled={pending} onChange={changeCapabilities} />
-      </div>
+        <div className="flex flex-col gap-1.5">
+          <Label>Capabilities</Label>
+          <CapabilitiesSelect value={user.capabilities} disabled={pending} onChange={changeCapabilities} />
+        </div>
 
-      <div className="flex flex-col gap-1.5">
-        <Label htmlFor="club">Club</Label>
-        <Select defaultValue={user.clubId ?? NO_CLUB} disabled={pending} onValueChange={changeClub}>
-          <SelectTrigger id="club">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={NO_CLUB}>Geen club</SelectItem>
-            {clubs.map((club) => (
-              <SelectItem key={club.id} value={club.id}>
-                {club.naam}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="club">Club</Label>
+          <Select defaultValue={user.clubId ?? NO_CLUB} disabled={pending} onValueChange={changeClub}>
+            <SelectTrigger id="club">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={NO_CLUB}>Geen club</SelectItem>
+              {clubs.map((club) => (
+                <SelectItem key={club.id} value={club.id}>
+                  {club.naam}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
       <div className="flex gap-2 border-t border-neutral-200 pt-4">
@@ -199,6 +202,7 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
         </Button>
         {user.deactivatedAt ? (
           <Button disabled={pending} variant="outline" onClick={() => changeStatus(false)}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Activeren
           </Button>
         ) : (
@@ -221,9 +225,11 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
           </DialogHeader>
           <div className="flex flex-col gap-2">
             <Button disabled={pending} onClick={() => resetPassword("reset_link")}>
+              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Reset-link versturen
             </Button>
             <Button disabled={pending} variant="outline" onClick={() => resetPassword("temporary_password")}>
+              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Tijdelijk wachtwoord genereren
             </Button>
           </div>
@@ -238,6 +244,7 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
             </DialogDescription>
           </DialogHeader>
           <Button disabled={pending} variant="destructive" onClick={() => changeStatus(true)}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Ja, deactiveren
           </Button>
         </DialogContent>
@@ -252,6 +259,7 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
             </DialogDescription>
           </DialogHeader>
           <Button disabled={pending} variant="destructive" onClick={deleteUser}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Ja, definitief verwijderen
           </Button>
         </DialogContent>

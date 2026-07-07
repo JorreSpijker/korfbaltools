@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 import type { ApiErrorBody, AppConfig } from "@korfbaltools/types";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -39,7 +40,7 @@ export function AppConfigRow({ app }: AppConfigRowProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-md border border-neutral-200 p-6">
+    <div className="flex flex-col gap-4 rounded-lg border border-neutral-200 p-6">
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs text-neutral-500">{app.capability}</span>
         <div className="flex items-center gap-2">
@@ -59,7 +60,7 @@ export function AppConfigRow({ app }: AppConfigRowProps) {
             id={`${app.capability}-title`}
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className="h-9 rounded-md border border-neutral-300 bg-white px-3 text-sm"
+            className="h-9 rounded-md border border-neutral-300 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
         <div className="flex flex-col gap-1.5">
@@ -69,7 +70,7 @@ export function AppConfigRow({ app }: AppConfigRowProps) {
             value={imageUrl}
             onChange={(event) => setImageUrl(event.target.value)}
             placeholder="https://..."
-            className="h-9 rounded-md border border-neutral-300 bg-white px-3 text-sm"
+            className="h-9 rounded-md border border-neutral-300 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
         </div>
       </div>
@@ -78,6 +79,7 @@ export function AppConfigRow({ app }: AppConfigRowProps) {
 
       <div className="flex items-center gap-3">
         <Button disabled={!dirty || pending} onClick={save}>
+          {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Opslaan
         </Button>
         {error && <p className="text-sm text-danger">{error}</p>}

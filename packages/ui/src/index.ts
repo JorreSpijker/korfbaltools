@@ -2,6 +2,8 @@ export * from "./footer";
 export * from "./korfbal-tool-bar";
 export * from "./logo";
 export * from "./admin-settings";
+export * from "./admin-nav";
 export * from "./nav-shape";
 export * from "./cn";
 export * from "./container";
+export * from "./spinner";

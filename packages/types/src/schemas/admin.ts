@@ -41,6 +41,31 @@ export const confirmPasswordResetSchema = z.object({
 
 export type ConfirmPasswordResetInput = z.infer<typeof confirmPasswordResetSchema>;
 
+// Admin creates the account; the user sets their own password via an
+// emailed invite link (same mechanism as resetPasswordSchema's "reset_link"
+// mode) rather than the admin choosing a password for them.
+export const createUserSchema = z.object({
+  email: z.string().trim().toLowerCase().email(),
+  naam: z.string().trim().min(1).optional(),
+  role: z.enum(ROLES).default("player"),
+  capabilities: z.array(z.enum(CAPABILITIES)).default([]),
+  clubId: z.string().min(1).nullable().default(null),
+});
+
+export type CreateUserInput = z.infer<typeof createUserSchema>;
+
+export const createClubSchema = z.object({
+  naam: z.string().trim().min(1, "Naam is verplicht"),
+});
+
+export type CreateClubInput = z.infer<typeof createClubSchema>;
+
+export const updateClubSchema = z.object({
+  naam: z.string().trim().min(1, "Naam is verplicht"),
+});
+
+export type UpdateClubInput = z.infer<typeof updateClubSchema>;
+
 export const updateAppConfigSchema = z.object({
   title: z.string().min(1, "Titel is verplicht"),
   imageUrl: z.string().url("Ongeldige URL").nullable(),

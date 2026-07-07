@@ -1,6 +1,6 @@
 import "server-only";
 import { prisma } from "@korfbaltools/db";
-import { CAPABILITIES, type Capability } from "@korfbaltools/types";
+import { CAPABILITIES, type Capability, type User } from "@korfbaltools/types";
 
 // Structural per-app info (route) — stays in code because it's tied to the
 // actual app deployment, unlike title/visibility which admins manage in
@@ -19,17 +19,20 @@ export interface NavApp {
   href: string;
 }
 
-// Apps for the toolbar nav: visible per admin settings *and* routed
-// somewhere. Unrouted apps still show on the homepage grid (see
-// apps/main/src/app/page.tsx), just without a nav link.
-export async function getNavApps(): Promise<NavApp[]> {
+// Apps for the toolbar nav: visible per admin settings, routed somewhere,
+// *and* only for a logged-in user who holds that capability — the nav is not
+// a discovery surface, only the homepage grid shows locked/unowned apps (see
+// apps/main/src/app/page.tsx).
+export async function getNavApps(user: User | null): Promise<NavApp[]> {
+  if (!user) return [];
+
   const appConfigs = await prisma.appConfig.findMany();
   const configByCapability = new Map(appConfigs.map((config) => [config.capability, config]));
 
   return CAPABILITIES.flatMap((capability) => {
     const config = configByCapability.get(capability);
     const href = APP_ROUTES[capability];
-    if (!href || !(config?.visible ?? true)) return [];
+    if (!href || !(config?.visible ?? true) || !user.capabilities.includes(capability)) return [];
     return [{ capability, title: config?.title ?? defaultTitle(capability), href }];
   });
 }

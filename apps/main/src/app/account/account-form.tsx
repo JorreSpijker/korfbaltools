@@ -44,27 +44,36 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
   }
 
   return (
-    <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label className="block text-sm" htmlFor="naam">
+    <form className="flex flex-col gap-4 rounded-lg border border-neutral-200 bg-white p-6" onSubmit={handleSubmit(onSubmit)}>
+      <div className="flex flex-col gap-1">
+        <label className="text-sm text-neutral-700" htmlFor="naam">
           Naam
         </label>
-        <input className="w-full rounded-md border px-3 py-2" id="naam" {...register("naam")} />
+        <input
+          className="w-full rounded-md border border-neutral-200 px-3 py-2"
+          id="naam"
+          {...register("naam")}
+        />
         {errors.naam && <p className="text-sm text-danger">{errors.naam.message}</p>}
       </div>
-      <div>
-        <label className="block text-sm" htmlFor="email">
+      <div className="flex flex-col gap-1">
+        <label className="text-sm text-neutral-700" htmlFor="email">
           E-mailadres
         </label>
-        <input className="w-full rounded-md border px-3 py-2" id="email" type="email" {...register("email")} />
+        <input
+          className="w-full rounded-md border border-neutral-200 px-3 py-2"
+          id="email"
+          type="email"
+          {...register("email")}
+        />
         {errors.email && <p className="text-sm text-danger">{errors.email.message}</p>}
       </div>
-      <div>
-        <label className="block text-sm" htmlFor="clubId">
+      <div className="flex flex-col gap-1">
+        <label className="text-sm text-neutral-700" htmlFor="clubId">
           Club
         </label>
         <select
-          className="w-full rounded-md border px-3 py-2"
+          className="w-full rounded-md border border-neutral-200 px-3 py-2"
           id="clubId"
           {...register("clubId", { setValueAs: (value: string) => (value === "" ? null : value) })}
         >
@@ -79,7 +88,11 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
       </div>
       {formError && <p className="text-sm text-danger">{formError}</p>}
       {saved && !formError && <p className="text-sm text-success">Opgeslagen</p>}
-      <button className="rounded-md bg-primary-500 px-4 py-2 text-white disabled:opacity-50" disabled={isSubmitting} type="submit">
+      <button
+        className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-50"
+        disabled={isSubmitting}
+        type="submit"
+      >
         Opslaan
       </button>
     </form>

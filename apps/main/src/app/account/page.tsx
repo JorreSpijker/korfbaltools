@@ -13,8 +13,11 @@ export default async function AccountPage() {
   });
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 px-6">
-      <h1 className="text-2xl font-semibold">Mijn gegevens</h1>
+    <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 px-6 py-12">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-xl font-semibold text-neutral-900">Mijn gegevens</h1>
+        <p className="text-sm text-neutral-600">Beheer je naam, e-mailadres en clubkoppeling.</p>
+      </div>
       <AccountForm clubs={clubs} user={user} />
     </main>
   );
