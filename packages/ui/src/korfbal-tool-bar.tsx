@@ -7,8 +7,15 @@ import { cn } from "./cn";
 import { Logo } from "./logo";
 import { NavShape } from "./nav-shape";
 
+export interface KorfbalToolBarNavApp {
+  capability: string;
+  title: string;
+  href: string;
+}
+
 export interface KorfbalToolBarProps {
   user: Pick<User, "email" | "naam" | "role"> | null;
+  apps?: KorfbalToolBarNavApp[];
   homeHref?: string;
   accountHref?: string;
   adminHref?: string;
@@ -24,6 +31,7 @@ export interface KorfbalToolBarProps {
 // (apps/main) or via the main API (apps/admin, see plan.md section 6).
 export function KorfbalToolBar({
   user,
+  apps = [],
   homeHref = "/",
   accountHref = "/account",
   loginHref = "/login",
@@ -46,7 +54,7 @@ export function KorfbalToolBar({
       <a className="group text-lg font-semibold text-white absolute left-20 flex items-start" href={homeHref}>
         <NavShape flipHorizontal />
           <div className="bg-primary-500 min-w-[50px] h-[50px] px-4 flex items-center justify-center rounded-br-lg rounded-bl-lg">
-            <Logo className="h-6 w-auto" />
+            <Logo className="h-10 w-auto" />
             <div className="flex flex-col text-xs leading-3 text-secondary max-w-0 overflow-hidden opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:max-w-[80px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:ml-2">
               <span>Korfbal</span>
               <span>Tools.nl</span>
@@ -54,6 +62,22 @@ export function KorfbalToolBar({
           </div>
         <NavShape />
       </a>
+
+      <div className="absolute top-0 left-[50vw] w-fit h-fit flex items-start">
+        <NavShape flipHorizontal />
+        <div className="bg-primary-500 h-[50px] px-2 flex items-center gap-2 justify-center rounded-br-lg rounded-bl-lg">
+          {apps.map((app) => (
+            <a
+              key={app.capability}
+              href={app.href}
+              className="bg-secondary-500 px-2 py-1 rounded text-white hover:bg-secondary-600 transition"
+            >
+              {app.title}
+            </a>
+          ))}
+        </div>
+        <NavShape />
+      </div>
 
       {user ? (
         <div className="absolute right-20 w-fit flex items-start">

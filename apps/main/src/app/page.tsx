@@ -3,6 +3,8 @@ import { ArrowRight, LayoutGrid, Lock, Users, BarChart3, UserPlus, Link2, MouseP
 import { prisma } from "@korfbaltools/db";
 import { CAPABILITIES, type Capability } from "@korfbaltools/types";
 import { getSessionUser } from "@/lib/session";
+import { APP_ROUTES, defaultTitle } from "@/lib/apps";
+import { Container } from "@korfbaltools/ui";
 
 const STEPS = [
   {
@@ -22,21 +24,12 @@ const STEPS = [
   },
 ];
 
-// Structural per-app info (route + copy) — this stays in code because it's
-// tied to the actual app deployment, unlike title/image/visibility which
-// admins manage in apps/admin (AppConfig, see packages/db schema.prisma).
-const APP_ROUTES: Partial<Record<Capability, string>> = {
-  teamplanner: "/teamplanner",
-};
-
+// Marketing copy per app — stays here since it's specific to this homepage
+// grid, unlike route/title/visibility which come from lib/apps.ts.
 const APP_DESCRIPTIONS: Partial<Record<Capability, string>> = {
   teamplanner: "Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.",
   statistieken: "Wedstrijd- en spelerstatistieken overzichtelijk bijhouden.",
 };
-
-function defaultTitle(capability: Capability): string {
-  return capability.charAt(0).toUpperCase() + capability.slice(1);
-}
 
 export default async function HomePage() {
   const [user, appConfigs] = await Promise.all([
@@ -59,8 +52,8 @@ export default async function HomePage() {
 
   return (
     <main className="flex flex-col">
-      <section className="border-b border-neutral-200 bg-neutral-50">
-        <div className="mx-auto flex max-w-4xl flex-col items-start gap-4 px-6 py-20">
+      <section className="border-b border-neutral-200 bg-white">
+        <Container>
           <h1 className="text-4xl font-semibold text-primary-600 sm:text-5xl">Korfbaltools.nl</h1>
           <p className="max-w-xl text-lg text-neutral-600">
             Eén platform met losse tools voor korfbalteams — teamindeling, statistieken en meer.
@@ -84,14 +77,15 @@ export default async function HomePage() {
               </Link>
             </div>
           )}
-        </div>
+        </Container>
       </section>
 
-      <section className="mx-auto w-full max-w-4xl px-6 py-16">
-        <h2 className="mb-6 flex items-center gap-2 text-xl font-semibold text-neutral-900">
-          <LayoutGrid className="h-5 w-5 text-primary-600" />
-          Apps
-        </h2>
+      <section className="bg-white">
+        <Container>
+          <h2 className="mb-6 flex items-center gap-2 text-xl font-semibold text-neutral-900">
+            <LayoutGrid className="h-5 w-5 text-primary-600" />
+            Apps
+          </h2>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {apps.map((app) => {
@@ -136,10 +130,11 @@ export default async function HomePage() {
             );
           })}
         </div>
+        </Container>
       </section>
 
-      <section className="border-t border-neutral-200">
-        <div className="mx-auto max-w-4xl px-6 py-16">
+      <section className="border-t border-neutral-200 bg-white">
+        <Container>
           <h2 className="text-2xl font-semibold text-neutral-900 sm:text-3xl">
             Één account, alle tools voor je club
           </h2>
@@ -149,11 +144,11 @@ export default async function HomePage() {
             of in te loggen. Vandaag is dat Teamplanner; er komen tools bij zodra ze klaar zijn, en je bestaande
             account werkt daar automatisch ook voor.
           </p>
-        </div>
+        </Container>
       </section>
 
-      <section>
-        <div className="mx-auto max-w-4xl px-6 py-16">
+      <section className="bg-white">
+        <Container>
           <h2 className="text-2xl font-semibold text-neutral-900 sm:text-3xl">Tools uitgelicht</h2>
 
           <div className="mt-8 flex flex-col gap-4 rounded-lg border border-neutral-200 p-6 sm:flex-row sm:gap-6">
@@ -173,23 +168,25 @@ export default async function HomePage() {
               </ul>
             </div>
           </div>
+          </Container>
 
-          <div className="mt-4 flex items-center gap-4 rounded-lg border border-dashed border-neutral-200 bg-neutral-50 p-6">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-neutral-100">
-              <BarChart3 className="h-6 w-6 text-neutral-500" />
-            </div>
-            <div>
-              <h3 className="font-medium text-neutral-900">Statistieken</h3>
+          <Container>
+            <div className="mt-4 flex items-center gap-4 rounded-lg border border-dashed border-neutral-200 bg-neutral-50 p-6">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-neutral-100">
+                <BarChart3 className="h-6 w-6 text-neutral-500" />
+              </div>
+              <div>
+                <h3 className="font-medium text-neutral-900">Statistieken</h3>
               <p className="mt-1 text-sm text-neutral-600">
                 Wedstrijd- en spelerstatistieken bijhouden. Nog in ontwikkeling.
               </p>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <section className="border-t border-neutral-200">
-        <div className="mx-auto max-w-4xl px-6 py-16">
+      <section className="border-t border-neutral-200 bg-white">
+        <Container>
           <h2 className="text-2xl font-semibold text-neutral-900 sm:text-3xl">Hoe het werkt</h2>
 
           <ol className="mt-8 grid gap-6 sm:grid-cols-3">
@@ -204,11 +201,11 @@ export default async function HomePage() {
               </li>
             ))}
           </ol>
-        </div>
+        </Container>
       </section>
 
-      <section className="border-t border-neutral-200">
-        <div className="mx-auto flex max-w-4xl flex-col items-start gap-4 px-6 py-16">
+      <section className="border-t border-neutral-200 bg-white">
+        <Container>
           <h2 className="text-2xl font-semibold text-neutral-900 sm:text-3xl">Gemaakt voor clubvrijwilligers</h2>
           <p className="max-w-xl text-neutral-600">
             Korfbaltools.nl is gratis te gebruiken. Het is gemaakt voor coaches, secretarissen en andere
@@ -224,7 +221,7 @@ export default async function HomePage() {
               Account aanmaken
             </Link>
           )}
-        </div>
+        </Container>
       </section>
     </main>
   );

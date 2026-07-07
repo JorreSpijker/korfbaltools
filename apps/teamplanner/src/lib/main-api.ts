@@ -1,6 +1,7 @@
 import "server-only";
 import { headers } from "next/headers";
 import type { User } from "@korfbaltools/types";
+import type { KorfbalToolBarNavApp } from "@korfbaltools/ui";
 
 // Only apps/main talks to the database/email provider directly (plan.md
 // section 10) — apps/teamplanner always goes through the main API, and
@@ -21,4 +22,13 @@ export async function getCurrentUser(): Promise<User | null> {
   if (!response.ok) return null;
   const { user } = (await response.json()) as { user: User };
   return user;
+}
+
+// Public — same info as the homepage "Apps" grid, just for the shared
+// toolbar nav (see packages/ui KorfbalToolBar).
+export async function getNavApps(): Promise<KorfbalToolBarNavApp[]> {
+  const response = await fetch(`${MAIN_APP_URL}/api/apps`, { cache: "no-store" });
+  if (!response.ok) return [];
+  const { apps } = (await response.json()) as { apps: KorfbalToolBarNavApp[] };
+  return apps;
 }

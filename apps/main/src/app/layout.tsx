@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { AdminSettings, KorfbalToolBar } from "@korfbaltools/ui";
+import { AdminSettings, KorfbalToolBar, Footer} from "@korfbaltools/ui";
 import { getSessionUser } from "@/lib/session";
+import { getNavApps } from "@/lib/apps";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -9,14 +10,15 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const user = await getSessionUser();
+  const [user, apps] = await Promise.all([getSessionUser(), getNavApps()]);
 
   return (
     <html lang="nl">
-      <body>
-        <KorfbalToolBar user={user} />
+      <body className="bg-neutral-50">
+        <KorfbalToolBar user={user} apps={apps} />
         <AdminSettings user={user} />
         {children}
+        <Footer />
       </body>
     </html>
   );
