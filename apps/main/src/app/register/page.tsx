@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -9,8 +8,8 @@ import { ArrowRight } from "lucide-react";
 import { registerSchema, type RegisterInput, type ApiErrorBody } from "@korfbaltools/types";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
   const {
     register,
     handleSubmit,
@@ -31,8 +30,25 @@ export default function RegisterPage() {
       return;
     }
 
-    router.push("/");
-    router.refresh();
+    // No auto-login anymore — login is blocked until the address is
+    // verified, so show a "check your email" screen instead of redirecting.
+    setDone(true);
+  }
+
+  if (done) {
+    return (
+      <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-4 px-6 py-12 text-center">
+        <h1 className="text-xl font-semibold text-neutral-900">Bijna klaar</h1>
+        <p className="text-sm text-neutral-600">
+          We hebben een e-mail gestuurd om je e-mailadres te bevestigen. Klik op de link in die e-mail om in te
+          loggen.
+        </p>
+        <Link href="/login" className="flex items-center justify-center gap-1 text-sm text-neutral-600 hover:text-neutral-900">
+          Naar inloggen
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </main>
+    );
   }
 
   return (
@@ -92,6 +108,18 @@ export default function RegisterPage() {
             {...register("confirmPassword")}
           />
           {errors.confirmPassword && <p className="text-sm text-danger">{errors.confirmPassword.message}</p>}
+        </div>
+        <div className="flex flex-col gap-1">
+          <label className="flex items-start gap-2 text-sm text-neutral-700" htmlFor="avgConsent">
+            <input className="mt-0.5" id="avgConsent" type="checkbox" {...register("avgConsent")} />
+            <span>
+              Ik ga akkoord met het{" "}
+              <Link href="/privacy" className="underline hover:text-neutral-900">
+                privacybeleid
+              </Link>
+            </span>
+          </label>
+          {errors.avgConsent && <p className="text-sm text-danger">{errors.avgConsent.message}</p>}
         </div>
         {formError && <p className="text-sm text-danger">{formError}</p>}
         <button

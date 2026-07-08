@@ -15,6 +15,8 @@ const MAINTENANCE_ALLOWLIST = [
   "/login",
   "/register",
   "/reset-password",
+  "/forgot-password",
+  "/verify-email",
   "/under-construction",
   "/privacy",
   "/manifest.webmanifest",

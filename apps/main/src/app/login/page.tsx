@@ -11,14 +11,19 @@ import { loginSchema, type LoginInput, type ApiErrorBody } from "@korfbaltools/t
 export default function LoginPage() {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
+  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
+  const [resendDone, setResendDone] = useState(false);
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
 
   async function onSubmit(data: LoginInput) {
     setFormError(null);
+    setUnverifiedEmail(null);
+    setResendDone(false);
     const response = await fetch("/api/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -28,11 +33,24 @@ export default function LoginPage() {
     if (!response.ok) {
       const body = (await response.json()) as ApiErrorBody;
       setFormError(body.error.message);
+      if (body.error.code === "email_not_verified") {
+        setUnverifiedEmail(data.email);
+      }
       return;
     }
 
     router.push("/");
     router.refresh();
+  }
+
+  async function resendVerification() {
+    const email = unverifiedEmail ?? getValues("email");
+    await fetch("/api/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    setResendDone(true);
   }
 
   return (
@@ -70,6 +88,20 @@ export default function LoginPage() {
           {errors.password && <p className="text-sm text-danger">{errors.password.message}</p>}
         </div>
         {formError && <p className="text-sm text-danger">{formError}</p>}
+        {unverifiedEmail && !resendDone && (
+          <button
+            type="button"
+            onClick={resendVerification}
+            className="text-left text-sm text-neutral-600 underline hover:text-neutral-900"
+          >
+            Verificatie-e-mail opnieuw versturen
+          </button>
+        )}
+        {resendDone && (
+          <p className="text-sm text-neutral-600">
+            Als dit e-mailadres nog niet bevestigd is, ontvang je een nieuwe verificatie-e-mail.
+          </p>
+        )}
         <button
           className="rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white hover:bg-primary-600 disabled:opacity-50"
           disabled={isSubmitting}
@@ -78,6 +110,13 @@ export default function LoginPage() {
           Inloggen
         </button>
       </form>
+
+      <Link
+        href="/forgot-password"
+        className="flex items-center justify-center gap-1 text-sm text-neutral-600 hover:text-neutral-900"
+      >
+        Wachtwoord vergeten?
+      </Link>
 
       <Link
         href="/register"

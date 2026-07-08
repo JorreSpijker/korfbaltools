@@ -5,6 +5,8 @@ export const API_ERROR_CODES = [
   "validation_error",
   "conflict",
   "internal_error",
+  "email_not_verified",
+  "rate_limited",
 ] as const;
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[number];
@@ -24,6 +26,8 @@ const STATUS_BY_CODE: Record<ApiErrorCode, number> = {
   validation_error: 422,
   conflict: 409,
   internal_error: 500,
+  email_not_verified: 403,
+  rate_limited: 429,
 };
 
 export function apiErrorStatus(code: ApiErrorCode): number {

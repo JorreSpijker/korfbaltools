@@ -9,3 +9,4 @@ export * from "./schemas/register";
 export * from "./schemas/login";
 export * from "./schemas/admin";
 export * from "./schemas/profile";
+export * from "./schemas/auth-flows";

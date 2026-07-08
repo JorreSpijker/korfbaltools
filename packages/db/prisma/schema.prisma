@@ -79,22 +79,25 @@ model Club {
 }
 
 model User {
-  id           String       @id @default(cuid())
-  email        String       @unique
-  naam         String?
-  passwordHash String
-  role         Role         @default(player)
-  capabilities Capability[] @default([])
-  clubId       String?
-  club         Club?        @relation(fields: [clubId], references: [id])
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id            String       @id @default(cuid())
+  email         String       @unique
+  naam          String?
+  passwordHash  String
+  role          Role         @default(player)
+  capabilities  Capability[] @default([])
+  clubId        String?
+  club          Club?        @relation(fields: [clubId], references: [id])
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   deactivatedAt DateTime?
+  emailVerifiedAt DateTime?
+  consentedAt     DateTime?
 
-  sessions           Session[]
-  passwordResetTokens PasswordResetToken[]
-  auditLogsAsActor    AuditLog[]           @relation("AuditLogActor")
-  auditLogsAsTarget   AuditLog[]           @relation("AuditLogTarget")
+  sessions                Session[]
+  passwordResetTokens     PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  auditLogsAsActor        AuditLog[]               @relation("AuditLogActor")
+  auditLogsAsTarget       AuditLog[]               @relation("AuditLogTarget")
 
   @@index([clubId])
 }
@@ -120,6 +123,31 @@ model PasswordResetToken {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+model EmailVerificationToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+// Fixed-window rate limiting, Postgres-backed instead of Redis/Upstash to
+// avoid a new external dependency (see the DB-backed-sessions rationale at
+// the top of this file — same philosophy). key is e.g. "login:ip:1.2.3.4" or
+// "login:email:foo@bar.com"; windowStart buckets requests into fixed windows.
+model RateLimitAttempt {
+  key         String
+  windowStart DateTime
+  count       Int      @default(1)
+
+  @@id([key, windowStart])
+  @@index([windowStart])
 }
 
 // One row per Capability (see enum above) — homepage (apps/main) renders the
