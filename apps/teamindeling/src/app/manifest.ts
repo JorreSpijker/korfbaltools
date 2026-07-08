@@ -1,13 +1,13 @@
 import type { MetadataRoute } from "next";
 
-// basePath ("/teamplanner", see next.config.mjs for why) isn't applied
+// basePath ("/teamindeling", see next.config.mjs for why) isn't applied
 // automatically to manifest src/start_url/scope — unlike page metadata icons.
-const BASE_PATH = "/teamplanner";
+const BASE_PATH = "/teamindeling";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Teamindeling Tool",
-    short_name: "Teamplanner",
+    short_name: "Teamindeling",
     description: "Teamindeling voor Korfbaltools.nl",
     start_url: BASE_PATH,
     scope: `${BASE_PATH}/`,

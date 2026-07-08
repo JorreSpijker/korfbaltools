@@ -7,7 +7,7 @@ product
 ## Users
 
 Twee doelgroepen op dezelfde homepage, met een verschillende taak:
-- **Bestaande gebruikers** — club-vrijwilligers (coaches, secretarissen) die al een account hebben en snel bij hun tool willen komen (zie apps/teamplanner). Voor hen blijft de homepage een gateway.
+- **Bestaande gebruikers** — club-vrijwilligers (coaches, secretarissen) die al een account hebben en snel bij hun tool willen komen (zie apps/teamindeling). Voor hen blijft de homepage een gateway.
 - **Nieuwe bezoekers** — coaches/secretarissen bij clubs die korfbaltools.nl nog niet kennen. Zij moeten vóór registratie begrijpen wat het platform is en waarom het nuttig is. Dit is de doelgroep voor de marketing-content op de homepage (acquisitie).
 
 Platform-admins (sitebeheer) en spelers/leden zijn secundaire gebruikersgroepen van dezelfde inlog, maar niet de primaire doelgroep voor de homepage-ervaring.
@@ -16,15 +16,15 @@ Platform-admins (sitebeheer) en spelers/leden zijn secundaire gebruikersgroepen 
 
 Korfbaltools.nl is de centrale "voordeur" van het platform: één account, één login, van waaruit gebruikers bij de losse tools komen (apps/*, zie docs/plan.md). Voor wie het platform al kent, toont de homepage wie je bent en geeft toegang tot inloggen of de apps waar je bij mag. Voor wie het platform nog niet kent, legt de homepage ook uit wat het is, welke tools erbij horen, hoe het werkt, en voor wie het bedoeld is — vóórdat ze registreren. Het admin-paneel erachter beheert gebruikers, rollen en app-instellingen. Succes betekent twee dingen: een bestaande gebruiker is binnen een paar seconden bij de tool die hij nodig heeft; een nieuwe bezoeker snapt binnen één scroll wat het platform is en waarom hij een account zou maken.
 
-**Status:** vroege fase, nog geen (grote) gebruikersbasis. Marketing-copy blijft eerlijk over wat er nu al werkt (Teamplanner) versus wat nog komt — geen verzonnen cijfers, testimonials of social proof.
+**Status:** vroege fase, nog geen (grote) gebruikersbasis. Marketing-copy blijft eerlijk over wat er nu al werkt (Teamindeling) versus wat nog komt — geen verzonnen cijfers, testimonials of social proof.
 
 ## Brand Personality
 
-Helder, betrouwbaar, efficiënt — zelfde persoonlijkheid als apps/teamplanner (zie apps/teamplanner/PRODUCT.md), bewust doorgetrokken zodat het platform en de tools die het host als één geheel aanvoelen. De marketing-content op de homepage overtuigt door duidelijkheid en concreetheid ("dit is wat het doet, dit is hoe het werkt"), niet door hype, superlatieven of overtuigingscopy. Zakelijk-vriendelijk: serieus genoeg voor bestuurszaken, niet kil of enterprise-grijs.
+Helder, betrouwbaar, efficiënt — zelfde persoonlijkheid als apps/teamindeling (zie apps/teamindeling/PRODUCT.md), bewust doorgetrokken zodat het platform en de tools die het host als één geheel aanvoelen. De marketing-content op de homepage overtuigt door duidelijkheid en concreetheid ("dit is wat het doet, dit is hoe het werkt"), niet door hype, superlatieven of overtuigingscopy. Zakelijk-vriendelijk: serieus genoeg voor bestuurszaken, niet kil of enterprise-grijs.
 
 ## Anti-references
 
-Korfbal-scoreboard/sport-app clichés: felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts, uitroeptekens. Ook (gedeeld met teamplanner): trendy SaaS-minimalisme als excuus voor luiheid (Notion/Linear-look zonder eigen identiteit), enterprise IT-scaffolding (SharePoint-achtige grijze formulieren-op-formulieren), en generieke SaaS-landingspagina-clichés (hero-metric blokken, gefabriceerde testimonials/logo-rijen, "vertrouwd door X clubs"-claims zonder dat het waar is).
+Korfbal-scoreboard/sport-app clichés: felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts, uitroeptekens. Ook (gedeeld met teamindeling): trendy SaaS-minimalisme als excuus voor luiheid (Notion/Linear-look zonder eigen identiteit), enterprise IT-scaffolding (SharePoint-achtige grijze formulieren-op-formulieren), en generieke SaaS-landingspagina-clichés (hero-metric blokken, gefabriceerde testimonials/logo-rijen, "vertrouwd door X clubs"-claims zonder dat het waar is).
 
 ## Design Principles
 

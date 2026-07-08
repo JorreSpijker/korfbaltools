@@ -1,7 +1,7 @@
 // Brand tokens for korfbaltools.nl (see DESIGN.md).
 // primary-500 / secondary-500 are the "main" colors — pinned to the exact
 // requested hex; other steps are a generated oklch ramp at the same hue.
-// primary hue (258°) is locked to match apps/teamplanner's own accent ramp
+// primary hue (258°) is locked to match apps/teamindeling's own accent ramp
 // (see its tailwind.config.js) so the platform shell and the tools it hosts
 // read as one visual family.
 

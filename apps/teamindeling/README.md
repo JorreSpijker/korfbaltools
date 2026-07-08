@@ -1,4 +1,4 @@
-# Teamplanner
+# Teamindeling
 
 Tool voor het indelen van korfbalspelers in teams volgens de Compeitie 2.0 richtlijnen.
 

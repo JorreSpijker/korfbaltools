@@ -27,15 +27,15 @@ const nextConfig = {
       });
     }
 
-    // Local dev: proxy /teamplanner/* to apps/teamplanner instead of the production
-    // teamplanner.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
-    const teamplannerAppUrl = process.env.TEAMPLANNER_APP_URL;
-    if (teamplannerAppUrl) {
+    // Local dev: proxy /teamindeling/* to apps/teamindeling instead of the production
+    // teamindeling.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
+    const teamindelingAppUrl = process.env.TEAMINDELING_APP_URL;
+    if (teamindelingAppUrl) {
       rewrites.push({
-        // apps/teamplanner has basePath: "/teamplanner" (see its next.config.mjs), so it
-        // already expects requests prefixed with /teamplanner — pass it through as-is.
-        source: "/teamplanner/:path*",
-        destination: `${teamplannerAppUrl}/teamplanner/:path*`,
+        // apps/teamindeling has basePath: "/teamindeling" (see its next.config.mjs), so it
+        // already expects requests prefixed with /teamindeling — pass it through as-is.
+        source: "/teamindeling/:path*",
+        destination: `${teamindelingAppUrl}/teamindeling/:path*`,
       });
     }
 

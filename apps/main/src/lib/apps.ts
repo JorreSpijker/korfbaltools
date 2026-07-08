@@ -6,7 +6,7 @@ import { CAPABILITIES, type Capability, type User } from "@korfbaltools/types";
 // actual app deployment, unlike title/visibility which admins manage in
 // apps/admin (AppConfig, see packages/db schema.prisma).
 export const APP_ROUTES: Partial<Record<Capability, string>> = {
-  teamplanner: "/teamplanner",
+  teamindeling: "/teamindeling",
 };
 
 export function defaultTitle(capability: Capability): string {

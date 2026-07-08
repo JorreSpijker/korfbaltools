@@ -2,11 +2,11 @@ import path from "node:path";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Required for the multi-zone setup (apps/main rewrites /teamplanner/* here):
+  // Required for the multi-zone setup (apps/main rewrites /teamindeling/* here):
   // without a basePath, this app's own /_next/static/* asset URLs collide
   // with apps/main's, and the browser loads the wrong app's JS chunks.
   // https://nextjs.org/docs/app/guides/multi-zones
-  basePath: "/teamplanner",
+  basePath: "/teamindeling",
   outputFileTracingRoot: path.join(import.meta.dirname, "../.."),
   transpilePackages: ["@korfbaltools/types", "@korfbaltools/config", "@korfbaltools/ui"],
 };

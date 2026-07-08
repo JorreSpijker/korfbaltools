@@ -226,7 +226,7 @@ Gedefinieerd in `packages/types` en gedeeld door alle apps.
   * referee
 * clubId (optioneel — verwijst naar Club, zie hieronder)
 * capabilities
-  * teamplanner
+  * teamindeling
   * statistieken
 * passwordHash (indien credentials-login; nooit het plaintext wachtwoord opslaan of tonen)
 

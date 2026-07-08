@@ -9,12 +9,12 @@
       "destination": "https://korfbaltools-admin.vercel.app/admin/:path+"
     },
     {
-      "source": "/teamplanner",
-      "destination": "https://korfbaltools-teamplanner.vercel.app/teamplanner"
+      "source": "/teamindeling",
+      "destination": "https://korfbaltools-teamindeling.vercel.app/teamindeling"
     },
     {
-      "source": "/teamplanner/:path+",
-      "destination": "https://korfbaltools-teamplanner.vercel.app/teamplanner/:path+"
+      "source": "/teamindeling/:path+",
+      "destination": "https://korfbaltools-teamindeling.vercel.app/teamindeling/:path+"
     }
   ]
 }

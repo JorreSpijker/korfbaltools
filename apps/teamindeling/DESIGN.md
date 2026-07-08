@@ -1,11 +1,11 @@
 <!-- SEED: re-run /impeccable document once there's code to capture the actual tokens and components. -->
 
 ---
-name: Teamplanner
+name: Teamindeling
 description: A precise, club-agnostic team planning tool for Dutch korfball clubs.
 ---
 
-# Design System: Teamplanner
+# Design System: Teamindeling
 
 ## 1. Overview
 

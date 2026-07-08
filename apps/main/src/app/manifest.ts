@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Korfbaltools.nl",
-    short_name: "Korfbaltools",
+    name: "KorfbalTools.nl",
+    short_name: "KorfbalTools",
     description: "Tools voor korfbalclubs",
     start_url: "/",
     display: "standalone",

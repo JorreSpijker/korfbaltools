@@ -1,6 +1,6 @@
 import type { PlannerState } from "@/types";
 
-const KEY = "teamplanner_state";
+const KEY = "teamindeling_state";
 
 export function loadState(): PlannerState {
   try {

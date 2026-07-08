@@ -105,7 +105,7 @@ components:
 
 **Creative North Star: "De Voordeur" (The Front Door)**
 
-Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamplanner today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (`NavShape`) cut into the nav bar, footer and admin toggle — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows.
+Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamindeling today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (`NavShape`) cut into the nav bar, footer and admin toggle — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows.
 
 This system explicitly rejects felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts and uitroeptekens — the korfbal-scoreboard-app cliché PRODUCT.md names directly. It equally rejects generic SaaS landing-page scaffolding: no hero-metric blocks, no fabricated testimonials or "vertrouwd door X clubs" logo rows, no Notion/Linear-style trendy minimalism standing in for a real identity, and no enterprise-grey forms-on-forms scaffolding. The platform is honest about its early stage — one working tool, more coming — and the interface says so in plain Dutch rather than dressing up an empty roadmap.
 
@@ -125,7 +125,7 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 - **Vaandelmarine Border** (`oklch(0.75 0.038 258)`): hover-state border color for app cards — the only mid-tone step in active use.
 - **Vaandelmarine Panel** (`oklch(0.55 0.045 258)`): background for the account/mobile dropdown menu panel — a lighter step than the bar itself, so the open menu reads as a distinct surface above it.
 - **Vaandelmarine Hover** (`oklch(0.19 0.042 258)`): button hover/pressed fill, and doubles as the heading color (`text-primary-600`) on the homepage hero and section icons.
-- **Vaandelmarine Deep** (`oklch(0.15 0.036 258)`): icon fill inside the "Teamplanner" feature callout.
+- **Vaandelmarine Deep** (`oklch(0.15 0.036 258)`): icon fill inside the "Teamindeling" feature callout.
 - **Vaandelmarine Pressed** (`oklch(0.11 0.028 258)`): hover fill for the floating admin-panel toggle.
 
 ### Secondary
@@ -146,7 +146,7 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 ### Named Rules
 **The One Accent Rule.** Signaaloranje appears only on elements that trigger an action (register CTA, app-launch pills). It never appears as a background tint, a heading color, or body decoration. If orange shows up anywhere passive, that's a bug, not a style choice.
 
-**The Shared-Family Rule.** Vaandelmarine's hue (258°) is locked to match `apps/teamplanner`'s own `accent` color family (see its `tailwind.config.ts`), so the platform shell and the tool it hosts read as one visual family, not two projects sharing a login screen. Any new app added to the platform inherits this same navy, not a new brand color.
+**The Shared-Family Rule.** Vaandelmarine's hue (258°) is locked to match `apps/teamindeling`'s own `accent` color family (see its `tailwind.config.ts`), so the platform shell and the tool it hosts read as one visual family, not two projects sharing a login screen. Any new app added to the platform inherits this same navy, not a new brand color.
 
 ## 3. Typography
 

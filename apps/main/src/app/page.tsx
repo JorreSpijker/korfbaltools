@@ -46,7 +46,7 @@ const STEPS = [
 // Marketing copy per app — stays here since it's specific to this homepage
 // grid, unlike route/title/visibility which come from lib/apps.ts.
 const APP_DESCRIPTIONS: Partial<Record<Capability, string>> = {
-  teamplanner: "Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.",
+  teamindeling: "Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.",
   statistieken: "Wedstrijd- en spelerstatistieken overzichtelijk bijhouden.",
 };
 
@@ -187,7 +187,7 @@ export default async function HomePage() {
               <p className="max-w-xl text-pretty text-neutral-600">
                 Korfbaltools.nl bundelt losse tools voor korfbalclubs onder één login. Je maakt één keer een account,
                 en gebruikt van daaruit elke tool die je club nodig heeft — zonder voor elke tool apart te
-                registreren of in te loggen. Vandaag is dat Teamplanner; er komen tools bij zodra ze klaar zijn, en
+                registreren of in te loggen. Vandaag is dat Teamindeling; er komen tools bij zodra ze klaar zijn, en
                 je bestaande account werkt daar automatisch ook voor.
               </p>
             </div>
@@ -207,7 +207,7 @@ export default async function HomePage() {
             <div>
               <div className="mb-2 flex items-center gap-2">
                 <Users className="h-5 w-5 text-primary-700" />
-                <h3 className="font-medium text-neutral-900">Teamplanner</h3>
+                <h3 className="font-medium text-neutral-900">Teamindeling</h3>
               </div>
               <p className="text-sm text-neutral-600">
                 Stel teamindelingen samen voor training en wedstrijden, zonder gedoe met spreadsheets.
@@ -272,7 +272,7 @@ export default async function HomePage() {
           <p className="max-w-xl text-pretty text-neutral-600">
             Korfbaltools.nl is gratis te gebruiken. Het is gemaakt voor coaches, secretarissen en andere
             vrijwilligers bij korfbalclubs — mensen die naast hun vrijwilligerswerk niet ook nog tijd willen
-            steken in ingewikkelde software. Het platform is nog in een vroege fase: Teamplanner werkt vandaag,
+            steken in ingewikkelde software. Het platform is nog in een vroege fase: Teamindeling werkt vandaag,
             en nieuwe tools komen erbij zodra ze klaar zijn.
           </p>
           {!user && (

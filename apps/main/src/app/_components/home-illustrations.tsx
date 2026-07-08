@@ -63,7 +63,7 @@ export function OneAccountIllustration({ className }: { className?: string }) {
   );
 }
 
-// Teamplanner: two loose clusters of players being split into teams.
+// Teamindeling: two loose clusters of players being split into teams.
 export function TeamFormationIllustration({ className }: { className?: string }) {
   const teamA = [
     [70, 90],

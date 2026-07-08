@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Footer />
         <CookieConsent />
         <InstallPrompt />
-        <ServiceWorkerRegister swUrl="/teamplanner/sw.js" />
+        <ServiceWorkerRegister swUrl="/teamindeling/sw.js" />
       </body>
     </html>
   );

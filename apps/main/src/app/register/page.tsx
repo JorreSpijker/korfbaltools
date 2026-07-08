@@ -40,7 +40,7 @@ export default function RegisterPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-xl font-semibold text-neutral-900">Account aanmaken</h1>
         <p className="text-sm text-neutral-600">
-          Eén account geeft toegang tot alle tools op het platform — vandaag Teamplanner, en meer zodra ze klaar
+          Eén account geeft toegang tot alle tools op het platform — vandaag Teamindeling, en meer zodra ze klaar
           zijn. Gratis, alleen een e-mailadres en wachtwoord nodig. Je koppelt je club later vanaf je
           accountpagina.
         </p>

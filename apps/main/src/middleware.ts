@@ -51,7 +51,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Fetched at most once per request, shared by the maintenance bypass check
-  // and the /admin, /teamplanner gating below.
+  // and the /admin, /teamindeling gating below.
   let user: User | null | undefined;
   const getUser = async () => {
     if (user === undefined) user = await fetchCurrentUser(request);
@@ -81,7 +81,7 @@ export async function middleware(request: NextRequest) {
   // Gateway check from plan.md section 4: only pass the /admin rewrite through
   // if the caller is an admin. This is defense in depth — apps/admin re-checks
   // the role itself on every page/API call, it doesn't trust this middleware.
-  if (pathname.startsWith("/admin") || pathname.startsWith("/teamplanner")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/teamindeling")) {
     const currentUser = await getUser();
     if (!currentUser) {
       return NextResponse.redirect(new URL("/login", request.url));
@@ -92,7 +92,7 @@ export async function middleware(request: NextRequest) {
     }
 
     // Tool apps are gated per-user via capabilities (plan.md section 7/9), not role.
-    if (pathname.startsWith("/teamplanner") && !currentUser.capabilities.includes("teamplanner")) {
+    if (pathname.startsWith("/teamindeling") && !currentUser.capabilities.includes("teamindeling")) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

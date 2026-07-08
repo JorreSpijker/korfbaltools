@@ -113,7 +113,7 @@
       "kind": "card",
       "refersTo": "card-app",
       "description": "Homepage apps-grid tile. Flat at rest and on hover — hover reads only through a border-color shift, per the Flat-By-Default Rule.",
-      "html": "<a class=\"ds-app-card\" href=\"#\"><div class=\"ds-app-card-row\"><div class=\"ds-app-card-icon\"></div><span class=\"ds-app-card-title\">Teamplanner</span></div><p class=\"ds-app-card-desc\">Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.</p></a>",
+      "html": "<a class=\"ds-app-card\" href=\"#\"><div class=\"ds-app-card-row\"><div class=\"ds-app-card-icon\"></div><span class=\"ds-app-card-title\">Teamindeling</span></div><p class=\"ds-app-card-desc\">Stel snel en eerlijk teamindelingen samen voor training en wedstrijden.</p></a>",
       "css": ".ds-app-card { display: block; border-radius: 0.75rem; border: 1px solid #e5e5e5; background: #ffffff; padding: 20px; text-decoration: none; transition: border-color 150ms ease; } .ds-app-card:hover { border-color: oklch(0.75 0.038 258); } .ds-app-card-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; } .ds-app-card-icon { width: 40px; height: 40px; border-radius: 0.5rem; background: oklch(0.93 0.018 258); } .ds-app-card-title { font-weight: 500; color: #171717; } .ds-app-card-desc { font-size: 0.875rem; color: #525252; margin: 0; }"
     },
     {
@@ -129,7 +129,7 @@
       "kind": "chip",
       "refersTo": "badge-default",
       "description": "Role/capability chip in the admin users table — the only fully pill-shaped element besides the nav pills.",
-      "html": "<span class=\"ds-badge\">teamplanner</span>",
+      "html": "<span class=\"ds-badge\">teamindeling</span>",
       "css": ".ds-badge { display: inline-flex; align-items: center; border-radius: 9999px; padding: 2px 10px; font-size: 0.75rem; font-weight: 500; background: oklch(0.93 0.018 258); color: oklch(0.15 0.036 258); }"
     },
     {
@@ -151,7 +151,7 @@
   ],
   "narrative": {
     "northStar": "De Voordeur",
-    "overview": "Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamplanner today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (NavShape) cut into the nav bar, footer and admin toggle — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows. This system explicitly rejects felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts and uitroeptekens — the korfbal-scoreboard-app cliché PRODUCT.md names directly. It equally rejects generic SaaS landing-page scaffolding: no hero-metric blocks, no fabricated testimonials or 'vertrouwd door X clubs' logo rows, no Notion/Linear-style trendy minimalism standing in for a real identity, and no enterprise-grey forms-on-forms scaffolding.",
+    "overview": "Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamindeling today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (NavShape) cut into the nav bar, footer and admin toggle — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows. This system explicitly rejects felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts and uitroeptekens — the korfbal-scoreboard-app cliché PRODUCT.md names directly. It equally rejects generic SaaS landing-page scaffolding: no hero-metric blocks, no fabricated testimonials or 'vertrouwd door X clubs' logo rows, no Notion/Linear-style trendy minimalism standing in for a real identity, and no enterprise-grey forms-on-forms scaffolding.",
     "keyCharacteristics": [
       "Flat in-flow surfaces — depth comes from borders and neutral tints, not elevation. The one shadow in the system is reserved for the overlay layer (dialogs, popovers, dropdowns).",
       "One signature shape (the pennant corner) repeated, never new decorative motifs invented per screen.",
@@ -160,7 +160,7 @@
     ],
     "rules": [
       { "name": "The One Accent Rule", "body": "Signaaloranje appears only on elements that trigger an action (register CTA, app-launch pills). It never appears as a background tint, a heading color, or body decoration.", "section": "colors" },
-      { "name": "The Shared-Family Rule", "body": "Vaandelmarine's hue (258°) is locked to match apps/teamplanner's own accent color family, so the platform shell and the tool it hosts read as one visual family. Any new app added to the platform inherits this same navy, not a new brand color.", "section": "colors" },
+      { "name": "The Shared-Family Rule", "body": "Vaandelmarine's hue (258°) is locked to match apps/teamindeling's own accent color family, so the platform shell and the tool it hosts read as one visual family. Any new app added to the platform inherits this same navy, not a new brand color.", "section": "colors" },
       { "name": "The No-Eyebrow Rule", "body": "No small-caps tracked labels above headings anywhere in the system. Section headings stand alone; hierarchy comes from size and weight, not a kicker line.", "section": "typography" },
       { "name": "The Flat-By-Default Rule", "body": "If it stays in the document flow, it has no shadow, including on hover. Shadows are reserved for the one tier of surfaces that leave the flow: dialogs, popovers, selects, dropdown menus.", "section": "elevation" }
     ],

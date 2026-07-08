@@ -83,7 +83,7 @@ importers:
         version: 10.5.2(postcss@8.5.16)
       eslint:
         specifier: ^9.17.0
-        version: 9.39.4(jiti@1.21.7)
+        version: 9.39.4(jiti@2.7.0)
       postcss:
         specifier: ^8.4.49
         version: 8.5.16
@@ -162,7 +162,7 @@ importers:
         version: 10.5.2(postcss@8.5.16)
       eslint:
         specifier: ^9.17.0
-        version: 9.39.4(jiti@2.7.0)
+        version: 9.39.4(jiti@1.21.7)
       postcss:
         specifier: ^8.4.49
         version: 8.5.16
@@ -173,7 +173,7 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
-  apps/teamplanner:
+  apps/teamindeling:
     dependencies:
       '@dnd-kit/core':
         specifier: ^6.3.1

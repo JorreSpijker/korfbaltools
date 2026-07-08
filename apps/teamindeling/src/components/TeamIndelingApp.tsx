@@ -24,7 +24,7 @@ import { exportDocx } from "@/utils/exportDocx";
 import { exportXlsx } from "@/utils/exportXlsx";
 import type { PlannerState, Player, TeamType } from "@/types";
 
-export default function TeamPlannerApp() {
+export default function TeamIndelingApp() {
   const [state, setState] = useState<PlannerState>(() => ({ players: [], teams: [] }));
   const [activePlayer, setActivePlayer] = useState<Player | null>(null);
   const [showAddTeam, setShowAddTeam] = useState(false);

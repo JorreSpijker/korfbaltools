@@ -1,8 +1,8 @@
 # Vercel Deployment — Step by Step
 
-Companion to [setup-checklist.md](./setup-checklist.md) section 5, updated for the 3 current apps (`main`, `admin`, `teamplanner`) and gaps found in the repo as of this writing (no teamplanner rewrite in prod `vercel.json`, no `prisma migrate deploy` step wired anywhere).
+Companion to [setup-checklist.md](./setup-checklist.md) section 5, updated for the 3 current apps (`main`, `admin`, `teamindeling`) and gaps found in the repo as of this writing (no teamindeling rewrite in prod `vercel.json`, no `prisma migrate deploy` step wired anywhere).
 
-Do main first (owns the DB), then admin, then teamplanner.
+Do main first (owns the DB), then admin, then teamindeling.
 
 ---
 
@@ -25,7 +25,7 @@ Do main first (owns the DB), then admin, then teamplanner.
   - `DIRECT_URL`
   - `RESEND_API_KEY`
   - `NEXT_PUBLIC_APP_URL` = `https://korfbaltools.nl` (production)
-  - leave `ADMIN_APP_URL` / `TEAMPLANNER_APP_URL` unset in production — those are dev-only overrides (see [apps/main/next.config.mjs](../apps/main/next.config.mjs)); prod routing goes through `vercel.json` rewrites instead
+  - leave `ADMIN_APP_URL` / `TEAMINDELING_APP_URL` unset in production — those are dev-only overrides (see [apps/main/next.config.mjs](../apps/main/next.config.mjs)); prod routing goes through `vercel.json` rewrites instead
 - [ ] Settings → Git → Ignored Build Step:
   ```
   npx turbo-ignore
@@ -56,12 +56,12 @@ DATABASE_URL="<prod-url>" DIRECT_URL="<prod-direct-url>" \
 
 ---
 
-## 4. Vercel project: teamplanner
+## 4. Vercel project: teamindeling
 
 Not yet covered by [setup-checklist.md](./setup-checklist.md) — that doc predates this app.
 
 - [ ] Add New → Project → same repo, new project
-- [ ] **Root Directory**: `apps/teamplanner`
+- [ ] **Root Directory**: `apps/teamindeling`
 - [ ] Framework preset: Vite (auto-detected)
 - [ ] Ignored Build Step: `npx turbo-ignore`
 - [ ] Deploy, note the assigned domain
@@ -70,14 +70,14 @@ Not yet covered by [setup-checklist.md](./setup-checklist.md) — that doc preda
 
 ## 5. Wire rewrites in main (gap: currently missing)
 
-[apps/main/vercel.json](../apps/main/vercel.json) only rewrites `/admin/*` today. Add teamplanner using the real domains from steps 3–4:
+[apps/main/vercel.json](../apps/main/vercel.json) only rewrites `/admin/*` today. Add teamindeling using the real domains from steps 3–4:
 
 ```json
 {
   "rewrites": [
     { "source": "/admin/:path*", "destination": "https://<admin-domain>/admin/:path*" },
-    { "source": "/teamplanner", "destination": "https://<teamplanner-domain>/teamplanner/" },
-    { "source": "/teamplanner/:path+", "destination": "https://<teamplanner-domain>/teamplanner/:path+" }
+    { "source": "/teamindeling", "destination": "https://<teamindeling-domain>/teamindeling/" },
+    { "source": "/teamindeling/:path+", "destination": "https://<teamindeling-domain>/teamindeling/:path+" }
   ]
 }
 ```
@@ -90,5 +90,5 @@ Commit + push → main redeploys automatically.
 
 - [ ] `korfbaltools.nl` loads main
 - [ ] `korfbaltools.nl/admin` proxies to the admin project (admin role only)
-- [ ] `korfbaltools.nl/teamplanner` proxies to the teamplanner project
+- [ ] `korfbaltools.nl/teamindeling` proxies to the teamindeling project
 - [ ] Preview deployments work by opening a PR (Vercel auto-creates one per project)
