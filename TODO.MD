@@ -5,12 +5,18 @@
 [X] Homepage designen en typen
 [X] impeccable design.md laten maken
 [X] Apps als menu toevoegen.
+[X] Google Analytics & Cookie meldin toevoegen
+[] PWA
+  [] manifest.json per app (name, icons, theme_color, display: standalone)
+  [] Service worker (offline caching, precache shell)
+  [] App-icons (192/512, maskable) + apple-touch-icon
+  [] Install-prompt UX (beforeinstallprompt afhandelen)
+  [] Lighthouse PWA-audit draaien
 
 ## Prio 2
 [X] Gebruikers instellingen
 [X] Adminpaneel
 [X] Favicon
-[] Sticky footer component met versie
 
 ## Prio 3 — Auth
 [] Wachtwoord-vergeten flow (zelfbediening, zonder admin)
@@ -25,9 +31,11 @@
 [] Engels label "Under construction" vertalen naar NL (maintenance-mode-toggle.tsx)
 
 ## Prio 3 — Product
-[] Statistieken-app bouwen (of capability weghalen tot gebouwd)
 [] Teamplanner server-opslag (nu alleen localStorage, geen multi-device/delen)
+[] Speelgerechtigheid app maken
+[] Scoreformulier app maken
+[] Toernooi app maken
 
 ## Prio 3 — Kwaliteit
 [] A11y form-fixes: aria-invalid/aria-describedby/role=alert op login/register/reset/admin-forms
-[] Testinfra opzetten (geen vitest/jest/playwright in repo)
+[] Sticky footer component met versie

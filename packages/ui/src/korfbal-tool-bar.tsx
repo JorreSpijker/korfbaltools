@@ -45,7 +45,7 @@ export function KorfbalToolBar({
   }
 
   return (
-    <nav className={cn("border-t-4 border-primary-500 sticky top-0 z-40", className)}>
+    <nav className={cn("border-t-8 border-primary-500 sticky top-0 z-40", className)}>
       <div className="absolute top-0 left-0 w-full h-fit flex justify-between">
         <NavShape />
         <NavShape flipHorizontal />

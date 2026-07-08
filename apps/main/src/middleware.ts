@@ -3,11 +3,28 @@ import type { User } from "@korfbaltools/types";
 
 // Reachable even while maintenanceMode is on: /register per product
 // requirement (registration stays open), /login and /reset-password so
-// nobody gets locked out of authenticating, and /under-construction itself
-// so the rewrite target doesn't recurse. Admins bypass maintenance mode
-// everywhere else too (checked per-request below via /api/me) — not just
-// on /admin — so they can use the site normally while it's on.
-const MAINTENANCE_ALLOWLIST = ["/login", "/register", "/reset-password", "/under-construction"];
+// nobody gets locked out of authenticating, /under-construction itself
+// so the rewrite target doesn't recurse, and /privacy since the cookie
+// consent banner links there and it must stay reachable regardless of
+// maintenance state. Admins bypass maintenance mode everywhere else too
+// (checked per-request below via /api/me) — not just on /admin — so they
+// can use the site normally while it's on.
+// PWA assets (manifest, icons, service worker, offline fallback) also stay
+// reachable so an already-installed PWA doesn't break during maintenance.
+const MAINTENANCE_ALLOWLIST = [
+  "/login",
+  "/register",
+  "/reset-password",
+  "/under-construction",
+  "/privacy",
+  "/manifest.webmanifest",
+  "/sw.js",
+  "/offline",
+  "/icon-192.png",
+  "/icon-512.png",
+  "/icon-512-maskable.png",
+  "/apple-icon",
+];
 
 function isMaintenanceAllowlisted(pathname: string): boolean {
   if (pathname.startsWith("/admin")) return true;
