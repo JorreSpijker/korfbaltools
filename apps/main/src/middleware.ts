@@ -83,7 +83,7 @@ export async function middleware(request: NextRequest) {
   // Gateway check from plan.md section 4: only pass the /admin rewrite through
   // if the caller is an admin. This is defense in depth — apps/admin re-checks
   // the role itself on every page/API call, it doesn't trust this middleware.
-  if (pathname.startsWith("/admin") || pathname.startsWith("/teamindeling")) {
+  if (pathname.startsWith("/admin") || pathname.startsWith("/teamindeling") || pathname.startsWith("/vastspelen")) {
     const currentUser = await getUser();
     if (!currentUser) {
       return NextResponse.redirect(new URL("/login", request.url));
@@ -95,6 +95,16 @@ export async function middleware(request: NextRequest) {
 
     // Tool apps are gated per-user via capabilities (plan.md section 7/9), not role.
     if (pathname.startsWith("/teamindeling") && !currentUser.capabilities.includes("teamindeling")) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    // Admins always have vastspelen access, capability or not (see
+    // requireVastspelen in lib/require-user.ts for the same rule on the API side).
+    if (
+      pathname.startsWith("/vastspelen") &&
+      currentUser.role !== "admin" &&
+      !currentUser.capabilities.includes("vastspelen")
+    ) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

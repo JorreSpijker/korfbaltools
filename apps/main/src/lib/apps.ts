@@ -7,6 +7,7 @@ import { CAPABILITIES, type Capability, type User } from "@korfbaltools/types";
 // apps/admin (AppConfig, see packages/db schema.prisma).
 export const APP_ROUTES: Partial<Record<Capability, string>> = {
   teamindeling: "/teamindeling",
+  vastspelen: "/vastspelen",
 };
 
 export function defaultTitle(capability: Capability): string {
@@ -29,10 +30,15 @@ export async function getNavApps(user: User | null): Promise<NavApp[]> {
   const appConfigs = await prisma.appConfig.findMany();
   const configByCapability = new Map(appConfigs.map((config) => [config.capability, config]));
 
+  // Admins always have vastspelen access, capability or not (see
+  // requireVastspelen in lib/require-user.ts) — the nav pill should reflect that.
+  const hasCapability = (capability: Capability) =>
+    user.capabilities.includes(capability) || (capability === "vastspelen" && user.role === "admin");
+
   return CAPABILITIES.flatMap((capability) => {
     const config = configByCapability.get(capability);
     const href = APP_ROUTES[capability];
-    if (!href || !(config?.visible ?? true) || !user.capabilities.includes(capability)) return [];
+    if (!href || !(config?.visible ?? true) || !hasCapability(capability)) return [];
     return [{ capability, title: config?.title ?? defaultTitle(capability), href }];
   });
 }

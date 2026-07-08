@@ -127,7 +127,14 @@ export default async function HomePage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             {apps.map((app) => {
-              const hasAccess = app.href !== null && (user?.capabilities.includes(app.capability) ?? true);
+              // Admins always have vastspelen access, capability or not (see
+              // requireVastspelen in lib/require-user.ts) — the tile shouldn't show "Binnenkort".
+              const hasAccess =
+                app.href !== null &&
+                (user
+                  ? user.capabilities.includes(app.capability) ||
+                    (app.capability === "vastspelen" && user.role === "admin")
+                  : true);
               const content = (
                 <>
                   <div className="flex items-center gap-3">

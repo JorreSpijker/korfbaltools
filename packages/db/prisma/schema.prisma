@@ -25,6 +25,12 @@ enum Role {
 enum Capability {
   teamindeling
   statistieken
+  vastspelen
+}
+
+enum Seizoensdeel {
+  veld
+  zaal
 }
 
 enum AuditAction {
@@ -75,7 +81,8 @@ model Club {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users User[]
+  users           User[]
+  vastspelenTeams VastspelenTeam[]
 }
 
 model User {
@@ -186,4 +193,97 @@ model AuditLog {
 
   @@index([actorId])
   @@index([targetUserId])
+}
+
+// --- Vastspelen-tool (A-categorie, 1e/2e team) — see docs/apps/vastspelen-plan.md ---
+// Models are prefixed "Vastspelen" since this schema is shared across every
+// tool app; only apps/main reads/writes these (docs/plan.md section 5/14).
+
+model VastspelenTeam {
+  id        String   @id @default(cuid())
+  clubId    String
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  niveau    Int // 1 of 2
+  categorie String   @default("A")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  spelers          VastspelenPlayer[]
+  fixtures         VastspelenFixture[]
+  invalAppearances VastspelenAppearance[] @relation("AppearanceGespeeldInTeam")
+
+  @@unique([clubId, niveau, categorie])
+  @@index([clubId])
+}
+
+model VastspelenPlayer {
+  id            String   @id @default(cuid())
+  naam          String
+  geboortedatum DateTime
+  teamId        String
+  team          VastspelenTeam @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  appearances VastspelenAppearance[]
+
+  @@index([teamId])
+}
+
+// One row per seizoensdeel (veld/zaal instantie, bv. "Veld 2026") — de
+// laatste-3-wedstrijden- en driekwart-competitie-regels tellen altijd binnen
+// zo'n periode, nooit seizoensdeel-overstijgend (zie plan sectie "Uitgangspunten").
+model VastspelenSeasonPeriod {
+  id                String       @id @default(cuid())
+  naam              String
+  seizoensdeel      Seizoensdeel
+  start             DateTime
+  eind              DateTime
+  totaalWedstrijden Int
+
+  fixtures VastspelenFixture[]
+
+  @@index([seizoensdeel])
+}
+
+model VastspelenFixture {
+  id             String   @id @default(cuid())
+  // Voor idempotente Programma-API-sync (zie plan) — nullable zolang
+  // wedstrijden ook handmatig aangemaakt kunnen worden.
+  externalId     String?  @unique
+  teamId         String
+  team           VastspelenTeam         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  seasonPeriodId String
+  seasonPeriod   VastspelenSeasonPeriod @relation(fields: [seasonPeriodId], references: [id], onDelete: Cascade)
+  tegenstander   String
+  datum          DateTime
+  poule          String?
+  speelweek      Int
+  wedstrijdduur  Int      @default(60) // minuten
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  appearances VastspelenAppearance[]
+
+  @@index([teamId])
+  @@index([seasonPeriodId])
+}
+
+model VastspelenAppearance {
+  id     String @id @default(cuid())
+  fixtureId String
+  fixture   VastspelenFixture @relation(fields: [fixtureId], references: [id], onDelete: Cascade)
+  playerId  String
+  player    VastspelenPlayer  @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  // Team waarin dit daadwerkelijk gespeeld is — kan afwijken van player.teamId
+  // bij een invalbeurt (zie plan: max. 2 invallers per wedstrijd vanuit lager team).
+  gespeeldInTeamId String
+  gespeeldInTeam   VastspelenTeam @relation("AppearanceGespeeldInTeam", fields: [gespeeldInTeamId], references: [id])
+  minuten          Int
+  createdAt        DateTime @default(now())
+
+  @@unique([fixtureId, playerId])
+  @@index([fixtureId])
+  @@index([playerId])
+  @@index([gespeeldInTeamId])
 }
