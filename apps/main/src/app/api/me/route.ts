@@ -33,16 +33,41 @@ export async function PATCH(request: NextRequest) {
     }
   }
 
-  if (clubId) {
-    const club = await prisma.club.findUnique({ where: { id: clubId } });
-    if (!club) {
-      return errorResponse("not_found", "Club niet gevonden");
+  // Leaving a club (clubId: null) takes effect immediately — no approval
+  // needed to remove yourself. Joining a *different* club goes through
+  // pendingClubId instead, reviewed by an admin/beheerder (see
+  // /api/admin/club-requests) rather than being applied directly.
+  let newClubId: string | null | undefined;
+  let newPendingClubId: string | undefined;
+
+  if (clubId !== undefined) {
+    if (clubId === null) {
+      newClubId = null;
+    } else if (clubId !== result.user.clubId) {
+      const club = await prisma.club.findUnique({ where: { id: clubId } });
+      if (!club) {
+        return errorResponse("not_found", "Club niet gevonden");
+      }
+      newPendingClubId = clubId;
     }
   }
 
-  const user = await prisma.user.update({
-    where: { id: result.user.id },
-    data: { email, naam: naam ?? null, ...(clubId !== undefined ? { clubId } : {}) },
+  const user = await prisma.$transaction(async (tx) => {
+    const updated = await tx.user.update({
+      where: { id: result.user.id },
+      data: {
+        email,
+        naam: naam ?? null,
+        ...(newClubId !== undefined ? { clubId: newClubId } : {}),
+        ...(newPendingClubId !== undefined ? { pendingClubId: newPendingClubId } : {}),
+      },
+    });
+    if (newPendingClubId !== undefined) {
+      await tx.auditLog.create({
+        data: { actorId: result.user.id, action: "club_join_requested", metadata: { clubId: newPendingClubId } },
+      });
+    }
+    return updated;
   });
 
   return NextResponse.json({ user: toPublicUser(user) });

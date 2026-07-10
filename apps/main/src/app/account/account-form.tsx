@@ -15,6 +15,7 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
   const {
     register,
     handleSubmit,
@@ -23,6 +24,10 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
     resolver: zodResolver(updateProfileSchema),
     defaultValues: { naam: user.naam ?? "", email: user.email, clubId: user.clubId ?? "" },
   });
+
+  const pendingClubNaam = user.pendingClubId
+    ? (clubs.find((club) => club.id === user.pendingClubId)?.naam ?? "onbekende club")
+    : null;
 
   async function onSubmit(data: UpdateProfileInput) {
     setFormError(null);
@@ -40,6 +45,19 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
     }
 
     setSaved(true);
+    router.refresh();
+  }
+
+  async function cancelClubRequest() {
+    setCancelling(true);
+    setFormError(null);
+    const response = await fetch("/api/me/pending-club", { method: "DELETE" });
+    setCancelling(false);
+    if (!response.ok) {
+      const body = (await response.json()) as ApiErrorBody;
+      setFormError(body.error.message);
+      return;
+    }
     router.refresh();
   }
 
@@ -75,6 +93,7 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
         <select
           className="w-full rounded-md border border-neutral-200 px-3 py-2"
           id="clubId"
+          disabled={!!pendingClubNaam}
           {...register("clubId", { setValueAs: (value: string) => (value === "" ? null : value) })}
         >
           <option value="">Geen club</option>
@@ -85,6 +104,19 @@ export function AccountForm({ user, clubs }: AccountFormProps) {
           ))}
         </select>
         {errors.clubId && <p className="text-sm text-danger">{errors.clubId.message}</p>}
+        {pendingClubNaam && (
+          <div className="flex items-center justify-between rounded-md bg-neutral-50 px-3 py-2 text-sm text-neutral-700">
+            <span>Aanvraag voor {pendingClubNaam} in behandeling</span>
+            <button
+              type="button"
+              className="text-sm text-primary-600 underline disabled:opacity-50"
+              disabled={cancelling}
+              onClick={cancelClubRequest}
+            >
+              Annuleren
+            </button>
+          </div>
+        )}
       </div>
       {formError && <p className="text-sm text-danger">{formError}</p>}
       {saved && !formError && <p className="text-sm text-success">Opgeslagen</p>}
