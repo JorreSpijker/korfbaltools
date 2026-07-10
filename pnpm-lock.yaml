@@ -335,6 +335,21 @@ importers:
         specifier: ^5.7.0
         version: 5.9.3
 
+  packages/scoreformulier-logic:
+    devDependencies:
+      '@korfbaltools/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: ^9.17.0
+        version: 9.39.4(jiti@2.7.0)
+      typescript:
+        specifier: ^5.7.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.0.5
+        version: 3.2.7(@types/node@25.9.4)(jiti@2.7.0)(tsx@4.22.5)
+
   packages/types:
     dependencies:
       zod:
