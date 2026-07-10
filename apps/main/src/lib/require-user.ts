@@ -22,3 +22,22 @@ export async function requireAdmin(): Promise<Guarded> {
   }
   return result;
 }
+
+type GuardedVastspelen = { user: User & { clubId: string } } | { response: ReturnType<typeof errorResponse> };
+
+// Used by every /api/vastspelen/* route. Vastspelen data (teams, spelers,
+// wedstrijden) is club-scoped, so a user without a clubId has nothing to
+// manage — treated the same as missing the capability (see
+// docs/apps/vastspelen-plan.md, "Openstaande ontwerpkeuze"). Admins bypass
+// the capability check (same reasoning as maintenance mode in
+// middleware.ts), but still need a clubId — that's data-scoping, not
+// permission-scoping, and there's no club-admin tier yet (plan.md section 4).
+export async function requireVastspelen(): Promise<GuardedVastspelen> {
+  const result = await requireUser();
+  if ("response" in result) return result;
+  const isAdmin = result.user.role === "admin";
+  if ((!isAdmin && !result.user.capabilities.includes("vastspelen")) || !result.user.clubId) {
+    return { response: errorResponse("forbidden", "Geen toegang tot de vastspelen-tool") };
+  }
+  return { user: { ...result.user, clubId: result.user.clubId } };
+}

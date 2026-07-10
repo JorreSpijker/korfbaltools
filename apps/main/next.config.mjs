@@ -39,6 +39,18 @@ const nextConfig = {
       });
     }
 
+    // Local dev: proxy /vastspelen/* to apps/vastspelen instead of the production
+    // vastspelen.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
+    const vastspelenAppUrl = process.env.VASTSPELEN_APP_URL;
+    if (vastspelenAppUrl) {
+      rewrites.push({
+        // apps/vastspelen has basePath: "/vastspelen" (see its next.config.mjs), so it
+        // already expects requests prefixed with /vastspelen — pass it through as-is.
+        source: "/vastspelen/:path*",
+        destination: `${vastspelenAppUrl}/vastspelen/:path*`,
+      });
+    }
+
     return rewrites;
   },
 };

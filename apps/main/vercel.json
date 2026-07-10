@@ -15,6 +15,14 @@
     {
       "source": "/teamindeling/:path+",
       "destination": "https://korfbaltools-teamindeling.vercel.app/teamindeling/:path+"
+    },
+    {
+      "source": "/vastspelen",
+      "destination": "https://korfbaltools-vastspelen.vercel.app/vastspelen"
+    },
+    {
+      "source": "/vastspelen/:path+",
+      "destination": "https://korfbaltools-vastspelen.vercel.app/vastspelen/:path+"
     }
   ]
 }
