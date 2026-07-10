@@ -47,11 +47,16 @@ enum AuditAction {
   club_created
   club_updated
   club_deleted
+  club_join_requested
+  club_join_approved
+  club_join_rejected
+  club_manager_changed
 }
 
 model Club {
   id        String   @id @default(cuid())
   naam      String
+  code      String?  @unique
   refId     String?  @unique
 
   latitude  Float?
@@ -81,7 +86,8 @@ model Club {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  users           User[]
+  users           User[]           @relation("ClubMembers")
+  pendingRequests User[]           @relation("ClubPendingRequests")
   vastspelenTeams VastspelenTeam[]
 }
 
@@ -93,7 +99,16 @@ model User {
   role          Role         @default(player)
   capabilities  Capability[] @default([])
   clubId        String?
-  club          Club?        @relation(fields: [clubId], references: [id])
+  club          Club?        @relation("ClubMembers", fields: [clubId], references: [id])
+  // Requested-but-not-yet-approved club (see requireClubManager /
+  // /api/admin/club-requests) — separate from clubId so the user's actual
+  // membership stays untouched while a request is pending. SetNull (not the
+  // implicit restrict that clubId gets) because losing a stale pending
+  // request when its target club is deleted is harmless — the user just
+  // requests again — whereas blocking the club delete would not be.
+  pendingClubId   String?
+  pendingClub     Club?        @relation("ClubPendingRequests", fields: [pendingClubId], references: [id], onDelete: SetNull)
+  isClubBeheerder Boolean      @default(false)
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
   deactivatedAt DateTime?
@@ -107,6 +122,7 @@ model User {
   auditLogsAsTarget       AuditLog[]               @relation("AuditLogTarget")
 
   @@index([clubId])
+  @@index([pendingClubId])
 }
 
 model Session {

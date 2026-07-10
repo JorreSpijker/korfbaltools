@@ -8,6 +8,8 @@ export function toPublicUser(user: DbUser): User {
     naam: user.naam,
     role: user.role,
     clubId: user.clubId,
+    pendingClubId: user.pendingClubId,
+    isClubBeheerder: user.isClubBeheerder,
     capabilities: user.capabilities,
     createdAt: user.createdAt.toISOString(),
     deactivatedAt: user.deactivatedAt?.toISOString() ?? null,

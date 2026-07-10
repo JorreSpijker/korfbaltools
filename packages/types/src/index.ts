@@ -12,3 +12,4 @@ export * from "./schemas/admin";
 export * from "./schemas/profile";
 export * from "./schemas/auth-flows";
 export * from "./schemas/vastspelen";
+export * from "./schemas/club-request";

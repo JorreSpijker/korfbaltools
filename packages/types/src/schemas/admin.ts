@@ -56,15 +56,27 @@ export type CreateUserInput = z.infer<typeof createUserSchema>;
 
 export const createClubSchema = z.object({
   naam: z.string().trim().min(1, "Naam is verplicht"),
+  code: z.string().trim().min(1, "ClubID is verplicht"),
+  // Existing user this club's beheerder gets assigned to on creation — must
+  // already have an account (no invite-by-email here, see design spec
+  // section 2/6). Omit to create the club without a beheerder.
+  beheerderEmail: z.string().trim().toLowerCase().email().optional(),
 });
 
 export type CreateClubInput = z.infer<typeof createClubSchema>;
 
 export const updateClubSchema = z.object({
   naam: z.string().trim().min(1, "Naam is verplicht"),
+  code: z.string().trim().min(1, "ClubID is verplicht"),
 });
 
 export type UpdateClubInput = z.infer<typeof updateClubSchema>;
+
+export const updateUserClubManagerSchema = z.object({
+  isClubBeheerder: z.boolean(),
+});
+
+export type UpdateUserClubManagerInput = z.infer<typeof updateUserClubManagerSchema>;
 
 export const updateAppConfigSchema = z.object({
   title: z.string().min(1, "Titel is verplicht"),

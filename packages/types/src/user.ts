@@ -8,6 +8,8 @@ export interface User {
   naam: string | null;
   role: Role;
   clubId: string | null;
+  pendingClubId: string | null;
+  isClubBeheerder: boolean;
   capabilities: Capability[];
   createdAt: string;
   // Only populated by the admin user listing (derived from the most recent
