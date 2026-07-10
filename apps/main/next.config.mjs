@@ -51,6 +51,18 @@ const nextConfig = {
       });
     }
 
+    // Local dev: proxy /scoreformulier/* to apps/scoreformulier instead of the production
+    // scoreformulier.vercel.app deployment.
+    const scoreformulierAppUrl = process.env.SCOREFORMULIER_APP_URL;
+    if (scoreformulierAppUrl) {
+      rewrites.push({
+        // apps/scoreformulier has basePath: "/scoreformulier" (see its next.config.mjs), so it
+        // already expects requests prefixed with /scoreformulier — pass it through as-is.
+        source: "/scoreformulier/:path*",
+        destination: `${scoreformulierAppUrl}/scoreformulier/:path*`,
+      });
+    }
+
     return rewrites;
   },
 };
