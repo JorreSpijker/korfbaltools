@@ -41,3 +41,23 @@ export async function requireVastspelen(): Promise<GuardedVastspelen> {
   }
   return { user: { ...result.user, clubId: result.user.clubId } };
 }
+
+type ClubManagerScope = { type: "all" } | { type: "club"; clubId: string };
+type GuardedClubManager = { user: User; scope: ClubManagerScope } | { response: ReturnType<typeof errorResponse> };
+
+// Admits platform-admins (full scope) and club-scoped beheerders (own club
+// only) — used by the /api/admin/users* and /api/admin/club-requests routes
+// that both roles now share. requireAdmin() stays untouched and admin-only
+// for routes that must stay platform-admin-exclusive (delete, reset-password,
+// club reassignment, clubs CRUD, audit-log, app-config).
+export async function requireClubManager(): Promise<GuardedClubManager> {
+  const result = await requireUser();
+  if ("response" in result) return result;
+  if (result.user.role === "admin") {
+    return { user: result.user, scope: { type: "all" } };
+  }
+  if (result.user.isClubBeheerder && result.user.clubId) {
+    return { user: result.user, scope: { type: "club", clubId: result.user.clubId } };
+  }
+  return { response: errorResponse("forbidden", "Alleen voor admins of clubbeheerders") };
+}

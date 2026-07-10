@@ -12,3 +12,19 @@ export async function requireAdmin(): Promise<User> {
   }
   return user;
 }
+
+export type ClubManagerScope = { type: "all" } | { type: "club"; clubId: string };
+
+// Same admission rule as apps/main's requireClubManager (see
+// lib/require-user.ts there) — kept in this file since apps/admin never
+// calls the main app's auth helpers directly, only its API (main-api.ts).
+export async function requireClubManager(): Promise<{ user: User; scope: ClubManagerScope }> {
+  const user = await getCurrentUser();
+  if (user?.role === "admin") {
+    return { user, scope: { type: "all" } };
+  }
+  if (user?.isClubBeheerder && user.clubId) {
+    return { user, scope: { type: "club", clubId: user.clubId } };
+  }
+  redirect("/unauthorized");
+}

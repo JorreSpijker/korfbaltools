@@ -5,12 +5,13 @@ interface AdminPageHeaderProps {
   icon: LucideIcon;
   title: string;
   description?: string;
+  navScope?: "all" | "club";
 }
 
-export function AdminPageHeader({ icon: Icon, title, description }: AdminPageHeaderProps) {
+export function AdminPageHeader({ icon: Icon, title, description, navScope }: AdminPageHeaderProps) {
   return (
     <div className="flex flex-col gap-6 border-b border-neutral-200 pb-6">
-      <AdminNav />
+      <AdminNav scope={navScope} />
       <div>
         <h1 className="flex items-center gap-2 text-2xl font-semibold text-neutral-900">
           <Icon className="h-6 w-6 text-primary-600" />

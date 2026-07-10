@@ -12,15 +12,24 @@ const LINKS = [
   { href: "/apps", label: "Instellingen", icon: Settings2 },
 ];
 
+export interface AdminNavProps {
+  // Club-scoped beheerders only get the Users tab — Clubs/Audit
+  // log/Instellingen stay platform-admin-only (requireAdmin still guards
+  // those pages server-side; this just avoids showing links that would
+  // bounce to /unauthorized).
+  scope?: "all" | "club";
+}
+
 // Reads its own active tab from the URL instead of taking a `current` prop —
 // three call sites once had to remember to pass the right path, and two of
 // them didn't (always highlighted "Gebruikers").
-export function AdminNav() {
+export function AdminNav({ scope = "all" }: AdminNavProps) {
   const pathname = usePathname();
+  const links = scope === "club" ? LINKS.filter((link) => link.href === "/") : LINKS;
 
   return (
     <nav className="flex items-center gap-6 text-sm">
-      {LINKS.map((link) => {
+      {links.map((link) => {
         const active = pathname === link.href;
         return (
           <Link
