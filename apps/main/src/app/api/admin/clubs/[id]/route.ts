@@ -24,24 +24,34 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     return errorResponse("not_found", "Club niet gevonden");
   }
 
-  const existing = await prisma.club.findFirst({ where: { naam: parsed.data.naam, NOT: { id } } });
-  if (existing) {
+  const existingNaam = await prisma.club.findFirst({ where: { naam: parsed.data.naam, NOT: { id } } });
+  if (existingNaam) {
     return errorResponse("conflict", "Er bestaat al een club met deze naam");
+  }
+  const existingCode = await prisma.club.findFirst({ where: { code: parsed.data.code, NOT: { id } } });
+  if (existingCode) {
+    return errorResponse("conflict", "Er bestaat al een club met deze ClubID");
   }
 
   const club = await prisma.$transaction(async (tx) => {
-    const updated = await tx.club.update({ where: { id }, data: { naam: parsed.data.naam } });
+    const updated = await tx.club.update({ where: { id }, data: { naam: parsed.data.naam, code: parsed.data.code } });
     await tx.auditLog.create({
       data: {
         actorId: result.user.id,
         action: "club_updated",
-        metadata: { clubId: id, oldNaam: target.naam, newNaam: updated.naam },
+        metadata: {
+          clubId: id,
+          oldNaam: target.naam,
+          newNaam: updated.naam,
+          oldCode: target.code,
+          newCode: updated.code,
+        },
       },
     });
     return updated;
   });
 
-  return NextResponse.json({ club: { id: club.id, naam: club.naam } });
+  return NextResponse.json({ club: { id: club.id, naam: club.naam, code: club.code } });
 }
 
 // Blocked (not cascaded) while users are still linked — User.clubId has no

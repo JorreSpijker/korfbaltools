@@ -20,6 +20,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 export interface AdminClub {
   id: string;
   naam: string;
+  code: string | null;
   userCount: number;
 }
 
@@ -47,6 +48,7 @@ export function ClubsTable({ clubs }: ClubsTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead>Naam</TableHead>
+              <TableHead>ClubID</TableHead>
               <TableHead>Gebruikers</TableHead>
               <TableHead />
             </TableRow>
@@ -66,8 +68,17 @@ function CreateClubDialog() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [naam, setNaam] = useState("");
+  const [code, setCode] = useState("");
+  const [beheerderEmail, setBeheerderEmail] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  function reset() {
+    setNaam("");
+    setCode("");
+    setBeheerderEmail("");
+    setError(null);
+  }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -76,7 +87,11 @@ function CreateClubDialog() {
     const response = await fetch("/api/admin/clubs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ naam }),
+      body: JSON.stringify({
+        naam,
+        code,
+        beheerderEmail: beheerderEmail.trim() === "" ? undefined : beheerderEmail.trim(),
+      }),
     });
     setPending(false);
     if (!response.ok) {
@@ -84,7 +99,7 @@ function CreateClubDialog() {
       setError(body.error.message);
       return;
     }
-    setNaam("");
+    reset();
     setOpen(false);
     router.refresh();
   }
@@ -94,7 +109,7 @@ function CreateClubDialog() {
       open={open}
       onOpenChange={(next) => {
         setOpen(next);
-        if (!next) setError(null);
+        if (!next) reset();
       }}
     >
       <DialogTrigger asChild>
@@ -119,6 +134,26 @@ function CreateClubDialog() {
               className={INPUT_CLASS}
             />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="new-club-code">ClubID</Label>
+            <input
+              id="new-club-code"
+              required
+              value={code}
+              onChange={(event) => setCode(event.target.value)}
+              className={INPUT_CLASS}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="new-club-beheerder">Beheerder e-mail (optioneel)</Label>
+            <input
+              id="new-club-beheerder"
+              type="email"
+              value={beheerderEmail}
+              onChange={(event) => setBeheerderEmail(event.target.value)}
+              className={INPUT_CLASS}
+            />
+          </div>
           {error && <p className="text-sm text-danger">{error}</p>}
           <Button type="submit" disabled={pending}>
             {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -133,11 +168,12 @@ function CreateClubDialog() {
 function ClubRow({ club }: { club: AdminClub }) {
   const router = useRouter();
   const [naam, setNaam] = useState(club.naam);
+  const [code, setCode] = useState(club.code ?? "");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const dirty = naam.trim() !== "" && naam !== club.naam;
+  const dirty = naam.trim() !== "" && code.trim() !== "" && (naam !== club.naam || code !== (club.code ?? ""));
 
   async function save() {
     setPending(true);
@@ -145,7 +181,7 @@ function ClubRow({ club }: { club: AdminClub }) {
     const response = await fetch(`/api/admin/clubs/${club.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ naam }),
+      body: JSON.stringify({ naam, code }),
     });
     setPending(false);
     if (!response.ok) {
@@ -183,6 +219,14 @@ function ClubRow({ club }: { club: AdminClub }) {
           />
           {error && <p className="text-xs text-danger">{error}</p>}
         </div>
+      </TableCell>
+      <TableCell>
+        <input
+          value={code}
+          onChange={(event) => setCode(event.target.value)}
+          disabled={pending}
+          className={INPUT_CLASS}
+        />
       </TableCell>
       <TableCell>
         <Badge variant="neutral">{club.userCount}</Badge>

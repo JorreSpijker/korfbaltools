@@ -12,12 +12,12 @@ export async function GET() {
   if ("response" in result) return result.response;
 
   const clubs = await prisma.club.findMany({
-    select: { id: true, naam: true, _count: { select: { users: true } } },
+    select: { id: true, naam: true, code: true, _count: { select: { users: true } } },
     orderBy: { naam: "asc" },
   });
 
   return NextResponse.json({
-    clubs: clubs.map((club) => ({ id: club.id, naam: club.naam, userCount: club._count.users })),
+    clubs: clubs.map((club) => ({ id: club.id, naam: club.naam, code: club.code, userCount: club._count.users })),
   });
 }
 
@@ -31,18 +31,46 @@ export async function POST(request: NextRequest) {
     return validationErrorResponse(parsed.error);
   }
 
-  const existing = await prisma.club.findFirst({ where: { naam: parsed.data.naam } });
-  if (existing) {
+  const { naam, code, beheerderEmail } = parsed.data;
+
+  const existingNaam = await prisma.club.findFirst({ where: { naam } });
+  if (existingNaam) {
     return errorResponse("conflict", "Er bestaat al een club met deze naam");
+  }
+  const existingCode = await prisma.club.findFirst({ where: { code } });
+  if (existingCode) {
+    return errorResponse("conflict", "Er bestaat al een club met deze ClubID");
+  }
+
+  let beheerder = null;
+  if (beheerderEmail) {
+    beheerder = await prisma.user.findUnique({ where: { email: beheerderEmail } });
+    if (!beheerder) {
+      return errorResponse("not_found", "Gebruiker bestaat nog niet, moet eerst zelf registreren");
+    }
   }
 
   const club = await prisma.$transaction(async (tx) => {
-    const created = await tx.club.create({ data: { naam: parsed.data.naam } });
+    const created = await tx.club.create({ data: { naam, code } });
     await tx.auditLog.create({
-      data: { actorId: result.user.id, action: "club_created", metadata: { clubId: created.id, naam: created.naam } },
+      data: { actorId: result.user.id, action: "club_created", metadata: { clubId: created.id, naam, code } },
     });
+    if (beheerder) {
+      await tx.user.update({ where: { id: beheerder.id }, data: { clubId: created.id, isClubBeheerder: true } });
+      await tx.auditLog.create({
+        data: {
+          actorId: result.user.id,
+          action: "club_manager_changed",
+          targetUserId: beheerder.id,
+          metadata: { clubId: created.id, isClubBeheerder: true },
+        },
+      });
+    }
     return created;
   });
 
-  return NextResponse.json({ club: { id: club.id, naam: club.naam, userCount: 0 } }, { status: 201 });
+  return NextResponse.json(
+    { club: { id: club.id, naam: club.naam, code: club.code, userCount: beheerder ? 1 : 0 } },
+    { status: 201 },
+  );
 }
