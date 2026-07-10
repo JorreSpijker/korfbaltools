@@ -6,6 +6,7 @@ import { Loader2 } from "lucide-react";
 import { ROLES, type ApiErrorBody, type Capability, type Club, type Role, type User } from "@korfbaltools/types";
 import { Button } from "@/components/ui/button";
 import { CapabilitiesSelect } from "@/components/capabilities-select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,9 +16,10 @@ const NO_CLUB = "none";
 interface UserEditFormProps {
   user: User;
   clubs: Pick<Club, "id" | "naam">[];
+  scope: "all" | "club";
 }
 
-export function UserEditForm({ user, clubs }: UserEditFormProps) {
+export function UserEditForm({ user, clubs, scope }: UserEditFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -66,6 +68,23 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ clubId: clubId === NO_CLUB ? null : clubId }),
+    });
+    setPending(false);
+    if (!response.ok) {
+      const body = (await response.json()) as ApiErrorBody;
+      setError(body.error.message);
+      return;
+    }
+    router.refresh();
+  }
+
+  async function changeClubManager(isClubBeheerder: boolean) {
+    setPending(true);
+    setError(null);
+    const response = await fetch(`/api/admin/users/${user.id}/club-manager`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isClubBeheerder }),
     });
     setPending(false);
     if (!response.ok) {
@@ -178,28 +197,44 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
           <CapabilitiesSelect value={user.capabilities} disabled={pending} onChange={changeCapabilities} />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <Label htmlFor="club">Club</Label>
-          <Select defaultValue={user.clubId ?? NO_CLUB} disabled={pending} onValueChange={changeClub}>
-            <SelectTrigger id="club">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={NO_CLUB}>Geen club</SelectItem>
-              {clubs.map((club) => (
-                <SelectItem key={club.id} value={club.id}>
-                  {club.naam}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        {scope === "all" && (
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="club">Club</Label>
+            <Select defaultValue={user.clubId ?? NO_CLUB} disabled={pending} onValueChange={changeClub}>
+              <SelectTrigger id="club">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={NO_CLUB}>Geen club</SelectItem>
+                {clubs.map((club) => (
+                  <SelectItem key={club.id} value={club.id}>
+                    {club.naam}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+
+        {scope === "all" && user.clubId && (
+          <div className="flex items-center gap-2">
+            <Checkbox
+              id="club-beheerder"
+              checked={user.isClubBeheerder}
+              disabled={pending}
+              onCheckedChange={(checked) => changeClubManager(checked === true)}
+            />
+            <Label htmlFor="club-beheerder">Clubbeheerder</Label>
+          </div>
+        )}
       </div>
 
       <div className="flex gap-2 border-t border-neutral-200 pt-4">
-        <Button disabled={pending} variant="outline" onClick={() => setResetOpen(true)}>
-          Wachtwoord resetten
-        </Button>
+        {scope === "all" && (
+          <Button disabled={pending} variant="outline" onClick={() => setResetOpen(true)}>
+            Wachtwoord resetten
+          </Button>
+        )}
         {user.deactivatedAt ? (
           <Button disabled={pending} variant="outline" onClick={() => changeStatus(false)}>
             {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -210,31 +245,35 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
             Deactiveren
           </Button>
         )}
-        <Button disabled={pending} variant="destructive" onClick={() => setDeleteOpen(true)}>
-          Verwijderen
-        </Button>
+        {scope === "all" && (
+          <Button disabled={pending} variant="destructive" onClick={() => setDeleteOpen(true)}>
+            Verwijderen
+          </Button>
+        )}
       </div>
 
       {error && <p className="text-sm text-danger">{error}</p>}
 
-      <Dialog open={resetOpen} onOpenChange={setResetOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Wachtwoord resetten</DialogTitle>
-            <DialogDescription>Voor {user.email}</DialogDescription>
-          </DialogHeader>
-          <div className="flex flex-col gap-2">
-            <Button disabled={pending} onClick={() => resetPassword("reset_link")}>
-              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Reset-link versturen
-            </Button>
-            <Button disabled={pending} variant="outline" onClick={() => resetPassword("temporary_password")}>
-              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Tijdelijk wachtwoord genereren
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {scope === "all" && (
+        <Dialog open={resetOpen} onOpenChange={setResetOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Wachtwoord resetten</DialogTitle>
+              <DialogDescription>Voor {user.email}</DialogDescription>
+            </DialogHeader>
+            <div className="flex flex-col gap-2">
+              <Button disabled={pending} onClick={() => resetPassword("reset_link")}>
+                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Reset-link versturen
+              </Button>
+              <Button disabled={pending} variant="outline" onClick={() => resetPassword("temporary_password")}>
+                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Tijdelijk wachtwoord genereren
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
       <Dialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
         <DialogContent>
           <DialogHeader>
@@ -249,21 +288,23 @@ export function UserEditForm({ user, clubs }: UserEditFormProps) {
           </Button>
         </DialogContent>
       </Dialog>
-      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Gebruiker verwijderen</DialogTitle>
-            <DialogDescription>
-              {user.email} en alle bijbehorende gegevens worden definitief verwijderd. Dit kan niet ongedaan gemaakt
-              worden. Weet je het zeker?
-            </DialogDescription>
-          </DialogHeader>
-          <Button disabled={pending} variant="destructive" onClick={deleteUser}>
-            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Ja, definitief verwijderen
-          </Button>
-        </DialogContent>
-      </Dialog>
+      {scope === "all" && (
+        <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Gebruiker verwijderen</DialogTitle>
+              <DialogDescription>
+                {user.email} en alle bijbehorende gegevens worden definitief verwijderd. Dit kan niet ongedaan gemaakt
+                worden. Weet je het zeker?
+              </DialogDescription>
+            </DialogHeader>
+            <Button disabled={pending} variant="destructive" onClick={deleteUser}>
+              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Ja, definitief verwijderen
+            </Button>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { Users } from "lucide-react";
 import type { Club, User } from "@korfbaltools/types";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireClubManager } from "@/lib/require-admin";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { AdminPageHeader } from "@/components/admin-page-header";
 import { CreateUserDialog } from "@/components/create-user-dialog";
@@ -8,7 +8,7 @@ import { UsersTable } from "@/components/users-table";
 import { Container } from "@korfbaltools/ui";
 
 export default async function AdminUsersPage() {
-  await requireAdmin();
+  const { scope } = await requireClubManager();
 
   const [usersResponse, clubsResponse] = await Promise.all([
     fetchMainApi("/api/admin/users"),
@@ -26,10 +26,13 @@ export default async function AdminUsersPage() {
           icon={Users}
           title="Gebruikersbeheer"
           description="Rollen, capabilities en clubkoppeling per gebruiker beheren."
+          navScope={scope.type}
         />
-        <div className="flex justify-end">
-          <CreateUserDialog clubs={clubs} />
-        </div>
+        {scope.type === "all" && (
+          <div className="flex justify-end">
+            <CreateUserDialog clubs={clubs} />
+          </div>
+        )}
         <UsersTable clubs={clubs} users={users} />
       </Container>
     </main>

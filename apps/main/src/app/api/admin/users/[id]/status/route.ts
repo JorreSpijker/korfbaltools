@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { updateUserStatusSchema } from "@korfbaltools/types";
 import { toPublicUser } from "@/lib/user-mapper";
-import { requireAdmin } from "@/lib/require-user";
+import { requireClubManager } from "@/lib/require-user";
 import { revokeAllSessionsForUser } from "@/lib/session";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 
@@ -11,7 +11,7 @@ interface RouteParams {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const result = await requireAdmin();
+  const result = await requireClubManager();
   if ("response" in result) return result.response;
 
   const { id } = await params;
@@ -22,7 +22,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 
   const target = await prisma.user.findUnique({ where: { id } });
-  if (!target) {
+  if (!target || (result.scope.type === "club" && target.clubId !== result.scope.clubId)) {
     return errorResponse("not_found", "Gebruiker niet gevonden");
   }
 

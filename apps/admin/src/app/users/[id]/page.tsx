@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Club, User } from "@korfbaltools/types";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireClubManager } from "@/lib/require-admin";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { UserEditForm } from "@/components/user-edit-form";
 import { Container } from "@korfbaltools/ui";
@@ -11,7 +11,7 @@ interface UserPageProps {
 }
 
 export default async function UserPage({ params }: UserPageProps) {
-  await requireAdmin();
+  const { scope } = await requireClubManager();
   const { id } = await params;
 
   const [userResponse, clubsResponse] = await Promise.all([
@@ -37,7 +37,7 @@ export default async function UserPage({ params }: UserPageProps) {
             Terug naar gebruikers
           </Link>
         </div>
-        <UserEditForm clubs={clubs} user={user} />
+        <UserEditForm clubs={clubs} user={user} scope={scope.type} />
       </Container>
     </main>
   );

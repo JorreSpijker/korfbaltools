@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createUserSchema } from "@korfbaltools/types";
 import { toPublicUser } from "@/lib/user-mapper";
-import { requireAdmin } from "@/lib/require-user";
+import { requireAdmin, requireClubManager } from "@/lib/require-user";
 import { hashPassword } from "@/lib/password";
 import { createPasswordResetToken } from "@/lib/reset-token";
 import { resend, RESET_PASSWORD_FROM } from "@/lib/resend";
@@ -13,10 +13,13 @@ import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://korfbaltools.nl";
 
 export async function GET() {
-  const result = await requireAdmin();
+  const result = await requireClubManager();
   if ("response" in result) return result.response;
 
-  const users = await prisma.user.findMany({ orderBy: { createdAt: "desc" } });
+  const users = await prisma.user.findMany({
+    where: result.scope.type === "club" ? { clubId: result.scope.clubId } : undefined,
+    orderBy: { createdAt: "desc" },
+  });
   const lastLogins = await prisma.session.groupBy({
     by: ["userId"],
     _max: { createdAt: true },
