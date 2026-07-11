@@ -5,6 +5,7 @@ import { toPublicUser } from "@/lib/user-mapper";
 import { Badge } from "@/components/ui/badge";
 import { MembersTable } from "./members-table";
 import { ClubRequestsTable, type ClubJoinRequest } from "./club-requests-table";
+import { TeamsBoard } from "./teams-board";
 
 export default async function MijnClubPage() {
   const user = await getSessionUser();
@@ -26,8 +27,17 @@ export default async function MijnClubPage() {
     orderBy: { createdAt: "desc" },
   });
 
+  const teams = await prisma.team.findMany({
+    where: { clubId: user.clubId },
+    orderBy: { naam: "asc" },
+  });
+  const players = await prisma.player.findMany({
+    where: { clubId: user.clubId },
+    orderBy: { naam: "asc" },
+  });
+
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-6 px-6 py-12">
+    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 px-6 py-12">
       <div className="flex flex-col gap-2">
         <h1 className="text-xl font-semibold text-neutral-900">{club.naam}</h1>
         <div>
@@ -36,6 +46,7 @@ export default async function MijnClubPage() {
       </div>
       <ClubRequestsTable requests={requests} />
       <MembersTable members={members} />
+      <TeamsBoard teams={teams} players={players} />
     </main>
   );
 }
