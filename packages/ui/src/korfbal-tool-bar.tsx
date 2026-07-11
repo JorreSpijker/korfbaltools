@@ -116,7 +116,7 @@ export function KorfbalToolBar({
                       <DropdownMenu.Item
                         className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                         onSelect={() => {
-                          window.location.href = `/admin/clubs/${user.clubId}`;
+                          window.location.href = "/mijn-club";
                         }}
                       >
                         <Building2 className="h-4 w-4" />
@@ -203,7 +203,7 @@ export function KorfbalToolBar({
                       <DropdownMenu.Item
                         className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                         onSelect={() => {
-                          window.location.href = `/admin/clubs/${user.clubId}`;
+                          window.location.href = "/mijn-club";
                         }}
                       >
                         <Building2 className="h-4 w-4" />
