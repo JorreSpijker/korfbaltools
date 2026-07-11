@@ -4,8 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Users } from "lucide-react";
-import type { Club, Role, User } from "@korfbaltools/types";
+import type { ApiErrorBody, Club, Role, User } from "@korfbaltools/types";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -14,9 +15,10 @@ interface UsersTableProps {
   clubs: Pick<Club, "id" | "naam">[];
   showBeheerderBadge?: boolean;
   editableRoles?: Role[];
+  editableClubRol?: boolean;
 }
 
-export function UsersTable({ users, clubs, showBeheerderBadge, editableRoles }: UsersTableProps) {
+export function UsersTable({ users, clubs, showBeheerderBadge, editableRoles, editableClubRol }: UsersTableProps) {
   const clubNameById = new Map(clubs.map((club) => [club.id, club.naam]));
 
   if (users.length === 0) {
@@ -54,6 +56,7 @@ export function UsersTable({ users, clubs, showBeheerderBadge, editableRoles }: 
             clubNaam={user.clubId ? (clubNameById.get(user.clubId) ?? "—") : "—"}
             showBeheerderBadge={showBeheerderBadge}
             editableRoles={editableRoles}
+            editableClubRol={editableClubRol}
           />
         ))}
       </TableBody>
@@ -66,11 +69,13 @@ function UserRow({
   clubNaam,
   showBeheerderBadge,
   editableRoles,
+  editableClubRol,
 }: {
   user: User;
   clubNaam: string;
   showBeheerderBadge?: boolean;
   editableRoles?: Role[];
+  editableClubRol?: boolean;
 }) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -83,6 +88,22 @@ function UserRow({
       body: JSON.stringify({ role }),
     });
     setPending(false);
+    router.refresh();
+  }
+
+  async function changeClubManager(isClubBeheerder: boolean) {
+    setPending(true);
+    const response = await fetch(`/api/admin/users/${user.id}/club-manager`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ isClubBeheerder }),
+    });
+    setPending(false);
+    if (!response.ok) {
+      const body = (await response.json()) as ApiErrorBody;
+      window.alert(body.error.message);
+      return;
+    }
     router.refresh();
   }
 
@@ -133,10 +154,22 @@ function UserRow({
       </TableCell>
       <TableCell className="max-w-36 truncate">{clubNaam}</TableCell>
       {showBeheerderBadge && (
-        <TableCell>
-          <Badge variant={user.isClubBeheerder ? "default" : "neutral"}>
-            {user.isClubBeheerder ? "Clubbeheerder" : "Clublid"}
-          </Badge>
+        <TableCell onClick={(event) => event.stopPropagation()}>
+          {editableClubRol ? (
+            <label htmlFor={`club-beheerder-${user.id}`} className="flex items-center gap-2 text-sm">
+              <Checkbox
+                id={`club-beheerder-${user.id}`}
+                checked={user.isClubBeheerder}
+                disabled={pending}
+                onCheckedChange={(checked) => changeClubManager(checked === true)}
+              />
+              {user.isClubBeheerder ? "Clubbeheerder" : "Clublid"}
+            </label>
+          ) : (
+            <Badge variant={user.isClubBeheerder ? "default" : "neutral"}>
+              {user.isClubBeheerder ? "Clubbeheerder" : "Clublid"}
+            </Badge>
+          )}
         </TableCell>
       )}
       <TableCell className="whitespace-nowrap text-neutral-600">
