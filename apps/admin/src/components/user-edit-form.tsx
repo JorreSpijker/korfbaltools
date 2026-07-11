@@ -183,7 +183,7 @@ export function UserEditForm({ user, clubs, scope }: UserEditFormProps) {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {ROLES.map((role) => (
+              {(scope === "all" ? ROLES : ROLES.filter((role) => role !== "admin")).map((role) => (
                 <SelectItem key={role} value={role}>
                   {role}
                 </SelectItem>
