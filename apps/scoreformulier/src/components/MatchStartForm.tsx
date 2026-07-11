@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { Wedstrijd } from "@korfbaltools/scoreformulier-logic";
 import { listWedstrijden, saveWedstrijd } from "@/lib/db";
@@ -88,9 +89,9 @@ export function MatchStartForm() {
           <ul className="flex flex-col divide-y divide-neutral-100">
             {wedstrijden.map((wedstrijd) => (
               <li key={wedstrijd.id} className="py-2">
-                <a href={`/wedstrijd/${wedstrijd.id}`} className="text-primary hover:underline">
+                <Link href={`/wedstrijd/${wedstrijd.id}`} className="text-primary hover:underline">
                   {wedstrijd.datum} {wedstrijd.tegenstander ? `vs ${wedstrijd.tegenstander}` : ""} — {wedstrijd.status}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

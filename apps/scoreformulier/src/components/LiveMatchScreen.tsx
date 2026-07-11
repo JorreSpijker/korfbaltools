@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { berekenStand, type ScoreType, type SchotResultaat } from "@korfbaltools/scoreformulier-logic";
 import { useMatch } from "@/lib/use-match";
 import { ShotForm } from "./ShotForm";
@@ -126,12 +127,12 @@ export function LiveMatchScreen({ wedstrijdId }: LiveMatchScreenProps) {
         >
           Tegendoelpunt
         </button>
-        <a
+        <Link
           href={`/wedstrijd/${wedstrijdId}/log`}
           className="rounded-md border border-neutral-300 px-4 py-2 text-neutral-900 hover:bg-neutral-50"
         >
           Log bekijken
-        </a>
+        </Link>
         <button
           type="button"
           onClick={() => void rondAf()}
