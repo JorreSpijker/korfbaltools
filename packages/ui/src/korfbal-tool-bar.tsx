@@ -1,7 +1,7 @@
 "use client";
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { ChevronDown, LogOut, Menu, Settings } from "lucide-react";
+import { Building2, ChevronDown, LogOut, Menu, Settings } from "lucide-react";
 import type { User } from "@korfbaltools/types";
 import { cn } from "./cn";
 import { Logo } from "./logo";
@@ -14,7 +14,7 @@ export interface KorfbalToolBarNavApp {
 }
 
 export interface KorfbalToolBarProps {
-  user: Pick<User, "email" | "naam" | "role"> | null;
+  user: Pick<User, "email" | "naam" | "role" | "isClubBeheerder" | "clubId"> | null;
   apps?: KorfbalToolBarNavApp[];
   homeHref?: string;
   accountHref?: string;
@@ -112,6 +112,17 @@ export function KorfbalToolBar({
                       <Settings className="h-4 w-4" />
                       Mijn gegevens
                     </DropdownMenu.Item>
+                    {user.isClubBeheerder && user.clubId && (
+                      <DropdownMenu.Item
+                        className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
+                        onSelect={() => {
+                          window.location.href = `/admin/clubs/${user.clubId}`;
+                        }}
+                      >
+                        <Building2 className="h-4 w-4" />
+                        Mijn club
+                      </DropdownMenu.Item>
+                    )}
                     <DropdownMenu.Item
                       className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={handleLogout}
@@ -188,6 +199,17 @@ export function KorfbalToolBar({
                       <Settings className="h-4 w-4" />
                       Mijn gegevens
                     </DropdownMenu.Item>
+                    {user.isClubBeheerder && user.clubId && (
+                      <DropdownMenu.Item
+                        className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
+                        onSelect={() => {
+                          window.location.href = `/admin/clubs/${user.clubId}`;
+                        }}
+                      >
+                        <Building2 className="h-4 w-4" />
+                        Mijn club
+                      </DropdownMenu.Item>
+                    )}
                     <DropdownMenu.Item
                       className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-primary-500 focus:bg-primary-500"
                       onSelect={handleLogout}
