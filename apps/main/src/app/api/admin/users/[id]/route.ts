@@ -41,6 +41,10 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     return validationErrorResponse(parsed.error);
   }
 
+  if (result.scope.type === "club" && parsed.data.role === "admin") {
+    return errorResponse("forbidden", "Clubbeheerders kunnen geen platform-admin toewijzen");
+  }
+
   const target = await prisma.user.findUnique({ where: { id } });
   if (!target || (result.scope.type === "club" && target.clubId !== result.scope.clubId)) {
     return errorResponse("not_found", "Gebruiker niet gevonden");
