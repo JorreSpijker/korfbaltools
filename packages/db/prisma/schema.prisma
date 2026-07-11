@@ -51,6 +51,8 @@ enum AuditAction {
   club_join_approved
   club_join_rejected
   club_manager_changed
+  club_activated
+  club_deactivated
 }
 
 model Club {
@@ -58,6 +60,7 @@ model Club {
   naam      String
   code      String?  @unique
   refId     String?  @unique
+  active    Boolean  @default(true)
 
   latitude  Float?
   longitude Float?
