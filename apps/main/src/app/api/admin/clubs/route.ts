@@ -1,17 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createClubSchema } from "@korfbaltools/types";
-import { requireAdmin } from "@/lib/require-user";
+import { requireAdmin, requireClubManager } from "@/lib/require-user";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 
-// Admin-only list, unlike the public /api/clubs — includes userCount so the
-// admin UI can warn before a delete that would otherwise hit the FK
-// constraint on User.clubId.
+// Richer than the public /api/clubs — includes userCount/active so the admin
+// UI can warn before a delete that would otherwise hit the FK constraint on
+// User.clubId, and so a club-beheerder's own club page can show status. A
+// club-beheerder only gets their own club back; an admin gets all of them.
 export async function GET() {
-  const result = await requireAdmin();
+  const result = await requireClubManager();
   if ("response" in result) return result.response;
 
   const clubs = await prisma.club.findMany({
+    where: result.scope.type === "club" ? { id: result.scope.clubId } : undefined,
     select: { id: true, naam: true, code: true, active: true, _count: { select: { users: true } } },
     orderBy: { naam: "asc" },
   });
