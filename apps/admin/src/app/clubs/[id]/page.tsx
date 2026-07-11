@@ -60,6 +60,7 @@ export default async function ClubPage({ params }: ClubPageProps) {
           users={clubUsers}
           showBeheerderBadge
           editableRoles={editableRoles}
+          editableClubRol
         />
       </Container>
     </main>
