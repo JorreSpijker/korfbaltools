@@ -12,12 +12,18 @@ export async function GET() {
   if ("response" in result) return result.response;
 
   const clubs = await prisma.club.findMany({
-    select: { id: true, naam: true, code: true, _count: { select: { users: true } } },
+    select: { id: true, naam: true, code: true, active: true, _count: { select: { users: true } } },
     orderBy: { naam: "asc" },
   });
 
   return NextResponse.json({
-    clubs: clubs.map((club) => ({ id: club.id, naam: club.naam, code: club.code, userCount: club._count.users })),
+    clubs: clubs.map((club) => ({
+      id: club.id,
+      naam: club.naam,
+      code: club.code,
+      active: club.active,
+      userCount: club._count.users,
+    })),
   });
 }
 
@@ -51,7 +57,7 @@ export async function POST(request: NextRequest) {
   }
 
   const club = await prisma.$transaction(async (tx) => {
-    const created = await tx.club.create({ data: { naam, code } });
+    const created = await tx.club.create({ data: { naam, code, active: false } });
     await tx.auditLog.create({
       data: { actorId: result.user.id, action: "club_created", metadata: { clubId: created.id, naam, code } },
     });
@@ -70,7 +76,7 @@ export async function POST(request: NextRequest) {
   });
 
   return NextResponse.json(
-    { club: { id: club.id, naam: club.naam, code: club.code, userCount: beheerder ? 1 : 0 } },
+    { club: { id: club.id, naam: club.naam, code: club.code, active: club.active, userCount: beheerder ? 1 : 0 } },
     { status: 201 },
   );
 }

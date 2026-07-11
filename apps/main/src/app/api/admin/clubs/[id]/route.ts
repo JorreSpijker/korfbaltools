@@ -51,7 +51,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     return updated;
   });
 
-  return NextResponse.json({ club: { id: club.id, naam: club.naam, code: club.code } });
+  return NextResponse.json({ club: { id: club.id, naam: club.naam, code: club.code, active: club.active } });
 }
 
 // Blocked (not cascaded) while users are still linked — User.clubId has no
