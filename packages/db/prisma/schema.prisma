@@ -92,6 +92,8 @@ model Club {
   users           User[]           @relation("ClubMembers")
   pendingRequests User[]           @relation("ClubPendingRequests")
   vastspelenTeams VastspelenTeam[]
+  teams           Team[]
+  players         Player[]
 }
 
 model User {
@@ -305,4 +307,44 @@ model VastspelenAppearance {
   @@index([fixtureId])
   @@index([playerId])
   @@index([gespeeldInTeamId])
+}
+
+enum TeamType {
+  jeugd
+  senioren
+}
+
+enum Gender {
+  m
+  v
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  clubId    String
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  naam      String
+  type      TeamType
+  categorie String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  players Player[]
+
+  @@index([clubId])
+}
+
+model Player {
+  id        String   @id @default(cuid())
+  clubId    String
+  club      Club     @relation(fields: [clubId], references: [id], onDelete: Cascade)
+  naam      String
+  geslacht  Gender
+  teamId    String?
+  team      Team?    @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clubId])
+  @@index([teamId])
 }

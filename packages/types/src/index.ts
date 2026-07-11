@@ -13,3 +13,6 @@ export * from "./schemas/profile";
 export * from "./schemas/auth-flows";
 export * from "./schemas/vastspelen";
 export * from "./schemas/club-request";
+export * from "./team";
+export * from "./player";
+export * from "./schemas/mijn-club";
