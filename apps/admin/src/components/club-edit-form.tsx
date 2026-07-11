@@ -15,10 +15,9 @@ const INPUT_CLASS =
 
 interface ClubEditFormProps {
   club: AdminClub;
-  scope: "all" | "club";
 }
 
-export function ClubEditForm({ club, scope }: ClubEditFormProps) {
+export function ClubEditForm({ club }: ClubEditFormProps) {
   const router = useRouter();
   const [naam, setNaam] = useState(club.naam);
   const [code, setCode] = useState(club.code ?? "");
@@ -96,90 +95,84 @@ export function ClubEditForm({ club, scope }: ClubEditFormProps) {
         </div>
       </div>
 
-      {scope === "all" && (
-        <div className="flex flex-col gap-4">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="club-naam">Naam</Label>
-            <input
-              id="club-naam"
-              value={naam}
-              onChange={(event) => setNaam(event.target.value)}
-              disabled={pending}
-              className={INPUT_CLASS}
-            />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="club-code">ClubID</Label>
-            <input
-              id="club-code"
-              value={code}
-              onChange={(event) => setCode(event.target.value)}
-              disabled={pending}
-              className={INPUT_CLASS}
-            />
-          </div>
-          <div>
-            <Button disabled={!dirty || pending} onClick={save}>
-              {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Opslaan
-            </Button>
-          </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="club-naam">Naam</Label>
+          <input
+            id="club-naam"
+            value={naam}
+            onChange={(event) => setNaam(event.target.value)}
+            disabled={pending}
+            className={INPUT_CLASS}
+          />
         </div>
-      )}
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="club-code">ClubID</Label>
+          <input
+            id="club-code"
+            value={code}
+            onChange={(event) => setCode(event.target.value)}
+            disabled={pending}
+            className={INPUT_CLASS}
+          />
+        </div>
+        <div>
+          <Button disabled={!dirty || pending} onClick={save}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Opslaan
+          </Button>
+        </div>
+      </div>
 
-      {scope === "all" && (
-        <>
-          <div className="flex gap-2 border-t border-neutral-200 pt-4">
-            {club.active ? (
-              <Button disabled={pending} variant="destructive" onClick={() => setDeactivateOpen(true)}>
-                Deactiveren
-              </Button>
-            ) : (
-              <Button disabled={pending} variant="outline" onClick={() => changeStatus(true)}>
-                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Activeren
-              </Button>
-            )}
-            <Button disabled={pending || club.userCount > 0} variant="destructive" onClick={() => setDeleteOpen(true)}>
-              Verwijderen
-            </Button>
-          </div>
-
-          <Dialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Club deactiveren</DialogTitle>
-                <DialogDescription>
-                  {club.naam} kan hierna niet meer gebruikt worden totdat deze weer geactiveerd wordt.
-                </DialogDescription>
-              </DialogHeader>
-              <Button disabled={pending} variant="destructive" onClick={() => changeStatus(false)}>
-                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Ja, deactiveren
-              </Button>
-            </DialogContent>
-          </Dialog>
-
-          <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Club verwijderen</DialogTitle>
-                <DialogDescription>
-                  {club.userCount > 0
-                    ? `${club.naam} heeft nog ${club.userCount} gekoppelde gebruiker(s) en kan niet verwijderd worden totdat deze losgekoppeld zijn.`
-                    : `${club.naam} wordt definitief verwijderd. Dit kan niet ongedaan gemaakt worden.`}
-                </DialogDescription>
-              </DialogHeader>
-              <Button disabled={pending || club.userCount > 0} variant="destructive" onClick={remove}>
-                {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Ja, definitief verwijderen
-              </Button>
-            </DialogContent>
-          </Dialog>
-        </>
-      )}
+      <div className="flex gap-2 border-t border-neutral-200 pt-4">
+        {club.active ? (
+          <Button disabled={pending} variant="destructive" onClick={() => setDeactivateOpen(true)}>
+            Deactiveren
+          </Button>
+        ) : (
+          <Button disabled={pending} variant="outline" onClick={() => changeStatus(true)}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Activeren
+          </Button>
+        )}
+        <Button disabled={pending || club.userCount > 0} variant="destructive" onClick={() => setDeleteOpen(true)}>
+          Verwijderen
+        </Button>
+      </div>
 
       {error && <p className="text-sm text-danger">{error}</p>}
+
+      <Dialog open={deactivateOpen} onOpenChange={setDeactivateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Club deactiveren</DialogTitle>
+            <DialogDescription>
+              {club.naam} kan hierna niet meer gebruikt worden totdat deze weer geactiveerd wordt.
+            </DialogDescription>
+          </DialogHeader>
+          <Button disabled={pending} variant="destructive" onClick={() => changeStatus(false)}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Ja, deactiveren
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Club verwijderen</DialogTitle>
+            <DialogDescription>
+              {club.userCount > 0
+                ? `${club.naam} heeft nog ${club.userCount} gekoppelde gebruiker(s) en kan niet verwijderd worden totdat deze losgekoppeld zijn.`
+                : `${club.naam} wordt definitief verwijderd. Dit kan niet ongedaan gemaakt worden.`}
+            </DialogDescription>
+          </DialogHeader>
+          <Button disabled={pending || club.userCount > 0} variant="destructive" onClick={remove}>
+            {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Ja, definitief verwijderen
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
