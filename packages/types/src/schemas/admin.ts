@@ -72,6 +72,12 @@ export const updateClubSchema = z.object({
 
 export type UpdateClubInput = z.infer<typeof updateClubSchema>;
 
+export const updateClubStatusSchema = z.object({
+  active: z.boolean(),
+});
+
+export type UpdateClubStatusInput = z.infer<typeof updateClubStatusSchema>;
+
 export const updateUserClubManagerSchema = z.object({
   isClubBeheerder: z.boolean(),
 });
