@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@korfbaltools/db";
 import { isAppEnabled } from "@/lib/apps";
 import { Badge } from "@/components/ui/badge";
 import { TeamsBoard } from "./teams-board";
+
+export const metadata: Metadata = {
+  title: "Mijn club",
+  robots: { index: false, follow: false },
+};
 
 export default async function MijnClubPage() {
   if (!isAppEnabled("mijn-club")) notFound();

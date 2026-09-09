@@ -1,13 +1,35 @@
 import Link from "next/link";
 import { ArrowRight, Lightbulb, Lock } from "lucide-react";
 import { getEnabledApps } from "@/lib/apps";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { Container } from "@korfbaltools/ui";
 
 export default function HomePage() {
   const apps = getEnabledApps();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_NAME,
+    url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    inLanguage: "nl-NL",
+    hasPart: apps
+      .filter((app) => app.href)
+      .map((app) => ({
+        "@type": "WebApplication",
+        name: app.title,
+        description: app.description,
+        url: `${SITE_URL}${app.href}`,
+        applicationCategory: "SportsApplication",
+        operatingSystem: "Web",
+        offers: { "@type": "Offer", price: 0, priceCurrency: "EUR" },
+      })),
+  };
+
   return (
     <main className="flex flex-col">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <section className="border-b border-neutral-200 bg-white">
         <Container>
           <h1

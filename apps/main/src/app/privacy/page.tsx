@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Container } from "@korfbaltools/ui";
 
 export const metadata: Metadata = {
-  title: "Privacybeleid | Korfbaltools.nl",
+  title: "Privacybeleid",
   description: "Hoe Korfbaltools.nl omgaat met je gegevens.",
+  alternates: { canonical: "/privacy" },
 };
 
 export default function PrivacyPage() {
