@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { checkVastspelenOpstellingSchema, type VastspelenCheckResultaat, type VastspelenTeamNiveau } from "@korfbaltools/types";
 import { magOpstellen } from "@korfbaltools/vastspelen-logic";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 import { ensureVastspelenTeams, gespeeldeWedstrijdenVoorSpeler } from "@/lib/vastspelen";
 
@@ -13,7 +13,7 @@ const MAX_INVALLERS_PER_WEDSTRIJD = 2;
 // speelgeschiedenis tot en met de vorige speelweek, plus een batch-brede
 // controle op het max. 2-invallers-per-wedstrijd-plafond.
 export async function POST(request: NextRequest) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const body = await request.json().catch(() => null);
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     return validationErrorResponse(parsed.error);
   }
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const clubTeamIds = [team1.id, team2.id];
   const teamNiveauById = new Map<string, VastspelenTeamNiveau>([
     [team1.id, 1],

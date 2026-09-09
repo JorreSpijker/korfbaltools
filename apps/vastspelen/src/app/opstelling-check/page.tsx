@@ -1,12 +1,9 @@
 import { Container } from "@korfbaltools/ui";
 import type { VastspelenFixture, VastspelenPlayer } from "@korfbaltools/types";
-import { requireTeamleider } from "@/lib/require-teamleider";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { OpstellingCheckForm } from "@/components/opstelling-check-form";
 
 export default async function OpstellingCheckPage() {
-  await requireTeamleider();
-
   const [fixturesResponse, stateResponse] = await Promise.all([
     fetchMainApi("/api/vastspelen/fixtures"),
     fetchMainApi("/api/vastspelen/state"),

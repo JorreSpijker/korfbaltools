@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ClipboardCheck, ListChecks, Users } from "lucide-react";
 import { Container } from "@korfbaltools/ui";
 import type { VastspelenPlayer, VastspelenSeasonPeriod, VastspelenTeam } from "@korfbaltools/types";
-import { requireTeamleider } from "@/lib/require-teamleider";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { StatusBadge } from "@/components/status-badge";
 
@@ -14,8 +13,6 @@ interface VastspelenState {
 }
 
 export default async function DashboardPage() {
-  await requireTeamleider();
-
   const response = await fetchMainApi("/api/vastspelen/state");
   await ensureOk(response, "Kan spelersstatus niet laden");
   const state = (await response.json()) as VastspelenState;

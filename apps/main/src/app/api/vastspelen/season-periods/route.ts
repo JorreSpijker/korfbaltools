@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createVastspelenSeasonPeriodSchema } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { validationErrorResponse } from "@/lib/api-response";
 import { toPublicSeasonPeriod } from "@/lib/vastspelen";
 
 // Seizoensperiodes (veld/zaal) zijn KNKV-competitiebreed, dus niet
 // club-gescoped (zie packages/db schema.prisma VastspelenSeasonPeriod) —
-// requireVastspelen is hier alleen de toegangscheck, geen club-filter.
+// requireClub is hier alleen de club-context, geen filter.
 export async function GET() {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const seasonPeriods = await prisma.vastspelenSeasonPeriod.findMany({ orderBy: { start: "desc" } });
@@ -17,7 +17,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const body = await request.json().catch(() => null);

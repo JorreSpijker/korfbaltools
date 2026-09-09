@@ -15,18 +15,6 @@ const nextConfig = {
   async rewrites() {
     const rewrites = [];
 
-    // Local dev: proxy /admin/* to apps/admin instead of the production
-    // admin.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
-    const adminAppUrl = process.env.ADMIN_APP_URL;
-    if (adminAppUrl) {
-      rewrites.push({
-        // apps/admin has basePath: "/admin" (see its next.config.mjs), so it
-        // already expects requests prefixed with /admin — pass it through as-is.
-        source: "/admin/:path*",
-        destination: `${adminAppUrl}/admin/:path*`,
-      });
-    }
-
     // Local dev: proxy /teamindeling/* to apps/teamindeling instead of the production
     // teamindeling.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
     const teamindelingAppUrl = process.env.TEAMINDELING_APP_URL;

@@ -1,18 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createTeamSchema } from "@korfbaltools/types";
-import { requireClubManager } from "@/lib/require-user";
-import { errorResponse, validationErrorResponse } from "@/lib/api-response";
+import { requireClub } from "@/lib/club-context";
+import { validationErrorResponse } from "@/lib/api-response";
 
 export async function GET() {
-  const result = await requireClubManager();
+  const result = requireClub("mijn-club");
   if ("response" in result) return result.response;
-  if (result.scope.type !== "club") {
-    return errorResponse("forbidden", "Alleen voor clubbeheerders");
-  }
 
   const teams = await prisma.team.findMany({
-    where: { clubId: result.scope.clubId },
+    where: { clubId: result.clubId },
     orderBy: { naam: "asc" },
   });
 
@@ -20,11 +17,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  const result = await requireClubManager();
+  const result = requireClub("mijn-club");
   if ("response" in result) return result.response;
-  if (result.scope.type !== "club") {
-    return errorResponse("forbidden", "Alleen voor clubbeheerders");
-  }
 
   const body = await request.json().catch(() => null);
   const parsed = createTeamSchema.safeParse(body);
@@ -33,7 +27,7 @@ export async function POST(request: NextRequest) {
   }
 
   const team = await prisma.team.create({
-    data: { ...parsed.data, clubId: result.scope.clubId },
+    data: { ...parsed.data, clubId: result.clubId },
   });
 
   return NextResponse.json({ team }, { status: 201 });

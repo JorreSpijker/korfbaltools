@@ -1,17 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
-import { requireClubManager } from "@/lib/require-user";
-import { errorResponse } from "@/lib/api-response";
+import { requireClub } from "@/lib/club-context";
 
 export async function GET() {
-  const result = await requireClubManager();
+  const result = requireClub("mijn-club");
   if ("response" in result) return result.response;
-  if (result.scope.type !== "club") {
-    return errorResponse("forbidden", "Alleen voor clubbeheerders");
-  }
 
   const players = await prisma.player.findMany({
-    where: { clubId: result.scope.clubId },
+    where: { clubId: result.clubId },
     orderBy: { naam: "asc" },
   });
 

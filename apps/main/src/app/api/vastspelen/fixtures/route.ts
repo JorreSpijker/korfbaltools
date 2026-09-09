@@ -1,15 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createVastspelenFixtureSchema } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 import { ensureVastspelenTeams, toPublicFixture } from "@/lib/vastspelen";
 
 export async function GET(request: NextRequest) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const teamNiveauParam = request.nextUrl.searchParams.get("teamNiveau");
   const teamIds =
     teamNiveauParam === "1" ? [team1.id] : teamNiveauParam === "2" ? [team2.id] : [team1.id, team2.id];
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const body = await request.json().catch(() => null);
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     return errorResponse("not_found", "Seizoensperiode niet gevonden");
   }
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const teamId = parsed.data.teamNiveau === 1 ? team1.id : team2.id;
 
   const fixture = await prisma.vastspelenFixture.create({

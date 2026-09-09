@@ -1,6 +1,5 @@
 import { Container } from "@korfbaltools/ui";
 import type { VastspelenAppearance, VastspelenFixture, VastspelenPlayer } from "@korfbaltools/types";
-import { requireTeamleider } from "@/lib/require-teamleider";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { AppearancesForm } from "@/components/appearances-form";
 
@@ -9,7 +8,6 @@ interface PageProps {
 }
 
 export default async function WedstrijdDetailPage({ params }: PageProps) {
-  await requireTeamleider();
   const { id } = await params;
 
   const [fixtureResponse, stateResponse, appearancesResponse] = await Promise.all([

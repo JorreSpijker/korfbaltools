@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import {
-  AdminSettings,
   KorfbalToolBar,
   Footer,
   CookieConsent,
@@ -8,29 +7,49 @@ import {
   ServiceWorkerRegister,
   InstallPrompt,
 } from "@korfbaltools/ui";
-import { getSessionUser } from "@/lib/session";
 import { getNavApps } from "@/lib/apps";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Korfbaltools.nl",
-  description: "Tools voor korfbalclubs",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — tools voor korfbalclubs`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    locale: "nl_NL",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    title: `${SITE_NAME} — tools voor korfbalclubs`,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE_NAME} — tools voor korfbalclubs`,
+    description: SITE_DESCRIPTION,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+  },
 };
 
 export const viewport: Viewport = {
   themeColor: "#0E1C31",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const user = await getSessionUser();
-  const apps = await getNavApps(user);
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nl">
       <body className="bg-neutral-50 flex flex-col min-h-screen">
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        <KorfbalToolBar user={user} apps={apps} />
-        <AdminSettings user={user} />
+        <KorfbalToolBar apps={getNavApps()} />
         {children}
         <Footer />
         <CookieConsent />

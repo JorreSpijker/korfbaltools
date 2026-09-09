@@ -1,6 +1,6 @@
 ---
 name: Korfbaltools.nl
-description: The shared voordeur for club volunteers — calm, flat, navy-and-orange, one visual family across main, admin and every tool it hosts.
+description: The shared voordeur for club volunteers — calm, flat, navy-and-orange, one visual family across main and every tool it hosts.
 colors:
   vaandelmarine: "#0E1C31"
   vaandelmarine-tint: "oklch(0.93 0.018 258)"
@@ -105,7 +105,7 @@ components:
 
 **Creative North Star: "De Voordeur" (The Front Door)**
 
-Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamindeling today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (`NavShape`) cut into the nav bar, footer and admin toggle — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows.
+Korfbaltools.nl is the single voordeur club volunteers walk through before every tool behind it — Teamindeling today, more later. The system reads as a doorway, not a destination: calm, flat, wayfinding-first. Its one recurring signature — the angular pennant corner (`NavShape`) cut into the nav bar and footer — is the only decorative flourish the system allows itself, and it earns its place by doing a job: marking edges and thresholds, literally shaped like a small flag planted at each corner. Everything else is plain type, flat color fields, and borders instead of shadows.
 
 This system explicitly rejects felle sportkleuren, scoreboard-chrome, ad-achtige dichte layouts and uitroeptekens — the korfbal-scoreboard-app cliché PRODUCT.md names directly. It equally rejects generic SaaS landing-page scaffolding: no hero-metric blocks, no fabricated testimonials or "vertrouwd door X clubs" logo rows, no Notion/Linear-style trendy minimalism standing in for a real identity, and no enterprise-grey forms-on-forms scaffolding. The platform is honest about its early stage — one working tool, more coming — and the interface says so in plain Dutch rather than dressing up an empty roadmap.
 
@@ -123,19 +123,18 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 - **Diepe Vaandelmarine** (`#0E1C31`): the structural color of the whole platform — nav bar fill, footer fill, primary buttons, the pennant-corner shape itself, and heading text (at the `vaandelmarine-hover` step, see below) on the homepage hero. It is the platform's authority color: used generously, never as decoration.
 - **Vaandelmarine Tint** (`oklch(0.93 0.018 258)`): the lightest step, used only as an icon-tile background behind app icons on the homepage grid.
 - **Vaandelmarine Border** (`oklch(0.75 0.038 258)`): hover-state border color for app cards — the only mid-tone step in active use.
-- **Vaandelmarine Panel** (`oklch(0.55 0.045 258)`): background for the account/mobile dropdown menu panel — a lighter step than the bar itself, so the open menu reads as a distinct surface above it.
+- **Vaandelmarine Panel** (`oklch(0.55 0.045 258)`): background for the mobile dropdown menu panel — a lighter step than the bar itself, so the open menu reads as a distinct surface above it.
 - **Vaandelmarine Hover** (`oklch(0.19 0.042 258)`): button hover/pressed fill, and doubles as the heading color (`text-primary-600`) on the homepage hero and section icons.
 - **Vaandelmarine Deep** (`oklch(0.15 0.036 258)`): icon fill inside the "Teamindeling" feature callout.
-- **Vaandelmarine Pressed** (`oklch(0.11 0.028 258)`): hover fill for the floating admin-panel toggle.
 
 ### Secondary
-- **Signaaloranje** (`#F16018`): the platform's one accent, and the logo mark's own color. Reserved for the unauthenticated nav's "Account aanmaken" pill and the small nav-pill app links — genuine calls to action, never body decoration. On the unauthenticated pill it sits inverted (orange fill, navy text) rather than the usual white-on-color, a deliberate one-off contrast flip worth preserving.
+- **Signaaloranje** (`#F16018`): the platform's one accent, and the logo mark's own color. Reserved for the small nav-pill app links — genuine calls to action, never body decoration. It sits inverted there (orange fill against the navy bar) rather than the usual white-on-color.
 - **Signaaloranje Hover** (`oklch(0.58 0.185 42)`): hover fill for every orange element above.
 
 ### Neutral
 - **Paper** (`#fafafa`): card background for "coming soon" / locked states, and page-level surface behind the app grid.
-- **Neutral Outline** (`#d4d4d4`): border for admin's `outline` button variant — a step darker than the standard divider, reserved for elements that need to read as a control (bordered button) rather than a passive divider.
-- **Neutral Border** (`#e5e5e5`): every hairline divider and card border across main and admin, and the border on every portaled overlay (dialog, popover, select, dropdown).
+- **Neutral Outline** (`#d4d4d4`): border for the `outline` button variant — a step darker than the standard divider, reserved for elements that need to read as a control (bordered button) rather than a passive divider.
+- **Neutral Border** (`#e5e5e5`): every hairline divider and card border, and the border on every portaled overlay (dialog, popover, select, dropdown).
 - **Neutral Muted** (`#737373`): secondary icon color, disabled-state text.
 - **Neutral Body** (`#525252`): default body copy color — descriptions, paragraph text, nav links at rest.
 - **Neutral Ink** (`#171717`): headings and emphasized inline text (card titles, feature names).
@@ -146,19 +145,19 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 ### Named Rules
 **The One Accent Rule.** Signaaloranje appears only on elements that trigger an action (register CTA, app-launch pills). It never appears as a background tint, a heading color, or body decoration. If orange shows up anywhere passive, that's a bug, not a style choice.
 
-**The Shared-Family Rule.** Vaandelmarine's hue (258°) is locked to match `apps/teamindeling`'s own `accent` color family (see its `tailwind.config.ts`), so the platform shell and the tool it hosts read as one visual family, not two projects sharing a login screen. Any new app added to the platform inherits this same navy, not a new brand color.
+**The Shared-Family Rule.** Vaandelmarine's hue (258°) is locked to match `apps/teamindeling`'s own `accent` color family (see its `tailwind.config.ts`), so the platform shell and the tool it hosts read as one visual family, not two unrelated projects. Any new app added to the platform inherits this same navy, not a new brand color.
 
 ## 3. Typography
 
 **Display / Body Font:** Inter (with system-ui, sans-serif fallback)
-**Label/Mono Font:** JetBrains Mono (declared as the platform mono stack; not yet rendered in main/admin UI — reserved for future code/data display)
+**Label/Mono Font:** JetBrains Mono (declared as the platform mono stack; not yet rendered in the UI — reserved for future code/data display)
 
 **Character:** A single, quiet sans across every weight. No display serif, no second brand typeface — the restraint itself is the personality, matching "onopvallende autoriteit."
 
 ### Hierarchy
 - **Display** (600, `clamp(2.25rem, 4vw, 3rem)`, 1.1): the homepage `<h1>` only — "Korfbaltools.nl" — in Vaandelmarine Hover, the single largest moment on the whole platform.
-- **Headline** (600, `clamp(1.5rem, 2.5vw, 1.875rem)`, 1.25): section headings within the homepage ("Één account, alle tools voor je club", "Hoe het werkt").
-- **Title** (600, 1.25rem): page-level form titles (login/register `<h1>`), the "Apps" section label, feature-card titles.
+- **Headline** (600, `clamp(1.5rem, 2.5vw, 1.875rem)`, 1.25): section headings within the homepage ("Tools uitgelicht", "Gemaakt voor clubvrijwilligers").
+- **Title** (600, 1.25rem): page-level titles (`<h1>`), the "Apps" section label, feature-card titles.
 - **Body** (400, 1rem, 1.6): descriptive paragraph copy under headings. Capped at `max-w-xl` (≈65ch) wherever it appears as prose.
 - **Label** (400, 0.875rem, 1.4): form field labels, nav links, card descriptions, footer links. Sentence case throughout — never uppercase, never letter-spaced as a kicker.
 
@@ -167,7 +166,7 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 
 ## 4. Elevation
 
-Flat at rest, everywhere content stays in the document flow: cards, buttons, the nav bar, badges. Depth there is conveyed with a 1px `neutral-border` hairline and, for disabled/locked states, a shift to the `paper` background plus a dashed border. Shadows exist, but strictly for the portaled overlay layer — dialog, popover, select, dropdown-menu (`apps/admin`'s shadcn primitives) all use the same single `shadow-lg` value, and nothing else does. The pennant corner is the system's other depth cue: it marks an edge by cutting a flag shape into it, not by lifting it with a shadow.
+Flat at rest, everywhere content stays in the document flow: cards, buttons, the nav bar, badges. Depth there is conveyed with a 1px `neutral-border` hairline and, for disabled/locked states, a shift to the `paper` background plus a dashed border. Shadows exist, but strictly for the portaled overlay layer — dialog, popover, select, dropdown-menu (the shadcn primitives) all use the same single `shadow-lg` value, and nothing else does. The pennant corner is the system's other depth cue: it marks an edge by cutting a flag shape into it, not by lifting it with a shadow.
 
 ### Shadow Vocabulary
 - **Overlay** (`box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)`, Tailwind `shadow-lg`): the one shadow in the system. Used only on Radix-portaled surfaces (dialog, popover, select content, dropdown-menu) that render above the page.
@@ -181,18 +180,17 @@ Buttons, cards and inputs are plain and rectangular-adjacent (never sharp corner
 
 ### Buttons
 - **Shape:** `rounded-md` (0.5rem) for primary actions; `rounded-sm` (0.25rem) for the small in-nav app pills.
-- **Primary:** Vaandelmarine fill, white text, `px-4 py-2` — the register CTA and login submit both use this exact treatment.
+- **Primary:** Vaandelmarine fill, white text, `px-4 py-2` — the standard call to action.
 - **Nav pill:** Signaaloranje fill, white text, `px-2 py-1` — used for the small app-launch links inside the nav bar's pennant-cornered pill.
-- **Inverted (unauthenticated nav CTA):** Signaaloranje fill with **Vaandelmarine text** (not white) — the system's one deliberate contrast flip, reserved for the "Account aanmaken" link inside the toolbar.
-- **Outline (apps/admin):** white fill, `neutral-outline` border, `neutral-ink` text — secondary actions like "Wachtwoord resetten". Hover fills `paper`.
-- **Destructive (apps/admin):** `danger` fill, white text, for irreversible admin actions (deactivate, delete) only. Hover dims to 90% opacity, not a darker shade.
-- **Ghost (apps/admin):** transparent at rest, `paper` fill on hover, no border — lowest-emphasis action in a row (table row actions).
+- **Outline:** white fill, `neutral-outline` border, `neutral-ink` text — secondary actions. Hover fills `paper`.
+- **Destructive:** `danger` fill, white text, for irreversible actions (verwijderen) only. Hover dims to 90% opacity, not a darker shade.
+- **Ghost:** transparent at rest, `paper` fill on hover, no border — lowest-emphasis action in a row (table row actions).
 - **Hover / Focus:** background steps one tone darker (`vaandelmarine` → `vaandelmarine-hover`, `signaaloranje` → `signaaloranje-hover`); no transform, no shadow.
 - **Disabled:** `opacity-50`, no other visual change.
 
 ### Chips
 - **Style:** `rounded-full`, `px-2.5 py-0.5`, `text-xs font-medium` — the only fully pill-shaped element besides the small nav pills.
-- **Default:** `vaandelmarine-tint` background, `vaandelmarine-deep` text — capability/role badges in the admin users table.
+- **Default:** `vaandelmarine-tint` background, `vaandelmarine-deep` text — neutral labels such as a team's category.
 - **Success / Danger:** the semantic color at 10% opacity as background, the solid semantic color as text (e.g. `danger` at 10% behind, solid `danger` text) — never a solid semantic fill at chip scale.
 
 ### Cards / Containers
@@ -208,11 +206,11 @@ Buttons, cards and inputs are plain and rectangular-adjacent (never sharp corner
 - **Error:** field-level message in `danger` (`#dc2626`) directly beneath the input, never a red border or background tint.
 
 ### Navigation
-- **Style:** full-width Vaandelmarine bar, pennant-cornered at both top edges, sticky (`sticky top-0`). Logo tile expands on hover to reveal the wordmark. App links render as Signaaloranje pills at the bar's center. Account menu is a Radix dropdown on Vaandelmarine Panel (a lighter navy than the bar itself, for contrast against the panel).
-- **Mobile:** the app-pill row and account menu collapse into a single hamburger dropdown at the bar's right edge; same pennant-corner treatment carries over.
+- **Style:** full-width Vaandelmarine bar, pennant-cornered at both top edges, sticky (`sticky top-0`). Logo tile expands on hover to reveal the wordmark. App links render as Signaaloranje pills at the bar's center. The bar carries no account or auth controls — only the logo and the app links.
+- **Mobile:** the app-pill row collapses into a single hamburger dropdown at the bar's right edge; same pennant-corner treatment carries over.
 
 ### Pennant Corner (signature component)
-The `NavShape` — a small angular flag SVG (`viewBox 0 0 60 60`, rendered at 16×16px) — is the system's one recurring decorative device. It appears in mirrored pairs bracketing the nav bar, the footer, and the floating admin toggle, always filled with the surface's own background color so it reads as a cut corner rather than an applied sticker. `flipHorizontal` / `flipVertical` props mirror it to bracket any rectangular surface. New chrome elements (a future toolbar, a new app's header) should reuse this exact shape rather than inventing a new corner treatment.
+The `NavShape` — a small angular flag SVG (`viewBox 0 0 60 60`, rendered at 16×16px) — is the system's one recurring decorative device. It appears in mirrored pairs bracketing the nav bar and the footer, always filled with the surface's own background color so it reads as a cut corner rather than an applied sticker. `flipHorizontal` / `flipVertical` props mirror it to bracket any rectangular surface. New chrome elements (a future toolbar, a new app's header) should reuse this exact shape rather than inventing a new corner treatment.
 
 ## 6. Do's and Don'ts
 
@@ -221,7 +219,7 @@ The `NavShape` — a small angular flag SVG (`viewBox 0 0 60 60`, rendered at 16
 - **Do** ration Signaaloranje (`#F16018`) to genuine calls to action only.
 - **Do** use the pennant-corner `NavShape` for any new chrome that needs a corner treatment, instead of inventing a new decorative shape.
 - **Do** convey depth with a `neutral-border` hairline or a `paper` background shift — never a shadow.
-- **Do** keep copy in direct Dutch sentence case ("Inloggen", not "Log hier eenvoudig in!").
+- **Do** keep copy in direct Dutch sentence case ("Teams beheren", not "Beheer hier eenvoudig je teams!").
 
 ### Don't:
 - **Don't** introduce felle sportkleuren, scoreboard-chrome, or uitroeptekens — the korfbal-scoreboard-app cliché this platform explicitly rejects.

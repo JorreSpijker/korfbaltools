@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { updateVastspelenPlayerSchema } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 import { ensureVastspelenTeams } from "@/lib/vastspelen";
 
@@ -10,7 +10,7 @@ interface RouteParams {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const { id } = await params;
@@ -20,7 +20,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
     return validationErrorResponse(parsed.error);
   }
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const clubTeamIds = [team1.id, team2.id];
 
   const existing = await prisma.vastspelenPlayer.findUnique({ where: { id } });
@@ -46,11 +46,11 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 }
 
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const { id } = await params;
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const clubTeamIds = [team1.id, team2.id];
 
   const existing = await prisma.vastspelenPlayer.findUnique({ where: { id } });

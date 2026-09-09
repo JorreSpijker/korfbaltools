@@ -1,5 +1,22 @@
 # Korfbaltools.nl – Architectuur & Bouwplan
 
+> **Deels achterhaald.** Dit document beschrijft de oorspronkelijke opzet mét accounts, rollen en een
+> adminpaneel. Die zijn verwijderd (zie `plan.md` in de repo-root). Wat niet meer klopt:
+>
+> - **Auth (sectie 4, 5, deels 6/7)** — geen registratie, login, sessies, rollen of capabilities meer. Alles
+>   is voor iedereen toegankelijk.
+> - **apps/admin** — bestaat niet meer. Gebruikers-, club- en app-beheer via de UI is weg.
+> - **App-zichtbaarheid** — kwam uit de `AppConfig`-tabel, komt nu uit `APP_<NAAM>_ENABLED` in de omgeving
+>   (zie `apps/main/src/lib/apps.ts`).
+> - **Club-context** — kwam uit `user.clubId`, komt nu uit `DEFAULT_CLUB_ID`.
+>
+> Wat wél nog klopt: de monorepo-opzet, de multi-zone routing via rewrites (sectie 6/10), de gedeelde
+> packages (sectie 12) en het recept om een nieuwe tool toe te voegen (sectie 9), met dien verstande dat
+> een nieuwe app geen capability meer krijgt maar een sleutel in `lib/apps.ts` plus een env-toggle.
+>
+> De Prisma-modellen voor gebruikers, sessies en audit-log staan nog in het schema, maar worden nergens
+> meer gebruikt.
+
 ## 1. Overzicht
 
 Korfbaltools.nl wordt een platform met meerdere losse tools voor korfbal. **Welke tools er precies komen staat nog niet vast** (denk aan teamindeling, statistieken, training, planning). Dit plan beschrijft daarom eerst de **huls**: het platform-fundament (auth, admin, monorepo, deployment) waar elke toekomstige tool op aansluit, plus het recept om een nieuwe tool toe te voegen zodra die gekozen wordt (sectie 9).

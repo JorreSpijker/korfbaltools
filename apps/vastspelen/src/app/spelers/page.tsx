@@ -1,12 +1,9 @@
 import { Container } from "@korfbaltools/ui";
 import type { VastspelenPlayer } from "@korfbaltools/types";
-import { requireTeamleider } from "@/lib/require-teamleider";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { SpelersManager } from "@/components/spelers-manager";
 
 export default async function SpelersPage() {
-  await requireTeamleider();
-
   const response = await fetchMainApi("/api/vastspelen/state");
   await ensureOk(response, "Kan spelers niet laden");
   const { players } = (await response.json()) as { players: VastspelenPlayer[] };

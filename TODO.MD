@@ -14,29 +14,17 @@
   [X] Lighthouse PWA-audit draaien
 
 ## Prio 2
-[X] Gebruikers instellingen
-[X] Adminpaneel
 [X] Favicon
-
-## Prio 3 — Auth
-[X] Wachtwoord-vergeten flow (zelfbediening, zonder admin)
-[X] E-mailverificatie bij registratie
-[X] Rate limiting op login/register/reset-password
-[X] AVG-consent checkbox bij registratie
-[] Resend werkend maken
-
-## Prio 3 — Admin
-[X] Gebruiker aanmaken/uitnodigen vanuit adminpaneel
-[X] Club-CRUD UI in admin
-[] Audit-log paginatie/filter (nu hard limit 100)
-[] Engels label "Under construction" vertalen naar NL (maintenance-mode-toggle.tsx)
+[X] Login, accounts, rollen en adminpaneel verwijderd — apps staan nu aan/uit via `APP_<NAAM>_ENABLED`
 
 ## Prio 3 — Product
 [] Teamindeling server-opslag (nu alleen localStorage, geen multi-device/delen)
 [] Speelgerechtigheid app maken
 [] Scoreformulier app maken
 [] Toernooi app maken
+[] Club-context voor vastspelen/mijn-club: nu één vaste `DEFAULT_CLUB_ID`, geen keuze in de UI
 
 ## Prio 3 — Kwaliteit
-[] A11y form-fixes: aria-invalid/aria-describedby/role=alert op login/register/reset/admin-forms
+[] A11y form-fixes: aria-invalid/aria-describedby/role=alert op de formulieren binnen de tools
 [] Sticky footer component met versie
+[] Ongebruikte auth-tabellen (User, Session, AuditLog, AppConfig, PlatformSettings) uit het Prisma-schema halen

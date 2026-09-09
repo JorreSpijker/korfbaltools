@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import type { VastspelenPlayer, VastspelenTeamNiveau } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import {
   bepaalSpelerStatus,
   ensureVastspelenTeams,
@@ -14,12 +14,12 @@ import {
 // Dashboard-state (zie plan fase 5): beide teams van de club, hun spelers met
 // stoplicht-status, en de actieve seizoensperiode. Spelerslijst is bewust
 // gedeeld tussen beide teamleiders (zie plan "Openstaande ontwerpkeuze") —
-// requireVastspelen scoopt alleen op club, niet op team-niveau.
+// de club-context scoopt alleen op club, niet op team-niveau.
 export async function GET() {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const teamNiveauById = new Map<string, VastspelenTeamNiveau>([
     [team1.id, 1],
     [team2.id, 2],

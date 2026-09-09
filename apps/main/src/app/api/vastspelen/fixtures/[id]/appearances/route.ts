@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { saveVastspelenAppearancesSchema } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 import { ensureVastspelenTeams, toPublicAppearance } from "@/lib/vastspelen";
 
@@ -17,11 +17,11 @@ async function requireClubFixture(clubId: string, fixtureId: string) {
 }
 
 export async function GET(_request: NextRequest, { params }: RouteParams) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const { id } = await params;
-  const context = await requireClubFixture(result.user.clubId, id);
+  const context = await requireClubFixture(result.clubId, id);
   if (!context) {
     return errorResponse("not_found", "Wedstrijd niet gevonden");
   }
@@ -38,11 +38,11 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
 // "wedstrijd-na-afloop invoerscherm") — eenvoudiger en minder foutgevoelig
 // dan losse create/update/delete-calls per speler vanuit één formulier.
 export async function POST(request: NextRequest, { params }: RouteParams) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const { id } = await params;
-  const context = await requireClubFixture(result.user.clubId, id);
+  const context = await requireClubFixture(result.clubId, id);
   if (!context) {
     return errorResponse("not_found", "Wedstrijd niet gevonden");
   }

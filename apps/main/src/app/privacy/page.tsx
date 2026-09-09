@@ -11,14 +11,29 @@ export default function PrivacyPage() {
     <main className="bg-neutral-50">
       <Container>
         <h1 className="text-2xl font-semibold text-neutral-900">Privacybeleid</h1>
-        <p className="text-sm text-neutral-500">Laatst bijgewerkt: 8 juli 2026</p>
+        <p className="text-sm text-neutral-500">Laatst bijgewerkt: 9 september 2026</p>
 
         <section className="flex flex-col gap-2">
-          <h2 className="text-lg font-semibold text-neutral-900">Welke gegevens verzamelen we</h2>
+          <h2 className="text-lg font-semibold text-neutral-900">Geen account nodig</h2>
           <p className="text-neutral-700">
-            Als je een account aanmaakt slaan we je naam, e-mailadres en een gehasht wachtwoord op, samen met je
-            koppeling aan een club en een sessie-cookie om je ingelogd te houden. Deze gegevens gebruiken we
-            uitsluitend om Korfbaltools.nl te laten werken.
+            Korfbaltools.nl werkt zonder account. Je hoeft niet in te loggen en we vragen geen naam, e-mailadres of
+            wachtwoord van je.
+          </p>
+        </section>
+
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold text-neutral-900">Gegevens die je zelf invoert</h2>
+          <p className="text-neutral-700">
+            De Teamindeling-tool bewaart wat je invult alleen in je eigen browser (localStorage). Die gegevens komen
+            niet op onze servers terecht en verdwijnen als je je browsergegevens wist.
+          </p>
+        </section>
+
+        <section className="flex flex-col gap-2">
+          <h2 className="text-lg font-semibold text-neutral-900">Cookies</h2>
+          <p className="text-neutral-700">
+            We plaatsen één cookie om te onthouden welke keuze je in de cookiemelding hebt gemaakt. Verder gebruiken
+            we geen functionele cookies, omdat er geen inlog is.
           </p>
         </section>
 
@@ -44,16 +59,16 @@ export default function PrivacyPage() {
         <section className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold text-neutral-900">Jouw rechten</h2>
           <p className="text-neutral-700">
-            Je kunt je account en de bijbehorende gegevens op elk moment laten inzien, aanpassen of verwijderen door
-            contact met ons op te nemen.
+            Wil je weten welke gegevens van je club bij ons staan, of wil je ze laten aanpassen of verwijderen? Neem
+            contact met ons op, dan regelen we dat.
           </p>
         </section>
 
         <section className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold text-neutral-900">Contact</h2>
           <p className="text-neutral-700">
-            Vragen over dit privacybeleid? Neem contact op via {/* TODO: contactadres invullen */}
-            <span className="font-medium">[contactadres nog toevoegen]</span>.
+            Vragen over dit privacybeleid? Neem contact op via 
+             <a href="mailto:jorre@outlook.com" className="font-medium underline ml-1">jorre@outlook.com</a>.
           </p>
         </section>
       </Container>

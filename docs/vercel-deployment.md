@@ -1,8 +1,9 @@
 # Vercel Deployment — Step by Step
 
-Companion to [setup-checklist.md](./setup-checklist.md) section 5, updated for the 3 current apps (`main`, `admin`, `teamindeling`) and gaps found in the repo as of this writing (no teamindeling rewrite in prod `vercel.json`, no `prisma migrate deploy` step wired anywhere).
+Companion to [setup-checklist.md](./setup-checklist.md) section 5, for the 4 current apps (`main`,
+`teamindeling`, `vastspelen`, `scoreformulier`).
 
-Do main first (owns the DB), then admin, then teamindeling.
+Do main first (owns the DB), then the tool apps.
 
 ---
 
@@ -10,7 +11,6 @@ Do main first (owns the DB), then admin, then teamindeling.
 
 - [ ] Repo pushed to GitHub
 - [ ] Postgres DB ready (Supabase), `DATABASE_URL` + `DIRECT_URL` in hand
-- [ ] Resend API key ready
 
 ---
 
@@ -23,9 +23,14 @@ Do main first (owns the DB), then admin, then teamindeling.
 - [ ] Environment variables:
   - `DATABASE_URL`
   - `DIRECT_URL`
-  - `RESEND_API_KEY`
   - `NEXT_PUBLIC_APP_URL` = `https://korfbaltools.nl` (production)
-  - leave `ADMIN_APP_URL` / `TEAMINDELING_APP_URL` unset in production — those are dev-only overrides (see [apps/main/next.config.mjs](../apps/main/next.config.mjs)); prod routing goes through `vercel.json` rewrites instead
+  - `APP_TEAMINDELING_ENABLED` / `APP_SCOREFORMULIER_ENABLED` / `APP_VASTSPELEN_ENABLED` /
+    `APP_STATISTIEKEN_ENABLED` / `APP_MIJN_CLUB_ENABLED` — `"true"` zet een app aan, al het andere zet hem
+    uit (zie [apps/main/src/lib/apps.ts](../apps/main/src/lib/apps.ts))
+  - `DEFAULT_CLUB_ID` — alleen nodig als `vastspelen` of `mijn-club` aan staat; die data is club-gescoped
+  - leave `TEAMINDELING_APP_URL` / `VASTSPELEN_APP_URL` / `SCOREFORMULIER_APP_URL` unset in production —
+    those are dev-only overrides (see [apps/main/next.config.mjs](../apps/main/next.config.mjs)); prod
+    routing goes through `vercel.json` rewrites instead
 - [ ] Settings → Git → Ignored Build Step:
   ```
   npx turbo-ignore
@@ -46,37 +51,27 @@ DATABASE_URL="<prod-url>" DIRECT_URL="<prod-direct-url>" \
 
 ---
 
-## 3. Vercel project: admin
+## 3. Vercel projects: the tool apps
+
+Same recipe per app (`teamindeling`, `vastspelen`, `scoreformulier`):
 
 - [ ] Add New → Project → same repo, new project
-- [ ] **Root Directory**: `apps/admin`
-- [ ] Environment variable: `MAIN_APP_URL` = `https://korfbaltools.nl`
+- [ ] **Root Directory**: `apps/<app>`
+- [ ] Environment variable: `MAIN_APP_URL` = `https://korfbaltools.nl` (used for the shared toolbar's app list)
 - [ ] Ignored Build Step: `npx turbo-ignore`
-- [ ] Deploy, note the assigned domain (e.g. `korfbaltools-admin.vercel.app`)
+- [ ] Deploy, note the assigned domain (e.g. `korfbaltools-teamindeling.vercel.app`)
 
 ---
 
-## 4. Vercel project: teamindeling
+## 4. Wire rewrites in main
 
-Not yet covered by [setup-checklist.md](./setup-checklist.md) — that doc predates this app.
-
-- [ ] Add New → Project → same repo, new project
-- [ ] **Root Directory**: `apps/teamindeling`
-- [ ] Framework preset: Vite (auto-detected)
-- [ ] Ignored Build Step: `npx turbo-ignore`
-- [ ] Deploy, note the assigned domain
-
----
-
-## 5. Wire rewrites in main (gap: currently missing)
-
-[apps/main/vercel.json](../apps/main/vercel.json) only rewrites `/admin/*` today. Add teamindeling using the real domains from steps 3–4:
+[apps/main/vercel.json](../apps/main/vercel.json) rewrites each tool path to its own deployment. Update the
+domains there if they differ from the defaults:
 
 ```json
 {
   "rewrites": [
-    { "source": "/admin/:path*", "destination": "https://<admin-domain>/admin/:path*" },
-    { "source": "/teamindeling", "destination": "https://<teamindeling-domain>/teamindeling/" },
+    { "source": "/teamindeling", "destination": "https://<teamindeling-domain>/teamindeling" },
     { "source": "/teamindeling/:path+", "destination": "https://<teamindeling-domain>/teamindeling/:path+" }
   ]
 }
@@ -84,11 +79,14 @@ Not yet covered by [setup-checklist.md](./setup-checklist.md) — that doc preda
 
 Commit + push → main redeploys automatically.
 
+A rewrite alone is not enough: main's middleware 404't een app-pad zolang de bijbehorende
+`APP_<NAAM>_ENABLED` niet op `"true"` staat.
+
 ---
 
-## 6. Verify
+## 5. Verify
 
 - [ ] `korfbaltools.nl` loads main
-- [ ] `korfbaltools.nl/admin` proxies to the admin project (admin role only)
 - [ ] `korfbaltools.nl/teamindeling` proxies to the teamindeling project
+- [ ] An app whose toggle is off returns a 404 instead of proxying
 - [ ] Preview deployments work by opening a PR (Vercel auto-creates one per project)

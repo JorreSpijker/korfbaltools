@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { createVastspelenPlayerSchema } from "@korfbaltools/types";
-import { requireVastspelen } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { validationErrorResponse } from "@/lib/api-response";
 import { ensureVastspelenTeams } from "@/lib/vastspelen";
 
 export async function POST(request: NextRequest) {
-  const result = await requireVastspelen();
+  const result = requireClub("vastspelen");
   if ("response" in result) return result.response;
 
   const body = await request.json().catch(() => null);
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     return validationErrorResponse(parsed.error);
   }
 
-  const { team1, team2 } = await ensureVastspelenTeams(result.user.clubId);
+  const { team1, team2 } = await ensureVastspelenTeams(result.clubId);
   const teamId = parsed.data.teamNiveau === 1 ? team1.id : team2.id;
 
   const player = await prisma.vastspelenPlayer.create({

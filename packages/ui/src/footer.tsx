@@ -1,5 +1,4 @@
 import { Logo } from "./logo";
-import { Container } from "./container";
 import { NavShape } from "./nav-shape";
 
 export function Footer() {
@@ -11,7 +10,7 @@ export function Footer() {
       <div className="absolute top-0 right-0 -translate-y-[100%]" >
         <NavShape flipVertical flipHorizontal />
       </div>
-      <Container>
+      <div className="mx-auto w-full flex max-w-4xl flex-col items-start gap-3 px-6 py-8">
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full justify-between items-center">
           <div className="flex flex-col sm:flex-row gap-2 items-center">
             <Logo size={40} />
@@ -22,11 +21,10 @@ export function Footer() {
           </div>
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-between items-center">
             <a href="/privacy" className="hover:underline">Privacybeleid</a>
-            <a href="/terms" className="hover:underline">Algemene voorwaarden</a>
           </div>
         </div>
         <span className="text-xs text-center sm:text-left text-secondary w-full">© 2026 Korfbaltools.nl</span>
-      </Container>
+      </div>
       <NavShape />
     </footer>
   );

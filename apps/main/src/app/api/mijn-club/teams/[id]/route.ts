@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@korfbaltools/db";
 import { updateTeamSchema } from "@korfbaltools/types";
-import { requireClubManager } from "@/lib/require-user";
+import { requireClub } from "@/lib/club-context";
 import { errorResponse, validationErrorResponse } from "@/lib/api-response";
 
 interface RouteParams {
@@ -9,11 +9,8 @@ interface RouteParams {
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
-  const result = await requireClubManager();
+  const result = requireClub("mijn-club");
   if ("response" in result) return result.response;
-  if (result.scope.type !== "club") {
-    return errorResponse("forbidden", "Alleen voor clubbeheerders");
-  }
 
   const { id } = await params;
   const body = await request.json().catch(() => null);
@@ -23,7 +20,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
   }
 
   const target = await prisma.team.findUnique({ where: { id } });
-  if (!target || target.clubId !== result.scope.clubId) {
+  if (!target || target.clubId !== result.clubId) {
     return errorResponse("not_found", "Team niet gevonden");
   }
 
@@ -34,15 +31,12 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 // Spelers worden losgekoppeld (teamId -> null, zie Player.team onDelete: SetNull),
 // niet verwijderd — ze gaan terug naar de pool.
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
-  const result = await requireClubManager();
+  const result = requireClub("mijn-club");
   if ("response" in result) return result.response;
-  if (result.scope.type !== "club") {
-    return errorResponse("forbidden", "Alleen voor clubbeheerders");
-  }
 
   const { id } = await params;
   const target = await prisma.team.findUnique({ where: { id } });
-  if (!target || target.clubId !== result.scope.clubId) {
+  if (!target || target.clubId !== result.clubId) {
     return errorResponse("not_found", "Team niet gevonden");
   }
 

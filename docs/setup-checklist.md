@@ -9,10 +9,9 @@ Praktisch stappenplan om de huls uit [plan.md](./plan.md) daadwerkelijk op te ze
 - [ ] GitHub — repository/organisatie voor de monorepo
 - [ ] Vercel — team account, gekoppeld aan GitHub
 - [ ] Supabase — voor de Postgres database
-- [ ] Resend — voor transactional e-mail (wachtwoord reset)
 - [ ] Domeinregistrar — controleer dat je toegang hebt tot de DNS-instellingen van `korfbaltools.nl`
 
-> Upstash (rate limiting) en Sentry (monitoring) zijn niet nodig voor een werkend platform — zie sectie 12 "Later (na livegang)".
+> Sentry (monitoring) is niet nodig voor een werkend platform — zie sectie 12 "Later (na livegang)".
 
 ---
 
@@ -33,26 +32,27 @@ Praktisch stappenplan om de huls uit [plan.md](./plan.md) daadwerkelijk op te ze
 - [ ] Database-connectiestring (`DATABASE_URL`) uit Supabase-dashboard kopiëren (gebruik de **pooled** connection string voor serverless/Vercel)
 - [ ] Prisma installeren in `packages/db` (`pnpm add -D prisma`, `pnpm add @prisma/client`)
 - [ ] `prisma init` draaien, `DATABASE_URL` in `.env` zetten
-- [ ] Schema opzetten: `User`, `Club`, `AuditLog` (zie plan.md sectie 7)
+- [ ] Schema opzetten: `Club`, `Team`, `Player` en de `Vastspelen*`-modellen (zie packages/db/prisma/schema.prisma)
 - [ ] Eerste migratie draaien (`prisma migrate dev`)
 
 ---
 
-## 4. Auth (NextAuth / Auth.js)
+## 4. Apps aan/uit zetten
 
-- [ ] `NEXTAUTH_SECRET` genereren (`openssl rand -base64 32`)
-- [ ] NextAuth installeren in `apps/main`, Prisma-adapter koppelen aan `packages/db`
-- [ ] Database sessions configureren (niet JWT)
-- [ ] Sessioncookie-config: `domain` alleen instellen op `.korfbaltools.nl` in productie (zie plan.md sectie 5)
+Er is geen auth: elke bezoeker ziet hetzelfde. Wat er te zien is bepaal je per omgeving.
+
+- [ ] Per app een `APP_<NAAM>_ENABLED` zetten in `apps/main` (`"true"` = aan, al het andere = uit)
+- [ ] `DEFAULT_CLUB_ID` zetten als `vastspelen` of `mijn-club` aan staat — die data is club-gescoped
+- [ ] Controleren dat een uitgeschakelde app een 404 geeft (afgevangen in `apps/main/src/middleware.ts`)
 
 ---
 
 ## 5. Vercel projecten
 
 - [ ] Vercel-project **main** aanmaken, root directory `apps/main`
-- [ ] Vercel-project **admin** aanmaken, root directory `apps/admin`
+- [ ] Per tool-app een Vercel-project aanmaken, root directory `apps/<app>`
 - [ ] Voor elk project: "Ignored Build Step" instellen op `npx turbo-ignore`
-- [ ] Voor elk project: environment variables invullen (zie tabel in sectie 11 hieronder)
+- [ ] Voor elk project: environment variables invullen (zie tabel in sectie 8 hieronder)
 - [ ] Preview-deployments testen door een PR te openen
 
 ---
@@ -62,20 +62,11 @@ Praktisch stappenplan om de huls uit [plan.md](./plan.md) daadwerkelijk op te ze
 - [ ] `korfbaltools.nl` als custom domain toevoegen aan het **main**-Vercel-project
 - [ ] DNS-records instellen bij je registrar zoals Vercel aangeeft (meestal een `A`/`ALIAS`-record voor het apex-domein of een `CNAME` voor `www`)
 - [ ] SSL-certificaat laten uitgeven (gebeurt automatisch via Vercel, kan even duren na DNS-wijziging)
-- [ ] `admin` en overige tool-apps blijven op hun `*.vercel.app`-domein — geen custom domain nodig, ze zijn alleen bereikbaar via de rewrite vanuit main
+- [ ] De tool-apps blijven op hun `*.vercel.app`-domein — geen custom domain nodig, ze zijn alleen bereikbaar via de rewrite vanuit main
 
 ---
 
-## 7. E-mail (Resend)
-
-- [ ] Resend-account aanmaken, API key genereren
-- [ ] Verzenddomein verifiëren (bv. `mail.korfbaltools.nl`) via de DNS-records die Resend aangeeft (SPF/DKIM)
-- [ ] `RESEND_API_KEY` toevoegen aan `apps/main` environment variables
-- [ ] Testmail versturen om verificatie te bevestigen
-
----
-
-## 8. CI/CD (GitHub Actions)
+## 7. CI/CD (GitHub Actions)
 
 - [ ] `.github/workflows/ci.yml` aanmaken: draait `turbo lint typecheck test` op elke PR
 - [ ] Turborepo Remote Cache token als GitHub secret toevoegen (`TURBO_TOKEN`, `TURBO_TEAM`)
@@ -83,51 +74,43 @@ Praktisch stappenplan om de huls uit [plan.md](./plan.md) daadwerkelijk op te ze
 
 ---
 
-## 9. Environment variables overzicht
+## 8. Environment variables overzicht
 
-| Variabele | `apps/main` | `apps/admin` | Overige tool-apps |
-|---|---|---|---|
-| `DATABASE_URL` | ✅ | ❌ | ❌ |
-| `NEXTAUTH_SECRET` | ✅ | ❌ | ❌ |
-| `RESEND_API_KEY` | ✅ | ❌ | ❌ |
-| `ADMIN_APP_URL` (voor lokale rewrite) | ✅ | — | — |
+| Variabele | `apps/main` | Tool-apps |
+|---|---|---|
+| `DATABASE_URL` / `DIRECT_URL` | ✅ | ❌ |
+| `APP_<NAAM>_ENABLED` | ✅ | ❌ |
+| `DEFAULT_CLUB_ID` | ✅ | ❌ |
+| `<APP>_APP_URL` (alleen lokale rewrite) | ✅ | — |
+| `MAIN_APP_URL` | ❌ | ✅ |
 
-Alleen `apps/main` praat rechtstreeks met database/e-mail — zie plan.md sectie 10.
+Alleen `apps/main` praat rechtstreeks met de database — zie plan.md sectie 10.
 
 ---
 
-## 10. Lokale development
+## 9. Lokale development
 
 - [ ] `.env.local` per app aanmaken (nooit committen — check `.gitignore`)
-- [ ] Poorten afspreken: `apps/main` op 3000, `apps/admin` op 3001
-- [ ] `apps/main` lokaal laten rewriten naar `http://localhost:3001` i.p.v. het productie `*.vercel.app`-adres
-- [ ] `turbo dev` draaien vanuit de root en controleren dat login + sessie werkt tussen de apps op localhost
+- [ ] Poorten: `apps/main` 3000, `teamindeling` 3002, `vastspelen` 3003, `scoreformulier` 3004
+- [ ] `apps/main` lokaal laten rewriten naar die localhost-poorten i.p.v. de productie `*.vercel.app`-adressen
+- [ ] `turbo dev` draaien vanuit de root en controleren dat de toolbar in elke app dezelfde app-lijst toont
 
 ---
 
-## 11. Laatste check vóór livegang
+## 10. Laatste check vóór livegang
 
-- [ ] Alle environment variables gecontroleerd in Vercel (main + admin, production én preview)
-- [ ] Eerste admin-account handmatig aangemaakt/gepromoveerd in de database (`role: "admin"`)
-- [ ] Registratie- en resetflow end-to-end getest (inclusief e-mail-ontvangst)
+- [ ] Alle environment variables gecontroleerd in Vercel (alle projecten, production én preview)
+- [ ] Per app gecontroleerd dat de toggle klopt: aan = bereikbaar, uit = 404
 
 ---
 
-## 12. Later (na livegang, optioneel)
+## 11. Later (na livegang, optioneel)
 
 Niet nodig voor een werkend platform, maar aan te raden zodra er echt gebruikers/traffic zijn — zie plan.md sectie 12.
 
-### Rate limiting (Upstash)
-
-- [ ] Upstash-account aanmaken, Redis-database aanmaken (kies regio dicht bij je Vercel-functies)
-- [ ] `UPSTASH_REDIS_REST_URL` en `UPSTASH_REDIS_REST_TOKEN` kopiëren, toevoegen aan `apps/main` environment variables
-- [ ] `@upstash/ratelimit` + `@upstash/redis` installeren in `apps/main`
-- [ ] Testen: herhaalde login-pogingen worden na X keer geblokkeerd
-- [ ] Alternatief: check eerst of Vercel's eigen Firewall/rate-limiting (Pro-plan) al voldoet, dan is Upstash mogelijk niet nodig
-
 ### Monitoring (Sentry)
 
-- [ ] Sentry-account aanmaken, projecten aanmaken voor `apps/main` en `apps/admin`
-- [ ] Sentry SDK installeren en initialiseren in beide apps (`npx @sentry/wizard@latest -i nextjs`)
+- [ ] Sentry-account aanmaken, project aanmaken per app
+- [ ] Sentry SDK installeren en initialiseren (`npx @sentry/wizard@latest -i nextjs`)
 - [ ] DSN's toevoegen aan de respectievelijke environment variables
 - [ ] Test-error triggeren om te bevestigen dat meldingen binnenkomen

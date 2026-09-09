@@ -1,12 +1,10 @@
 import "server-only";
 import type { KorfbalToolBarNavApp } from "@korfbaltools/ui";
 
-// Only apps/main talks to the database directly (plan.md section 10) —
-// apps/teamindeling always goes through the main API.
+// Welke apps in de toolbar staan wordt door apps/main bepaald (zie zijn
+// lib/apps.ts), zodat er één bron van waarheid is.
 const MAIN_APP_URL = process.env.MAIN_APP_URL ?? "http://localhost:3000";
 
-// Same list as the homepage "Apps" grid, just for the shared toolbar nav
-// (see packages/ui KorfbalToolBar).
 export async function getNavApps(): Promise<KorfbalToolBarNavApp[]> {
   const response = await fetch(`${MAIN_APP_URL}/api/apps`, { cache: "no-store" });
   if (!response.ok) return [];

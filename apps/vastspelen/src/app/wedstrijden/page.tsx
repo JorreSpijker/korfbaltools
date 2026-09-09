@@ -1,12 +1,9 @@
 import { Container } from "@korfbaltools/ui";
 import type { VastspelenFixture, VastspelenSeasonPeriod } from "@korfbaltools/types";
-import { requireTeamleider } from "@/lib/require-teamleider";
 import { ensureOk, fetchMainApi } from "@/lib/main-api";
 import { WedstrijdenManager } from "@/components/wedstrijden-manager";
 
 export default async function WedstrijdenPage() {
-  await requireTeamleider();
-
   const [stateResponse, fixturesResponse] = await Promise.all([
     fetchMainApi("/api/vastspelen/state"),
     fetchMainApi("/api/vastspelen/fixtures"),

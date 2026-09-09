@@ -1,38 +1,22 @@
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { prisma } from "@korfbaltools/db";
-import { getSessionUser } from "@/lib/session";
-import { toPublicUser } from "@/lib/user-mapper";
+import { isAppEnabled } from "@/lib/apps";
 import { Badge } from "@/components/ui/badge";
-import { MembersTable } from "./members-table";
-import { ClubRequestsTable, type ClubJoinRequest } from "./club-requests-table";
 import { TeamsBoard } from "./teams-board";
 
 export default async function MijnClubPage() {
-  const user = await getSessionUser();
-  if (!user) redirect("/login");
-  if (!user.isClubBeheerder || !user.clubId) redirect("/");
+  if (!isAppEnabled("mijn-club")) notFound();
 
-  const club = await prisma.club.findUnique({ where: { id: user.clubId } });
-  if (!club) redirect("/");
-
-  const memberRecords = await prisma.user.findMany({
-    where: { clubId: user.clubId },
-    orderBy: { createdAt: "desc" },
-  });
-  const members = memberRecords.map(toPublicUser);
-
-  const requests: ClubJoinRequest[] = await prisma.user.findMany({
-    where: { pendingClubId: user.clubId },
-    select: { id: true, email: true, naam: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const clubId = process.env.DEFAULT_CLUB_ID;
+  const club = clubId ? await prisma.club.findUnique({ where: { id: clubId } }) : null;
+  if (!club) notFound();
 
   const teams = await prisma.team.findMany({
-    where: { clubId: user.clubId },
+    where: { clubId: club.id },
     orderBy: { naam: "asc" },
   });
   const players = await prisma.player.findMany({
-    where: { clubId: user.clubId },
+    where: { clubId: club.id },
     orderBy: { naam: "asc" },
   });
 
@@ -44,8 +28,6 @@ export default async function MijnClubPage() {
           <Badge variant={club.active ? "success" : "neutral"}>{club.active ? "Actief" : "Niet actief"}</Badge>
         </div>
       </div>
-      <ClubRequestsTable requests={requests} />
-      <MembersTable members={members} />
       <TeamsBoard teams={teams} players={players} />
     </main>
   );
