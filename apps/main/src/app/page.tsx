@@ -4,6 +4,12 @@ import { getEnabledApps } from "@/lib/apps";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 import { Container } from "@korfbaltools/ui";
 
+// Welke tegels er staan hangt af van de APP_*_ENABLED-variabelen. Zonder deze
+// regel wordt de pagina bij de build geprerenderd en blijft een gewijzigde
+// vlag hangen tot de volgende build; met revalidate haalt hij de waarde
+// hooguit een minuut later alsnog op.
+export const revalidate = 60;
+
 export default function HomePage() {
   const apps = getEnabledApps();
 
