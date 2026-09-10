@@ -16,6 +16,7 @@ export interface KorfbalToolBarProps {
   apps?: KorfbalToolBarNavApp[];
   homeHref?: string;
   className?: string;
+  containerClassName?: string;
 }
 
 // Shared across apps/* (see docs/plan.md section 12 "packages/ui") — which
@@ -23,7 +24,12 @@ export interface KorfbalToolBarProps {
 // component only renders what it's given so it works whether the caller reads
 // the config directly (apps/main) or via the main API (apps/teamindeling,
 // apps/vastspelen, see plan.md section 6).
-export function KorfbalToolBar({ apps = [], homeHref = "/", className }: KorfbalToolBarProps) {
+export function KorfbalToolBar({
+  apps = [],
+  homeHref = "/",
+  className,
+  containerClassName,
+}: KorfbalToolBarProps) {
   return (
     <nav className={cn("border-t-8 border-primary-500 sticky top-0 z-40", className)}>
       <div className="absolute top-0 left-0 w-full h-fit flex justify-between">
@@ -31,7 +37,7 @@ export function KorfbalToolBar({ apps = [], homeHref = "/", className }: Korfbal
         <NavShape flipHorizontal />
       </div>
 
-      <div className="relative mx-auto w-full max-w-4xl px-6">
+      <div className={cn("relative mx-auto w-full max-w-4xl px-6", containerClassName)}>
         <a
           className="group text-lg font-semibold text-white absolute left-6 -translate-x-4 flex items-start rounded-br-lg rounded-bl-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-500"
           href={homeHref}

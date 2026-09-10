@@ -1,7 +1,12 @@
+import { cn } from "./cn";
 import { Logo } from "./logo";
 import { NavShape } from "./nav-shape";
 
-export function Footer() {
+export interface FooterProps {
+  containerClassName?: string;
+}
+
+export function Footer({ containerClassName }: FooterProps = {}) {
   return (
     <footer className="bg-primary-500 mt-auto text-white text-sm flex justify-center items-center gap-2 relative">
       <div className="absolute top-0 left-0 -translate-y-[100%]" >
@@ -10,7 +15,7 @@ export function Footer() {
       <div className="absolute top-0 right-0 -translate-y-[100%]" >
         <NavShape flipVertical flipHorizontal />
       </div>
-      <div className="mx-auto w-full flex max-w-4xl flex-col items-start gap-3 px-6 py-8">
+      <div className={cn("mx-auto w-full flex max-w-4xl flex-col items-start gap-3 px-6 py-8", containerClassName)}>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full justify-between items-center">
           <div className="flex flex-col sm:flex-row gap-2 items-center">
             <Logo size={40} />
