@@ -19,7 +19,7 @@ export function Footer({ containerClassName }: FooterProps = {}) {
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 w-full justify-between items-center">
           <div className="flex flex-col sm:flex-row gap-2 items-center">
             <Logo size={40} />
-            <div className="flex flex-col text-xs leading-3 text-secondary text-lg font-semibold">
+            <div className="flex flex-col text-xs leading-3 text-secondary-300 text-lg font-semibold">
               <span>Korfbal</span>
               <span>Tools.nl</span>
             </div>
@@ -28,7 +28,7 @@ export function Footer({ containerClassName }: FooterProps = {}) {
             <a href="/privacy" className="hover:underline">Privacybeleid</a>
           </div>
         </div>
-        <span className="text-xs text-center sm:text-left text-secondary w-full">© 2026 Korfbaltools.nl</span>
+        <span className="text-xs text-center sm:text-left text-secondary-300 w-full">© 2026 Korfbaltools.nl</span>
       </div>
       <NavShape />
     </footer>

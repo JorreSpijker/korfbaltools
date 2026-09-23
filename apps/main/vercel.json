@@ -9,6 +9,14 @@
       "destination": "https://korfbaltools-teamindeling.vercel.app/teamindeling/:path+"
     },
     {
+      "source": "/trainingen",
+      "destination": "https://korfbaltools-trainingen.vercel.app/trainingen"
+    },
+    {
+      "source": "/trainingen/:path+",
+      "destination": "https://korfbaltools-trainingen.vercel.app/trainingen/:path+"
+    },
+    {
       "source": "/vastspelen",
       "destination": "https://korfbaltools-vastspelen.vercel.app/vastspelen"
     },

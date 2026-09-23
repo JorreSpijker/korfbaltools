@@ -67,7 +67,7 @@ export function TeamsBoard({ teams, players: initialPlayers }: TeamsBoardProps) 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-medium text-neutral-700">Teams</h2>
+        <h2 className="text-sm font-medium text-muted">Teams</h2>
         <div className="flex gap-2">
           <ImportPlayersForm />
           <AddTeamForm />
@@ -79,7 +79,7 @@ export function TeamsBoard({ teams, players: initialPlayers }: TeamsBoardProps) 
           <PlayerPool players={poolPlayers} />
           <div className="grid flex-1 grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-3">
             {teams.length === 0 ? (
-              <p className="text-sm text-neutral-400">Nog geen teams</p>
+              <p className="text-sm text-outline">Nog geen teams</p>
             ) : (
               teams.map((team) => (
                 <TeamCard key={team.id} team={team} players={players.filter((p) => p.teamId === team.id)} />

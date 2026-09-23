@@ -45,7 +45,7 @@ export function KorfbalToolBar({
           <NavShape flipHorizontal />
             <div className="bg-primary-500 min-w-[50px] h-[50px] px-4 flex items-center justify-center rounded-br-lg rounded-bl-lg">
               <Logo size={40} />
-              <div className="flex flex-col text-xs leading-3 text-secondary max-w-0 overflow-hidden opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:max-w-[80px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:ml-2">
+              <div className="flex flex-col text-xs leading-3 text-secondary-300 max-w-0 overflow-hidden opacity-0 -translate-x-2 transition-all duration-300 ease-out group-hover:max-w-[80px] group-hover:opacity-100 group-hover:translate-x-0 group-hover:ml-2">
                 <span>Korfbal</span>
                 <span>Tools.nl</span>
               </div>

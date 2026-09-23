@@ -47,7 +47,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="nl">
-      <body className="bg-neutral-50 flex flex-col min-h-screen">
+      <body className="bg-tint flex flex-col min-h-screen">
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <KorfbalToolBar apps={getNavApps()} />
         {children}

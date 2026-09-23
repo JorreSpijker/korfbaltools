@@ -27,6 +27,18 @@ const nextConfig = {
       });
     }
 
+    // Local dev: proxy /trainingen/* to apps/trainingen instead of the production
+    // trainingen.vercel.app deployment.
+    const trainingenAppUrl = process.env.TRAININGEN_APP_URL;
+    if (trainingenAppUrl) {
+      rewrites.push({
+        // apps/trainingen has basePath: "/trainingen" (see its next.config.mjs), so it
+        // already expects requests prefixed with /trainingen — pass it through as-is.
+        source: "/trainingen/:path*",
+        destination: `${trainingenAppUrl}/trainingen/:path*`,
+      });
+    }
+
     // Local dev: proxy /vastspelen/* to apps/vastspelen instead of the production
     // vastspelen.vercel.app deployment used in vercel.json (see docs/plan.md section 10).
     const vastspelenAppUrl = process.env.VASTSPELEN_APP_URL;

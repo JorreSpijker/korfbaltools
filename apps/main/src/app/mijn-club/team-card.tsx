@@ -34,17 +34,17 @@ export function TeamCard({ team, players }: TeamCardProps) {
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3">
+    <div className="flex flex-col gap-2 rounded-lg border border-line bg-white p-3">
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="font-medium text-neutral-900">{team.naam}</p>
-          <p className="text-xs text-neutral-500">
+          <p className="font-medium text-ink">{team.naam}</p>
+          <p className="text-xs text-muted">
             {team.type === "jeugd" ? "Jeugd" : "Senioren"} · {team.categorie}
           </p>
         </div>
         {confirmDelete ? (
           <div className="flex items-center gap-2">
-            <span className="text-xs text-neutral-500">
+            <span className="text-xs text-muted">
               {players.length > 0 ? "Spelers gaan terug naar de pool" : "Zeker weten?"}
             </span>
             <Button size="sm" variant="destructive" disabled={pending} onClick={remove}>
@@ -64,11 +64,11 @@ export function TeamCard({ team, players }: TeamCardProps) {
       <div
         ref={setNodeRef}
         className={`flex min-h-24 flex-col gap-2 rounded-md border p-2 transition-colors ${
-          isOver ? "border-primary-500 bg-primary-50" : "border-neutral-100 bg-neutral-50"
+          isOver ? "border-primary-500 bg-primary-50" : "border-line bg-tint"
         }`}
       >
         {players.length === 0 ? (
-          <p className="py-4 text-center text-xs text-neutral-400">Sleep spelers hierheen</p>
+          <p className="py-4 text-center text-xs text-outline">Sleep spelers hierheen</p>
         ) : (
           players.map((player) => <PlayerCard key={player.id} player={player} />)
         )}

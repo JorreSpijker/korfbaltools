@@ -53,9 +53,9 @@ export function ImportPlayersForm() {
       <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.csv" onChange={handleFile} className="hidden" />
       {error && <p className="text-xs text-danger">{error}</p>}
       {preview && (
-        <div className="flex flex-col gap-2 rounded-lg border border-neutral-200 bg-white p-3">
-          <p className="text-sm font-medium text-neutral-900">{preview.length} spelers gevonden</p>
-          <ul className="max-h-40 overflow-y-auto text-sm text-neutral-700">
+        <div className="flex flex-col gap-2 rounded-lg border border-line bg-white p-3">
+          <p className="text-sm font-medium text-ink">{preview.length} spelers gevonden</p>
+          <ul className="max-h-40 overflow-y-auto text-sm text-muted">
             {preview.map((player, index) => (
               <li key={index}>
                 {player.naam} ({player.geslacht})

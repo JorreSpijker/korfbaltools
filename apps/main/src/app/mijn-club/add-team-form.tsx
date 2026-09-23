@@ -6,7 +6,7 @@ import type { ApiErrorBody, TeamType } from "@korfbaltools/types";
 import { Button } from "@/components/ui/button";
 
 const INPUT_CLASS =
-  "h-9 rounded-md border border-neutral-300 bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500";
+  "h-9 rounded-md border border-line bg-white px-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500";
 
 export function AddTeamForm() {
   const router = useRouter();
@@ -47,15 +47,15 @@ export function AddTeamForm() {
   }
 
   return (
-    <form className="flex flex-wrap items-end gap-2 rounded-lg border border-neutral-200 bg-white p-3" onSubmit={submit}>
+    <form className="flex flex-wrap items-end gap-2 rounded-lg border border-line bg-white p-3" onSubmit={submit}>
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-neutral-500" htmlFor="team-naam">
+        <label className="text-xs text-muted" htmlFor="team-naam">
           Naam
         </label>
         <input id="team-naam" required value={naam} onChange={(e) => setNaam(e.target.value)} className={INPUT_CLASS} />
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-neutral-500" htmlFor="team-type">
+        <label className="text-xs text-muted" htmlFor="team-type">
           Type
         </label>
         <select id="team-type" value={type} onChange={(e) => setType(e.target.value as TeamType)} className={INPUT_CLASS}>
@@ -64,7 +64,7 @@ export function AddTeamForm() {
         </select>
       </div>
       <div className="flex flex-col gap-1">
-        <label className="text-xs text-neutral-500" htmlFor="team-categorie">
+        <label className="text-xs text-muted" htmlFor="team-categorie">
           Categorie
         </label>
         <select

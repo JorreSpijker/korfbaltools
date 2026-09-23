@@ -9,14 +9,17 @@ colors:
   vaandelmarine-hover: "oklch(0.19 0.042 258)"
   vaandelmarine-deep: "oklch(0.15 0.036 258)"
   vaandelmarine-pressed: "oklch(0.11 0.028 258)"
-  signaaloranje: "#F16018"
-  signaaloranje-hover: "oklch(0.58 0.185 42)"
-  paper: "#fafafa"
-  neutral-outline: "#d4d4d4"
-  neutral-border: "#e5e5e5"
-  neutral-muted: "#737373"
-  neutral-body: "#525252"
-  neutral-ink: "#171717"
+  signaaloranje: "#C2410C"
+  signaaloranje-hover: "oklch(0.49 0.155 42)"
+  signaaloranje-licht: "#F9B06E"
+  signaaloranje-zacht: "#FBE7DC"
+  paper: "#F4F5F7"
+  neutral-outline: "#8A94A6"
+  neutral-border: "#D9DEE6"
+  neutral-muted: "#4B5566"
+  neutral-body: "#4B5566"
+  neutral-ink: "#0E1C31"
+  neutral-tint: "#E7EBF2"
   success: "#16a34a"
   warning: "#ca8a04"
   danger: "#dc2626"
@@ -128,11 +131,13 @@ Two committed brand colors — a near-black navy and a single vivid orange — s
 - **Vaandelmarine Deep** (`oklch(0.15 0.036 258)`): icon fill inside the "Teamindeling" feature callout.
 
 ### Secondary
-- **Signaaloranje** (`#F16018`): the platform's one accent, and the logo mark's own color. Reserved for the small nav-pill app links — genuine calls to action, never body decoration. It sits inverted there (orange fill against the navy bar) rather than the usual white-on-color.
+- **Signaaloranje** (`#C2410C`): the platform's one accent. Reserved for the small nav-pill app links and primary calls to action, never body decoration. Deep enough to carry white text at AA. On the navy bar, orange *text* uses the lighter step `#F9B06E` instead — the deep orange has too little contrast there. The logo mark still carries its own original orange (`#F16018`); see the note below.
 - **Signaaloranje Hover** (`oklch(0.58 0.185 42)`): hover fill for every orange element above.
 
 ### Neutral
-- **Paper** (`#fafafa`): card background for "coming soon" / locked states, and page-level surface behind the app grid.
+- **Paper** (`#F4F5F7`): the page-level surface behind all content. Locked / "coming soon" cards sit a step darker on `neutral-tint` (`#E7EBF2`).
+- **Blue-grey neutrals**: the grey scale is not neutral but tinted toward the navy — ink `#0E1C31`, body/muted `#4B5566`, border `#D9DEE6`, tint `#E7EBF2`, outline `#8A94A6`. They come from the trainingen design (`docs/designs/trainingen/Design.html`) and are shared by every app through `packages/config/tailwind/preset.cjs`.
+- **The logo mark** follows the same rule as orange text: `#F9B06E` wherever it sits on the navy bar (toolbar, footer, PWA icon, OG image — `LOGO_ORANJE_OP_NAVY` in `packages/ui/src/logo.tsx`), and `#C2410C` on a light or transparent ground (the favicons). `#C2410C` on navy reaches only 2.3:1, under the 3:1 WCAG asks of graphical objects.
 - **Neutral Outline** (`#d4d4d4`): border for the `outline` button variant — a step darker than the standard divider, reserved for elements that need to read as a control (bordered button) rather than a passive divider.
 - **Neutral Border** (`#e5e5e5`): every hairline divider and card border, and the border on every portaled overlay (dialog, popover, select, dropdown).
 - **Neutral Muted** (`#737373`): secondary icon color, disabled-state text.
@@ -216,7 +221,7 @@ The `NavShape` — a small angular flag SVG (`viewBox 0 0 60 60`, rendered at 16
 
 ### Do:
 - **Do** use Vaandelmarine (`#0E1C31`) as the platform's only structural color — nav, footer, primary buttons, headings.
-- **Do** ration Signaaloranje (`#F16018`) to genuine calls to action only.
+- **Do** ration Signaaloranje (`#C2410C`) to genuine calls to action only.
 - **Do** use the pennant-corner `NavShape` for any new chrome that needs a corner treatment, instead of inventing a new decorative shape.
 - **Do** convey depth with a `neutral-border` hairline or a `paper` background shift — never a shadow.
 - **Do** keep copy in direct Dutch sentence case ("Teams beheren", not "Beheer hier eenvoudig je teams!").

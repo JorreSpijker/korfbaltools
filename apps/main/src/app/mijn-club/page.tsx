@@ -29,7 +29,7 @@ export default async function MijnClubPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-6 px-6 py-12">
       <div className="flex flex-col gap-2">
-        <h1 className="text-xl font-semibold text-neutral-900">{club.naam}</h1>
+        <h1 className="text-xl font-semibold text-ink">{club.naam}</h1>
         <div>
           <Badge variant={club.active ? "success" : "neutral"}>{club.active ? "Actief" : "Niet actief"}</Badge>
         </div>

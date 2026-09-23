@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-optical-sizing: auto;
+  }
+
+  /* Getalvelden zonder spinner: de duur-stepper heeft eigen knoppen. */
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+/* De printweergave van een training (zie /mijn-trainingen/bekijk). Alles wat op
+   het scherm hoort — toolbar, footer, knoppen, toggles — valt weg; wat overblijft
+   is het A4-blad uit het design. */
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm 18mm;
+  }
+
+  .print-verbergen {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  .print-blad {
+    padding: 0 !important;
+  }
+
+  .print-sectie {
+    break-inside: avoid;
+  }
+}

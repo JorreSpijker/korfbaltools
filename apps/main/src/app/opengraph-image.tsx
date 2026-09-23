@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { LOGO_PATH } from "@korfbaltools/ui";
+import { LOGO_ORANJE_OP_NAVY, LOGO_PATH } from "@korfbaltools/ui";
 import { SITE_NAME } from "@/lib/site";
 
 export const size = { width: 1200, height: 630 };
@@ -24,7 +24,7 @@ export default function OpengraphImage() {
         }}
       >
         <svg width={120} height={120} viewBox="0 0 200 200">
-          <path d={LOGO_PATH} fill="#f16018" />
+          <path d={LOGO_PATH} fill={LOGO_ORANJE_OP_NAVY} />
         </svg>
         <div style={{ fontSize: 76, fontWeight: 600, letterSpacing: -1 }}>{SITE_NAME}</div>
         <div style={{ fontSize: 36, color: "#cbd3de", maxWidth: 900 }}>

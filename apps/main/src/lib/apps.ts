@@ -1,4 +1,11 @@
-export const APP_KEYS = ["teamindeling", "scoreformulier", "vastspelen", "statistieken", "mijn-club"] as const;
+export const APP_KEYS = [
+  "teamindeling",
+  "trainingen",
+  "scoreformulier",
+  "vastspelen",
+  "statistieken",
+  "mijn-club",
+] as const;
 
 export type AppKey = (typeof APP_KEYS)[number];
 
@@ -7,6 +14,7 @@ export type AppKey = (typeof APP_KEYS)[number];
 // dynamisch opgezochte sleutels zijn leeg in de middleware (edge runtime).
 const ENABLED_BY_KEY: Record<AppKey, string | undefined> = {
   teamindeling: process.env.APP_TEAMINDELING_ENABLED,
+  trainingen: process.env.APP_TRAININGEN_ENABLED,
   scoreformulier: process.env.APP_SCOREFORMULIER_ENABLED,
   vastspelen: process.env.APP_VASTSPELEN_ENABLED,
   statistieken: process.env.APP_STATISTIEKEN_ENABLED,
@@ -39,6 +47,12 @@ const DEFINITIONS: Record<AppKey, Omit<AppDefinition, "key">> = {
     description: "Teamindeling, altijd een gedoe. Dit hulpmiddel maakt het makkelijker.",
     href: "/teamindeling",
     preview: "/images/previews/teamindeling.png",
+  },
+  trainingen: {
+    title: "Trainingen",
+    description: "Zoek oefeningen en stel er een training mee samen.",
+    href: "/trainingen",
+    preview: null,
   },
   scoreformulier: {
     title: "Scoreformulier",
