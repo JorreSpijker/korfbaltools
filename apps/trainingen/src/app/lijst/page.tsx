@@ -12,6 +12,9 @@ export default function LijstPagina() {
     // Geen Scherm om de hele main: de filterbalk plakt over de volle breedte,
     // alleen zijn inhoud staat in de kolom.
     <main className="flex flex-col">
+      {/* Vult de ruimte tussen de toolbar (8px rand, tabs hangen eronder) en de
+          filterbalk op top-[60px], zodat er geen content doorheen schuift. */}
+      <div aria-hidden className="sticky top-2 z-20 -mt-[52px] h-[52px] bg-page" />
       <Scherm className="flex flex-col gap-1.5 pt-2">
         <TerugLink href="/zoek">Zoeken</TerugLink>
         <h1 className="m-0 text-[26px] font-extrabold tracking-[-0.02em]">Oefeningen</h1>
