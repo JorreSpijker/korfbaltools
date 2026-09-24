@@ -20,20 +20,6 @@ export function StartKaarten() {
     <>
       <div className="flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-5">
         <Link
-          href="/mijn-trainingen"
-          className="box-border flex min-h-[104px] items-center gap-4 rounded-2xl border-2 border-ink bg-white p-[18px] text-ink"
-        >
-          <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[14px] bg-tint">
-            <Clipboard size={26} />
-          </span>
-          <span className="flex flex-grow flex-col gap-1">
-            <span className="text-xl font-extrabold">Mijn trainingen</span>
-            <span className="text-sm font-medium text-muted">{onderschrift}</span>
-          </span>
-          <ChevronRight size={22} />
-        </Link>
-
-        <Link
           href="/zoek"
           className="box-border flex min-h-[104px] items-center gap-4 rounded-2xl border-2 border-accent bg-accent p-[18px] text-white"
         >
@@ -43,6 +29,20 @@ export function StartKaarten() {
           <span className="flex flex-grow flex-col gap-1">
             <span className="text-xl font-extrabold">Zoek oefeningen</span>
             <span className="text-sm font-medium text-accent-light">Op focus en leeftijd</span>
+          </span>
+          <ChevronRight size={22} />
+        </Link>
+
+        <Link
+          href="/mijn-trainingen"
+          className="box-border flex min-h-[104px] items-center gap-4 rounded-2xl border-2 border-ink bg-white p-[18px] text-ink"
+        >
+          <span className="flex h-[52px] w-[52px] shrink-0 items-center justify-center rounded-[14px] bg-tint">
+            <Clipboard size={26} />
+          </span>
+          <span className="flex flex-grow flex-col gap-1">
+            <span className="text-xl font-extrabold">Mijn trainingen</span>
+            <span className="text-sm font-medium text-muted">{onderschrift}</span>
           </span>
           <ChevronRight size={22} />
         </Link>
