@@ -69,7 +69,7 @@ export function VariantSectie({ oefening }: { oefening: Oefening }) {
         </div>
       </section>
 
-      <div className="print-verbergen fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white pb-[calc(1.75rem+env(safe-area-inset-bottom))] pt-1 md:static md:border-0 md:bg-transparent md:pb-0">
+      <div className="print-verbergen fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white pb-[calc(1rem+env(safe-area-inset-bottom))] pt-4 md:static md:border-0 md:bg-transparent md:pb-0 md:pt-0">
         <BalkInhoud className="flex flex-col gap-1 md:px-0">
           {geladen && actieveTraining && aantal > 0 && (
             <Link
