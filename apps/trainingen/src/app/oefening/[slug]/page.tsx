@@ -82,6 +82,9 @@ export default async function OefeningPagina({ params }: { params: Promise<{ slu
       <aside className="grid grid-cols-2 gap-x-3 gap-y-4 rounded-[14px] border border-line bg-white p-4 md:col-start-2 md:row-start-2 md:grid-cols-1 md:gap-y-5 md:p-5 lg:sticky lg:top-[76px]">
         <MetaRegel icon={<Clock size={18} />} label="Duur" waarde={`${oefening.duur} min`} />
         <MetaRegel icon={<Users size={18} />} label="Spelers" waarde={oefening.spelers} />
+        {oefening.spelersPerPaal && (
+          <MetaRegel icon={<Users size={18} />} label="Per paal" waarde={oefening.spelersPerPaal} />
+        )}
         <MetaRegel
           icon={<Calendar size={18} />}
           label="Leeftijd"

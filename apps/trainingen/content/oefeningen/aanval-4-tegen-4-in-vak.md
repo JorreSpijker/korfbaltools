@@ -5,6 +5,7 @@ leeftijden: ["13-18"]
 focus: ["aanvallen", "spelsituaties"]
 duur: 20
 spelers: "8-12"
+spelersPerPaal: "8"
 materiaal: ["korfbalpaal", "hesjes", "1 bal"]
 ---
 

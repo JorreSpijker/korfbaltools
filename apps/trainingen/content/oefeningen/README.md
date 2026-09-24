@@ -17,6 +17,7 @@ leeftijden: ["8-12", "13-18"]
 focus: ["aanvallen", "schottechniek"]
 duur: 15
 spelers: "6-14"
+spelersPerPaal: "4-7"
 materiaal: ["korfbalpaal", "2 ballen", "pionnen"]
 afbeelding: "/images/doorloopbal.png"
 ---
@@ -47,6 +48,7 @@ De zwaarste uitvoering.
 | `focus` | ja | Eén of meer van `aanvallen`, `verdedigen`, `gooien-vangen`, `schottechniek`, `rebounden`, `spelsituaties` |
 | `duur` | ja | Heel getal in minuten; startwaarde in de trainingsbouwer |
 | `spelers` | ja | Vrije tekst, bijvoorbeeld `"8-16"` |
+| `spelersPerPaal` | nee | Vrije tekst, bijvoorbeeld `"2-4"`. Laat weg bij oefeningen zonder paal |
 | `materiaal` | nee | Lijst; laat weg of leeg als er niets nodig is |
 | `afbeelding` | nee | Pad vanaf `public/`, dus `/images/<bestand>`. De basePath wordt automatisch toegevoegd |
 

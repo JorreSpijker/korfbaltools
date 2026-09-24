@@ -58,6 +58,7 @@ export interface Oefening {
   focus: FocusKey[];
   duur: number;
   spelers: string;
+  spelersPerPaal?: string;
   materiaal: string[];
   afbeelding?: string;
   /** Markdown boven de eerste variantkop — geldt voor elke variant. */

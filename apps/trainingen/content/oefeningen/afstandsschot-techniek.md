@@ -5,6 +5,7 @@ leeftijden: ["8-12", "13-18"]
 focus: ["schottechniek"]
 duur: 15
 spelers: "4-12"
+spelersPerPaal: "2"
 materiaal: ["korfbalpaal", "2 ballen"]
 ---
 

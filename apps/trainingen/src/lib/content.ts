@@ -25,6 +25,7 @@ const frontmatterSchema = z.object({
   focus: z.array(z.enum(focusKeys)).min(1),
   duur: z.number().int().positive(),
   spelers: z.string().min(1),
+  spelersPerPaal: z.string().min(1).optional(),
   materiaal: z.array(z.string()).default([]),
   afbeelding: z.string().optional(),
 });

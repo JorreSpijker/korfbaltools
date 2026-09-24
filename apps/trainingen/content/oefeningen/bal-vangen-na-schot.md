@@ -5,6 +5,7 @@ leeftijden: ["4-7", "8-12"]
 focus: ["rebounden"]
 duur: 10
 spelers: "4-12"
+spelersPerPaal: "2-3"
 materiaal: ["korfbalpaal", "2 ballen"]
 ---
 
