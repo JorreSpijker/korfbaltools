@@ -6,6 +6,7 @@ focus: ["gooien-vangen"]
 duur: 12
 spelers: "6-15"
 materiaal: ["2 ballen", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Drie pionnen in een driehoek van ongeveer acht meter, bij elke pion een rijtje spelers. De bal gaat rond, de speler loopt achter zijn eigen bal aan naar de volgende pion.

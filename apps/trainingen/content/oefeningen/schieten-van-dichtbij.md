@@ -7,6 +7,7 @@ duur: 10
 spelers: "4-12"
 spelersPerPaal: "2-4"
 materiaal: ["korfbalpaal", "2 ballen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Iedereen begint op een meter van de paal. Raak is een stap naar achteren, mis is een stap naar voren. Wie het verst komt zonder te missen wint.

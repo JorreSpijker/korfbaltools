@@ -6,6 +6,7 @@ focus: ["verdedigen"]
 duur: 8
 spelers: "6-20"
 materiaal: ["pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Tweetallen in een klein vak. De ene speler loopt en verandert van richting, de ander blijft binnen een armlengte. Na een minuut wisselen.

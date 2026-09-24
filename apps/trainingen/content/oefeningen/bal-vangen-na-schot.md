@@ -7,6 +7,7 @@ duur: 10
 spelers: "4-12"
 spelersPerPaal: "2-3"
 materiaal: ["korfbalpaal", "2 ballen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Eén speler schiet van afstand, een tweede staat onder de korf en vangt de bal zodra hij terugkomt. Na drie beurten wisselen.

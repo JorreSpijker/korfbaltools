@@ -7,6 +7,7 @@ duur: 15
 spelers: "8-16"
 spelersPerPaal: "8"
 materiaal: ["korfbalpaal", "1 bal", "hesjes", "stopwatch"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Twee teams van vier in één vak. De ene ploeg staat één punt achter en heeft nog één minuut. Na afloop wisselen de rollen, zodat beide ploegen allebei de situaties spelen.

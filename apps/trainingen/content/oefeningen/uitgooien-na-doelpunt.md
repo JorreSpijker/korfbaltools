@@ -7,6 +7,7 @@ duur: 12
 spelers: "8-12"
 spelersPerPaal: "6"
 materiaal: ["korfbalpaal", "1 bal", "hesjes"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Vier spelers in het verdedigingsvak beginnen met de bal onder de eigen korf. Twee tegenstanders storen. De bal moet over de middellijn komen.

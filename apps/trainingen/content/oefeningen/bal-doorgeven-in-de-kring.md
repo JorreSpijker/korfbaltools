@@ -6,6 +6,7 @@ focus: ["gooien-vangen"]
 duur: 8
 spelers: "6-14"
 materiaal: ["1 bal", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Alle spelers in een kring op ongeveer twee meter van elkaar. De bal gaat rond. Elke keer dat de bal rond is geweest, zet iedereen één stap naar achteren.

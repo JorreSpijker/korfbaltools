@@ -6,6 +6,7 @@ focus: ["gooien-vangen", "spelsituaties"]
 duur: 15
 spelers: "8-14"
 materiaal: ["2 ballen", "hesjes", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Twee vakken van vijftien meter met daartussen een zone van vijf meter. Spelers moeten de bal van het ene vak naar het andere krijgen, over een verdediger in de tussenzone heen.

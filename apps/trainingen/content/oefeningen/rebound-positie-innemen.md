@@ -7,6 +7,7 @@ duur: 12
 spelers: "6-14"
 spelersPerPaal: "3"
 materiaal: ["korfbalpaal", "2 ballen", "hesjes"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Een schutter van afstand, en onder de korf twee spelers: één aanvaller en één verdediger. Zodra de bal los is, telt wie hem pakt.

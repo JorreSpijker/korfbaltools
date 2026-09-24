@@ -6,6 +6,7 @@ focus: ["aanvallen"]
 duur: 10
 spelers: "6-16"
 materiaal: ["pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Zet een vak uit van ongeveer 15 bij 15 meter. Twee tikkers, de rest loopt vrij rond. Wie getikt wordt, gaat door de knieën en is weer vrij als een medespeler hem aantikt.

@@ -68,17 +68,6 @@ export default async function OefeningPagina({ params }: { params: Promise<{ slu
         <p className="m-0 max-w-prose text-base leading-[1.5] text-muted md:text-lg">{oefening.samenvatting}</p>
       </div>
 
-      {oefening.afbeelding && (
-        <Image
-          src={oefening.afbeelding}
-          alt=""
-          width={720}
-          height={405}
-          sizes="(min-width: 768px) 640px, 100vw"
-          className="h-auto w-full rounded-[14px] border border-line bg-white md:col-start-1"
-        />
-      )}
-
       <aside className="grid grid-cols-2 gap-x-3 gap-y-4 rounded-[14px] border border-line bg-white p-4 md:col-start-2 md:row-start-2 md:grid-cols-1 md:gap-y-5 md:p-5 lg:sticky lg:top-[76px]">
         <MetaRegel icon={<Clock size={18} />} label="Duur" waarde={`${oefening.duur} min`} />
         <MetaRegel icon={<Users size={18} />} label="Spelers" waarde={oefening.spelers} />
@@ -99,6 +88,17 @@ export default async function OefeningPagina({ params }: { params: Promise<{ slu
       <section className="flex flex-col gap-2 md:col-start-1">
         <h2 className="m-0 text-[19px] font-extrabold md:text-[22px]">Opzet</h2>
         <Markdown>{oefening.gedeeld}</Markdown>
+        {oefening.afbeelding && (
+          <Image
+            // next/image zet de basePath niet zelf voor src (zie next.config.mjs).
+            src={`/trainingen${oefening.afbeelding}`}
+            alt=""
+            width={720}
+            height={405}
+            sizes="(min-width: 768px) 640px, 100vw"
+            className="h-auto w-full rounded-[14px] border border-line bg-white"
+          />
+        )}
       </section>
 
       <Suspense fallback={<div className="text-muted md:col-start-1">Laden…</div>}>

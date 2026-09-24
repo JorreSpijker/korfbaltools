@@ -7,6 +7,7 @@ duur: 15
 spelers: "4-12"
 spelersPerPaal: "2"
 materiaal: ["korfbalpaal", "2 ballen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Tweetallen bij één paal: één schiet, één vangt de bal onder de korf en speelt terug. Tien schoten, dan wisselen.

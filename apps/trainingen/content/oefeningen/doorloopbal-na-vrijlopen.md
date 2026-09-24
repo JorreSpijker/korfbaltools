@@ -7,6 +7,7 @@ duur: 15
 spelers: "6-14"
 spelersPerPaal: "4-7"
 materiaal: ["korfbalpaal", "2 ballen", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Twee rijen bij de paal: een rij aangevers op ongeveer vijf meter, een rij aanvallers schuin daarachter. De aanvaller loopt zich vrij richting korf, krijgt de bal aangespeeld en rondt af. Wisselen van rij na elke beurt.

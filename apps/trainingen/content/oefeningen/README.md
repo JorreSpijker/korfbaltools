@@ -50,7 +50,7 @@ De zwaarste uitvoering.
 | `spelers` | ja | Vrije tekst, bijvoorbeeld `"8-16"` |
 | `spelersPerPaal` | nee | Vrije tekst, bijvoorbeeld `"2-4"`. Laat weg bij oefeningen zonder paal |
 | `materiaal` | nee | Lijst; laat weg of leeg als er niets nodig is |
-| `afbeelding` | nee | Pad vanaf `public/`, dus `/images/<bestand>`. De basePath wordt automatisch toegevoegd |
+| `afbeelding` | nee | Pad vanaf `public/`, dus `/images/<bestand>`, zonder `/trainingen` ervoor. Zonder eigen afbeelding: `/images/placeholder.svg` |
 
 ## Varianten
 

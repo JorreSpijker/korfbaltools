@@ -7,6 +7,7 @@ duur: 12
 spelers: "8-12"
 spelersPerPaal: "8"
 materiaal: ["korfbalpaal", "1 bal", "hesjes", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Vier aanvallers en vier verdedigers rond één korf. De trainer legt de bal op de strafworpstip en roept "vrije bal". De aanval speelt hem uit volgens een afgesproken vorm.

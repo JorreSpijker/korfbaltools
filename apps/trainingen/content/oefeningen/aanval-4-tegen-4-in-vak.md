@@ -7,6 +7,7 @@ duur: 20
 spelers: "8-12"
 spelersPerPaal: "8"
 materiaal: ["korfbalpaal", "hesjes", "1 bal"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Vier aanvallers tegen vier verdedigers in één vak. De aanval heeft dertig seconden om tot een kans te komen. Bij balverlies of doelpunt draaien de rollen om.

@@ -7,6 +7,7 @@ duur: 12
 spelers: "6-12"
 spelersPerPaal: "3"
 materiaal: ["korfbalpaal", "2 ballen", "pionnen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Drietallen bij een paal: een schutter, een aangever en een rebounder. Twee minuten schieten, dan doorschuiven.

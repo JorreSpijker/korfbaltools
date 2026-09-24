@@ -7,6 +7,7 @@ duur: 15
 spelers: "8-12"
 spelersPerPaal: "4"
 materiaal: ["korfbalpaal", "hesjes", "1 bal"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Twee aanvallers tegen twee verdedigers bij één korf. De aanval probeert een doorbraak te forceren; de verdediging moet praten en op tijd overnemen.

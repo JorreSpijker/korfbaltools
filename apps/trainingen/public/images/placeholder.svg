@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="405" viewBox="0 0 720 405">
+  <rect width="720" height="405" fill="#E7EBF2"/>
+  <!-- vak: lijnen en strafworpstip -->
+  <g fill="none" stroke="#8A94A6" stroke-width="3" opacity="0.5">
+    <line x1="40" y1="355" x2="680" y2="355"/>
+    <ellipse cx="360" cy="355" rx="170" ry="28"/>
+  </g>
+  <!-- korfbalpaal -->
+  <g fill="none" stroke="#0E1C31" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="360" y1="355" x2="360" y2="110" stroke-width="8"/>
+    <path d="M364 118 h28" stroke-width="6"/>
+    <path d="M392 104 h52 l-6 44 h-40 z" stroke-width="6"/>
+  </g>
+  <text x="360" y="394" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#4B5566">Afbeelding volgt</text>
+</svg>

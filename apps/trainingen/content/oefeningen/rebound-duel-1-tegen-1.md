@@ -7,6 +7,7 @@ duur: 12
 spelers: "6-12"
 spelersPerPaal: "2"
 materiaal: ["korfbalpaal", "1 bal", "hesjes"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Twee spelers op vier meter van de korf. De trainer schiet bewust mis. Wie de bal pakt, probeert direct te scoren; de ander verdedigt.

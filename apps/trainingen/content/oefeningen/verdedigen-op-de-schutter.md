@@ -7,6 +7,7 @@ duur: 12
 spelers: "6-16"
 spelersPerPaal: "2-4"
 materiaal: ["korfbalpaal", "2 ballen"]
+afbeelding: "/images/placeholder.svg"
 ---
 
 Tweetallen rond de paal. De aanvaller schiet van afstand, de verdediger probeert de hand boven de bal te krijgen. Na vijf pogingen wisselen.
