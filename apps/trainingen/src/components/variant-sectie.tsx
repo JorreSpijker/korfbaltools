@@ -11,14 +11,14 @@ import {
   type VariantKey,
 } from "@/lib/oefeningen";
 import { totaleDuur, useTraining } from "@/lib/use-training";
-import { Check, ChevronRight, Clipboard } from "./icons";
+import { Check, ChevronRight, Clipboard, Prullenbak } from "./icons";
 import { Markdown } from "./markdown";
 import { BalkInhoud } from "./scherm";
 
 export function VariantSectie({ oefening }: { oefening: Oefening }) {
   const router = useRouter();
   const params = useSearchParams();
-  const { geladen, variantVoorkeur, zetVariantVoorkeur, voegToe, zitInActieve, actieveTraining } = useTraining();
+  const { geladen, variantVoorkeur, zetVariantVoorkeur, voegToe, verwijderItem, zitInActieve, actieveTraining } = useTraining();
 
   const uitUrl = params.get("variant");
   const gevraagd: VariantKey = isVariantKey(uitUrl ?? undefined)
@@ -85,17 +85,29 @@ export function VariantSectie({ oefening }: { oefening: Oefening }) {
             </Link>
           )}
 
-          <button
-            type="button"
-            disabled={toegevoegd}
-            onClick={() => voegToe(oefening, variant)}
-            className={`flex min-h-[52px] w-full items-center justify-center gap-2 rounded-xl border-2 text-[17px] font-bold md:w-auto md:self-start md:px-7 ${
-              toegevoegd ? "border-ok bg-white text-ok" : "border-accent bg-accent text-white"
-            }`}
-          >
-            {toegevoegd && <Check size={20} strokeWidth={2.5} />}
-            {toegevoegd ? "Toegevoegd aan training" : "Toevoegen aan training"}
-          </button>
+          <div className="flex gap-2 md:self-start">
+            <button
+              type="button"
+              disabled={toegevoegd}
+              onClick={() => voegToe(oefening, variant)}
+              className={`flex min-h-[52px] flex-grow items-center justify-center gap-2 rounded-xl border-2 text-[17px] font-bold md:px-7 ${
+                toegevoegd ? "border-ok bg-white text-ok" : "border-accent bg-accent text-white"
+              }`}
+            >
+              {toegevoegd && <Check size={20} strokeWidth={2.5} />}
+              {toegevoegd ? "Toegevoegd aan training" : "Toevoegen aan training"}
+            </button>
+            {toegevoegd && actieveTraining && (
+              <button
+                type="button"
+                onClick={() => verwijderItem(actieveTraining.id, oefening.slug)}
+                className="inline-flex min-h-[52px] items-center gap-1.5 rounded-xl border border-line bg-white px-3.5 text-[15px] font-bold text-alert"
+              >
+                <Prullenbak size={18} />
+                Verwijder
+              </button>
+            )}
+          </div>
         </BalkInhoud>
       </div>
     </div>
